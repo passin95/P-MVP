@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fragmentation_colorPrimary">#F44336</color>
+    <color name="fragmentation_colorPrimaryDark">#D32F2F</color>
+    <color name="fragmentation_colorAccent">#536DFE</color>
+    <color name="fragmentation_bg_app">#F1F1F1</color>
+
+    <color name="fragmentation_tab_unselect">#c9c9c9</color>
+    <color name="fragmentation_bg_btn">#dadada</color>
+</resources>

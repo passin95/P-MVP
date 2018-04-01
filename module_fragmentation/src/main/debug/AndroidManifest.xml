@@ -1,0 +1,21 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="me.yokeyword.fragmentation">
+
+
+
+    <application
+        android:theme="@style/FragmentationAppTheme.NoActionBar"
+        android:name=".app.ModuleApplication">
+        <activity android:name="me.yokeyword.fragmentation.mvp.demo_wechat.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+    </application>
+
+
+</manifest>

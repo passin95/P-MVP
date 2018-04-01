@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="FragmentationAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/fragmentation_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/fragmentation_colorPrimaryDark</item>
+        <item name="colorAccent">@color/fragmentation_colorAccent</item>
+    </style>
+
+    <style name="FragmentationAppTheme.NoActionBar" parent="FragmentationAppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="FragmentationAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+
+    <style name="FragmentationToolbar_TextAppearance_White">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
+    <style name="FragmentationAppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+
+    <style name="fragmentation_tab_appearance">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

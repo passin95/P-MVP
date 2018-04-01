@@ -1,0 +1,3 @@
+-split io.**
+-split android.support.v4.**
+-split android.support.v7.**
