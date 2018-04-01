@@ -1,5 +1,25 @@
 <h1 align="center">P-MVP</h1>
 
+## 注意事项
+- 请在local.properties下添加：
+
+
+        app = true
+        module_example = false
+        module_fragmentation=false
+        local.properties只有本地才有不会被添加到仓库，方便协作。
+        
+- 想更换组件化通信方式的自行按需求更换，Demo主要提供思路的参考。
+- 该Demo从开始尝试（3月13日）到至今（不断的学习以及改善）时间较短，因此还有许多不足，但大概思路已在Demo中实现，剩余地方会逐步继续完善。
+
+##PS
+[**更多组件通信方式请移步CC**](https://github.com/luckybilly/CC)
+[**更多Fragmentation的使用请点击移步**](https://github.com/YoKeyword/Fragmentation)
+
+## Thanks
+[**MVPArms**](https://github.com/JessYanCoding/MVPArms)
+[**CC**](https://github.com/luckybilly/CC)
+[**Fragmentation**](https://github.com/YoKeyword/Fragmentation)
 
 ## License
 ``` 
