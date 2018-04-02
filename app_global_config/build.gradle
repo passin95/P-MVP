@@ -47,7 +47,7 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-    api rootProject.ext.dependencies["rxlint"]
+    debugApi rootProject.ext.dependencies["rxlint"]
     api rootProject.ext.dependencies["brvah"]
     api rootProject.ext.dependencies["paginate"]
 }

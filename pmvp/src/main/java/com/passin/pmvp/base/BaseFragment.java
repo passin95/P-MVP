@@ -65,6 +65,10 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
 
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+
+    }
 
     /**
      * 是否使用{@link EventBus},默认为不使用(false)，
@@ -97,6 +101,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void addDispose(Disposable disposable) {
         mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
     }
+
 
     @Override
     public SupportFragmentDelegate getSupportDelegate() {

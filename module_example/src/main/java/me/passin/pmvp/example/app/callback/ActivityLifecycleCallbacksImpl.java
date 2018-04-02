@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import timber.log.Timber;
+
 /**
  * <pre>
  * @author : passin
@@ -13,8 +15,13 @@ import android.os.Bundle;
  */
 public class ActivityLifecycleCallbacksImpl implements Application.ActivityLifecycleCallbacks {
 
+    private final static String EXAMPLE_PACKAGE_NAME = "me.passin.pmvp.example";
+
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        if (activity.toString().contains(EXAMPLE_PACKAGE_NAME)) {
+            Timber.w(activity + "implement  "+EXAMPLE_PACKAGE_NAME);
+        }
     }
 
     @Override

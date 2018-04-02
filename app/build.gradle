@@ -87,5 +87,4 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
     annotationProcessor rootProject.ext.dependencies["dagger2-android-processor"]
 
-
 }

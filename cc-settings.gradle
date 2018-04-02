@@ -1,10 +1,5 @@
-//先读取build.gradle中的ext.runAsApp设置
 
-//if (runAsApp) {
-//    runAsApp = ext.runAsApp
-//} else {
-
-//再读取local.properties中配置，例如： demo_component_a=true
+//读取local.properties中配置，例如： demo_component_a=true
 Properties localProperties = new Properties()
 try {
     def localFile = project.rootProject.file('local.properties')
@@ -12,11 +7,13 @@ try {
         localProperties.load(localFile.newDataInputStream())
     }
 } catch (Exception ignored) {
+    println("local.properties not found")
 }
-
+//打印project.name 可在Gradle Console查看
 println(project.name + " ==> " + localProperties.getProperty(project.name))
-def runAsApp = 'true' == localProperties.getProperty(project.name)
 
+
+def runAsApp = 'true' == localProperties.getProperty(project.name)
 //设置到ext中，供module的build.gradle使用（例如用于设置sourceSets配置）
 ext.runAsApp = runAsApp
 if (runAsApp) {
@@ -34,7 +31,7 @@ repositories {
 android {
     sourceSets {
         main {
-            //默认的作为application运行时Manifest文件路径
+            //单Moudle时使用 作为application运行时Manifest文件路径
             def debugManifest = 'src/main/debug/AndroidManifest.xml'
             if (runAsApp && project.file(debugManifest).exists()) {
                 manifest.srcFile debugManifest

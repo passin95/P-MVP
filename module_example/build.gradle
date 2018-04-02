@@ -1,16 +1,5 @@
-//ext.runAsApp = true
 apply plugin: 'com.jakewharton.butterknife'
 apply from: rootProject.file('cc-settings.gradle')
-
-//Properties localProperties = new Properties()
-//try {
-//    def localFile = project.rootProject.file('local.properties')
-//    if (localFile != null && localFile.exists()) {
-//        localProperties.load(localFile.newDataInputStream())
-//    }
-//} catch (Exception ignored) {
-//}
-//ext.runAsApp = 'true' == localProperties.getProperty("module_fragmentation")
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

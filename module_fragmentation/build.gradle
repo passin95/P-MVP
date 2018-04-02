@@ -1,7 +1,5 @@
-//ext.runAsApp = true
 apply plugin: 'com.jakewharton.butterknife'
 apply from: rootProject.file('cc-settings.gradle')
-//apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
