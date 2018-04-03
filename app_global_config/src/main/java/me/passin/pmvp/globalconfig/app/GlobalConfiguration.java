@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import me.passin.pmvp.globalconfig.BuildConfig;
+import me.passin.pmvp.globalconfig.api.Api;
 import me.passin.pmvp.globalconfig.app.callback.ActivityLifecycleCallbacksImpl;
 import me.passin.pmvp.globalconfig.app.callback.AppLifecyclesImpl;
 import me.passin.pmvp.globalconfig.app.callback.GlobalHttpHandlerImpl;

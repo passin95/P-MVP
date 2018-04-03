@@ -68,7 +68,7 @@
     <fragment
         android:fitsSystemWindows="false"
         android:id="@+id/id_left_menu"
-        android:name="me.passin.pmvp.mvp.LeftMenuFragment"
+        android:name="me.passin.pmvp.mvp.ui.fragment.LeftMenuFragment"
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

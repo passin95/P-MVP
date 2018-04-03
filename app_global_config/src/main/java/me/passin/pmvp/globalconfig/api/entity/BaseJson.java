@@ -1,6 +1,6 @@
 package me.passin.pmvp.globalconfig.api.entity;
 
-import me.passin.pmvp.globalconfig.app.Api;
+import me.passin.pmvp.globalconfig.api.Api;
 
 /**
  * <pre>

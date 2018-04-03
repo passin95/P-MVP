@@ -11,7 +11,7 @@
 
     <application>
 
-        <activity android:name=".mvp.UserActivity"/>
+        <activity android:name=".mvp.ui.activity.UserActivity"/>
 
         <!-- ModuleConfig -->
         <meta-data

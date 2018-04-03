@@ -12,7 +12,6 @@ import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
 import javax.inject.Inject;
 
 import me.yokeyword.fragmentation.R;
-import me.yokeyword.fragmentation.mvp.MainPresenter;
 import me.yokeyword.fragmentation.mvp.demo_wechat.ui.fragment.MainFragment;
 
 /**

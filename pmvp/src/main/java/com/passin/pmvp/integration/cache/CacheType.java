@@ -72,7 +72,7 @@ public interface CacheType {
      * {@link ArmsComponent} 中的 extras
      */
     CacheType EXTRAS = new CacheType() {
-        private static final int MAX_SIZE = 500;
+        private static final int MAX_SIZE = 300;
         private static final float MAX_SIZE_MULTIPLIER = 0.005f;
 
         @Override

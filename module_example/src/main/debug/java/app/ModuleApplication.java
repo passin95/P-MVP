@@ -2,7 +2,7 @@ package me.passin.pmvp.example.app;
 
 import com.passin.pmvp.base.BaseApplication;
 
-import me.passin.pmvp.example.di.component.DaggerModuleComponent;
+import me.passin.pmvp.example.app.di.component.DaggerModuleComponent;
 
 
 /**
@@ -14,7 +14,6 @@ import me.passin.pmvp.example.di.component.DaggerModuleComponent;
  */
 public class ModuleApplication extends BaseApplication {
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,5 +23,4 @@ public class ModuleApplication extends BaseApplication {
                 .build()
                 .inject(this);
     }
-
 }

@@ -61,6 +61,7 @@ public class AppDelegateImpl implements AppDelegate,IArms{
         }
     }
 
+    @Override
     public void attachBaseContext(Context base) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             MultiDex.install(base);  //这里比 onCreate 先执行,常用于 MultiDex 初始化,插件化框架的初始化
@@ -71,6 +72,7 @@ public class AppDelegateImpl implements AppDelegate,IArms{
         }
     }
 
+    @Override
     public void onCreate(Application application) {
         this.mApplication = application;
         if (mArmsModule == null) {
@@ -84,7 +86,7 @@ public class AppDelegateImpl implements AppDelegate,IArms{
                 .build();
         mArmsComponent.inject(this);
 
-        mArmsComponent.extras().put(ModuleConfig.class.getName(), mModules);
+        mArmsComponent.LruExtras().put(ModuleConfig.class.getName(), mModules);
         this.mModules = null;
 
         for (AppDelegate lifecycle : mAppLifecycles) {
@@ -104,6 +106,7 @@ public class AppDelegateImpl implements AppDelegate,IArms{
 
     }
 
+    @Override
     public void onTerminate(Application application) {
         if (mActivityLifecycle != null) {
             mApplication.unregisterActivityLifecycleCallbacks(mActivityLifecycle);

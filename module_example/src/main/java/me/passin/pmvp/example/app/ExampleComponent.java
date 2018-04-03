@@ -8,7 +8,7 @@ import com.billy.cc.core.component.CC;
 import com.billy.cc.core.component.CCResult;
 import com.billy.cc.core.component.IComponent;
 
-import me.passin.pmvp.example.mvp.UserActivity;
+import me.passin.pmvp.example.mvp.ui.activity.UserActivity;
 import me.passin.pmvp.globalconfig.constant.ComponentActionConstant;
 import me.passin.pmvp.globalconfig.constant.ComponentNameConstant;
 

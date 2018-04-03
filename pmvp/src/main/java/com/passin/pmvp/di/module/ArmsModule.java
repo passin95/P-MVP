@@ -2,8 +2,6 @@ package com.passin.pmvp.di.module;
 
 import android.app.Application;
 
-import com.passin.pmvp.integration.AppManager;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -29,6 +27,4 @@ public class ArmsModule {
     Application provideApplication() {
         return this.mApplication;
     }
-
-
 }

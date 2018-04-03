@@ -6,7 +6,7 @@
         android:name=".app.ModuleApplication"
         android:label="@string/example_app_name"
         android:theme="@style/ExampleAppTheme">
-        <activity android:name="me.passin.pmvp.example.mvp.UserActivity">
+        <activity android:name="me.passin.pmvp.example.mvp.ui.activity.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

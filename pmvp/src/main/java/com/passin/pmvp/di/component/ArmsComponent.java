@@ -11,6 +11,7 @@ import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
 
 import java.io.File;
+import java.util.Map;
 
 import javax.inject.Singleton;
 
@@ -39,7 +40,10 @@ public interface ArmsComponent {
 
     RxErrorHandler rxErrorHandler();
 
-    Cache<String, Object> extras();
+    //存在LruExtras的数据可能被移除，若该数据一定不能为空，请使用extras
+    Cache<String, Object> LruExtras();
+
+    Map<String, Object> extras();
 
     OkHttpClient okHttpClient();
 

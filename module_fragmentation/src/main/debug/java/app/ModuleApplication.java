@@ -2,7 +2,7 @@ package me.yokeyword.fragmentation.app;
 
 import com.passin.pmvp.base.BaseApplication;
 
-import me.yokeyword.fragmentation.di.component.DaggerModuleComponent;
+import me.yokeyword.fragmentation.app.di.component.DaggerModuleComponent;
 
 
 /**
