@@ -3,7 +3,7 @@
 
 ## Directory
 
-<img src="https://github.com/passin95/P-MVP/blob/master/image/module_relationship%20.png" width="80%" height="80%">
+<img src="https://github.com/passin95/P-MVP/blob/master/image/module_relationship%20.png">
 
 
         - app                整个项目的最顶层，包含着所有业务Module，也是所有业务Module的跳转开关。
