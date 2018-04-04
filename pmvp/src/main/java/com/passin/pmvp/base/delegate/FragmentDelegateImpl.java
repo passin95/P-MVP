@@ -45,7 +45,6 @@ public class FragmentDelegateImpl implements FragmentDelegate{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (iFragment.useEventBus())//如果要使用eventbus请将此方法返回true
             EventBus.getDefault().register(mFragment);//注册到事件主线
-
     }
 
     @Override

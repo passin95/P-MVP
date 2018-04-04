@@ -221,51 +221,5 @@ public class AppDelegateImpl implements AppDelegate,IArms{
             //系统正运行与低内存的状态并且你的进程正处于 LRU 列表中最容易被杀掉的位置, 你应该释放任何不影响你的 App 恢复状态的资源
         }
     }
-//
-//    private ArmsComponent mArmsComponent;
-//    private final ArmsInjector mArmsInjector;
-//
-//    public AppDelegateImpl(Context context) {
-//        mArmsInjector = new ArmsInjector(context);
-//    }
-//
-//    @Override
-//    public void attachBaseContext(Context base) {
-//        mArmsInjector.attachBaseContext(base);
-//    }
-//
-//    @Override
-//    public void onCreate(Application application) {
-//        mArmsInjector.onCreate(application);
-//        mArmsComponent = mArmsInjector.getArmsComponent();
-//    }
-//
-//
-//    @Override
-//    public void onTerminate(Application application) {
-//        mArmsInjector.onTerminate(application);
-//    }
-//
-//
-//    @NonNull
-//    @Override
-//    public ArmsComponent getArmsComponent() {
-//        return mArmsComponent;
-//    }
-////    @NonNull
-////    @Override
-////    public AppComponent getAppComponent() {
-////        Preconditions.checkNotNull(mAppComponent, "%s cannot be null,first call %s#onCreate(Application) in %s#onCreate()", getClass().getName());
-////        return mAppComponent;
-////    }
-//
-//
-//    /**
-//     * {@link ComponentCallbacks2} 是一个细粒度的内存回收管理回调
-//     * {@link Application}、{@link Activity}、{@link Service}、{@link ContentProvider}、{@link Fragment} 实现了 {@link ComponentCallbacks2} 接口
-//     * 开发者应该实现 {@link ComponentCallbacks2#onTrimMemory(int)} 方法, 细粒度 release 内存, 参数的值不同可以体现出不同程度的内存可用情况
-//     * 响应 {@link ComponentCallbacks2#onTrimMemory(int)} 回调, 开发者的 App 会存活的更持久, 有利于用户体验
-//     * 不响应 {@link ComponentCallbacks2#onTrimMemory(int)} 回调, 系统 kill 掉进程的几率更大
-//     */
 
 }

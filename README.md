@@ -23,7 +23,7 @@
         app = true
         module_example = false
         module_fragmentation = false
-        local.properties不会被add到仓库，方便协作，
+        说明：local.properties不会被add到仓库，方便协作， 更改完后请同步一次gradle
         如果没有此需求，可按需对cc-setttings.gradle修改。
         
 - 该想更换组件通信方式的自行按需求更换，该Demo的目的主要为大家提供组件化思路。

@@ -151,6 +151,7 @@ public class GlobalConfiguration implements ModuleConfig{
                 f.setRetainInstance(true);
             }
 
+
             @Override
             public void onFragmentDestroyed(FragmentManager fm, Fragment f) {
                 ((RefWatcher) PmvpUtils
