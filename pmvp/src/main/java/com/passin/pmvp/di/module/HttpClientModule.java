@@ -8,8 +8,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.passin.pmvp.http.GlobalHttpHandler;
 import com.passin.pmvp.http.log.RequestInterceptor;
-import com.passin.pmvp.rxerrorhandler.ResponseErrorListener;
-import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
+import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
+import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 import com.passin.pmvp.util.FileUtils;
 
 import java.io.File;

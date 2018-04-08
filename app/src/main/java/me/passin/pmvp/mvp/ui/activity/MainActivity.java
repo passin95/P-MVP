@@ -10,8 +10,9 @@ import com.billy.cc.core.component.CC;
 import com.billy.cc.core.component.CCResult;
 import com.billy.cc.core.component.IComponentCallback;
 import com.passin.pmvp.base.BaseActivity;
-import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
+import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 
+import com.passin.pmvp.util.ToastUtils;
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -69,6 +70,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         if (cc != null && result != null) {
             showResult(cc, result);
         }
+        ToastUtils.showShort("你好你好");
     }
 
 

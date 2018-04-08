@@ -51,6 +51,8 @@ public class AppLifecyclesImpl implements AppDelegate{
 //                        }
 //                    });
             ButterKnife.setDebug(true);
+            CC.enableVerboseLog(true);
+            CC.enableDebug(true);
         }
         Fragmentation.builder()
                 // 设置 栈视图 模式为 （默认）悬浮球模式   SHAKE: 摇一摇唤出  NONE：隐藏， 仅在Debug环境生效
@@ -70,21 +72,7 @@ public class AppLifecyclesImpl implements AppDelegate{
                 .install();
         //leakCanary内存泄露检查
         PmvpUtils.obtainArmsComponentFromContext(application).extras().put(RefWatcher.class.getName(), BuildConfig.USE_CANARY ? LeakCanary.install(application) : RefWatcher.DISABLED);
-        //扩展 AppManager 的远程遥控功能
-//        ArmsUtils.obtainAppComponentFromContext(application).appManager().setHandleListener((appManager, message) -> {
-//            switch (message.what) {
-//                //case 0:
-//                //do something ...
-//                //   break;
-//            }
-//        });
-        //Usage:
-        //Message msg = new Message();
-        //msg.what = 0;
-        //AppManager.post(msg); like EventBus
-        CC.enableVerboseLog(true);
-        CC.enableDebug(true);
-        CC.enableRemoteCC(true);
+
     }
 
     @Override

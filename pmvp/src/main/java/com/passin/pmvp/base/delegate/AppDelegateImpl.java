@@ -11,18 +11,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
-
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.di.component.DaggerArmsComponent;
-import com.passin.pmvp.di.module.ArmsModule;
 import com.passin.pmvp.di.module.GlobalConfigModule;
 import com.passin.pmvp.integration.ManifestParser;
 import com.passin.pmvp.integration.ModuleConfig;
 import com.passin.pmvp.integration.lifecycle.ActivityLifecycle;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
 
 /**
@@ -37,7 +33,6 @@ public class AppDelegateImpl implements AppDelegate,IArms{
 
     private Application mApplication;
     private ArmsComponent mArmsComponent;
-    private ArmsModule mArmsModule;
     private List<ModuleConfig> mModules;
     private List<AppDelegate> mAppLifecycles = new ArrayList<>();
     private List<Application.ActivityLifecycleCallbacks> mActivityLifecycles = new ArrayList<>();
@@ -75,18 +70,15 @@ public class AppDelegateImpl implements AppDelegate,IArms{
     @Override
     public void onCreate(Application application) {
         this.mApplication = application;
-        if (mArmsModule == null) {
-            mArmsModule = new ArmsModule(application);
-        }
 
         mArmsComponent = DaggerArmsComponent
                 .builder()
-                .armsModule(mArmsModule)
+                .application(mApplication)
                 .globalConfigModule(getGlobalConfigModule(application, mModules))
                 .build();
         mArmsComponent.inject(this);
 
-        mArmsComponent.LruExtras().put(ModuleConfig.class.getName(), mModules);
+        mArmsComponent.lruExtras().put(ModuleConfig.class.getName(), mModules);
         this.mModules = null;
 
         for (AppDelegate lifecycle : mAppLifecycles) {

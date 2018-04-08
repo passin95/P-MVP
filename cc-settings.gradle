@@ -38,7 +38,7 @@ android {
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
                 //集成开发模式下自动排除debug文件夹中的所有Java文件
-                // 可以将debug代码放在这个包内，例如：Application子类
+                //可以将debug代码放在这个包内，例如：Application子类
                 java {
                     exclude 'debug/**'
                 }
@@ -59,6 +59,11 @@ android {
 }
 dependencies {
     implementation "com.billy.android:cc:0.5.0"
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    annotationProcessor rootProject.ext.dependencies["dagger2-android-processor"]
 }
 
 //auto register extension:

@@ -13,7 +13,7 @@ import com.passin.pmvp.http.log.RequestInterceptor;
 import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.integration.cache.CacheType;
 import com.passin.pmvp.integration.cache.LruCache;
-import com.passin.pmvp.rxerrorhandler.ResponseErrorListener;
+import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
 import com.passin.pmvp.util.FileUtils;
 import com.passin.pmvp.util.Preconditions;
 

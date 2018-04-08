@@ -50,4 +50,5 @@ dependencies {
     debugApi rootProject.ext.dependencies["rxlint"]
     api rootProject.ext.dependencies["brvah"]
     api rootProject.ext.dependencies["paginate"]
+
 }

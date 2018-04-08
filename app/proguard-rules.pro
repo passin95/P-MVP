@@ -214,8 +214,8 @@
 -keep interface io.victoralbertos.jolyglot.** { *; }
 
 ################RxErrorHandler#################
- -keep class com.passin.pmvp.rxerrorhandler.** { *; }
- -keep interface com.passin.pmvp.rxerrorhandler.** { *; }
+ -keep class com.passin.pmvp.rx.rxerrorhandler.** { *; }
+ -keep interface com.passin.pmvp.rx.rxerrorhandler.** { *; }
 
 ################Timber#################
 -dontwarn org.jetbrains.annotations.**

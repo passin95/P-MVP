@@ -15,14 +15,13 @@
  */
 package com.passin.pmvp.http;
 
+import android.support.annotation.NonNull;
 import com.bumptech.glide.load.Options;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.ModelLoader;
 import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.bumptech.glide.load.model.MultiModelLoaderFactory;
-
 import java.io.InputStream;
-
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
@@ -33,6 +32,7 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
 
     private final Call.Factory client;
 
+    @SuppressWarnings("WeakerAccess")
     public OkHttpUrlLoader(Call.Factory client) {
         this.client = client;
     }
@@ -43,17 +43,18 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
     }
 
     @Override
-    public LoadData<InputStream> buildLoadData(GlideUrl model, int width, int height,
-                                               Options options) {
+    public LoadData<InputStream> buildLoadData(@NonNull GlideUrl model, int width, int height,
+            @NonNull Options options) {
         return new LoadData<>(model, new OkHttpStreamFetcher(client, model));
     }
 
     /**
      * The default factory for {@link OkHttpUrlLoader}s.
      */
+    @SuppressWarnings("WeakerAccess")
     public static class Factory implements ModelLoaderFactory<GlideUrl, InputStream> {
         private static volatile Call.Factory internalClient;
-        private Call.Factory client;
+        private final Call.Factory client;
 
         private static Call.Factory getInternalClient() {
             if (internalClient == null) {
@@ -78,10 +79,11 @@ public class OkHttpUrlLoader implements ModelLoader<GlideUrl, InputStream> {
          *
          * @param client this is typically an instance of {@code OkHttpClient}.
          */
-        public Factory(Call.Factory client) {
+        public Factory(@NonNull Call.Factory client) {
             this.client = client;
         }
 
+        @NonNull
         @Override
         public ModelLoader<GlideUrl, InputStream> build(MultiModelLoaderFactory multiFactory) {
             return new OkHttpUrlLoader(client);

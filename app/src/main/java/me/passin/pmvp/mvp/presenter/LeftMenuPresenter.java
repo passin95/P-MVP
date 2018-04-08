@@ -4,7 +4,7 @@ import android.arch.lifecycle.LifecycleOwner;
 
 import com.passin.pmvp.base.BasePresenter;
 import com.passin.pmvp.di.scope.PageScope;
-import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
+import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 
 import javax.inject.Inject;
 

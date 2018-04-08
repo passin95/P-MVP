@@ -5,7 +5,7 @@ import android.net.ParseException;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
-import com.passin.pmvp.rxerrorhandler.ResponseErrorListener;
+import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
 import com.passin.pmvp.util.ToastUtils;
 
 import org.json.JSONException;

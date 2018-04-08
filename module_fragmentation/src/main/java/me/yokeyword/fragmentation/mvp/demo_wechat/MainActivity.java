@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.passin.pmvp.base.BaseActivity;
 import com.passin.pmvp.base.IView;
-import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
+import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 
 import javax.inject.Inject;
 
@@ -18,9 +18,9 @@ import me.yokeyword.fragmentation.mvp.demo_wechat.ui.fragment.MainFragment;
  * 仿微信交互方式Demo
  * Created by YoKeyword on 16/6/30.
  */
-public class MainActivity extends BaseActivity<MainPresenter> implements IView{
+public class MainActivity extends BaseActivity<MainPresenter> implements IView {
 
-   //可打断点测试是否在APP单例
+    //可打断点测试是否在APP单例
     @Inject
     RxErrorHandler mErrorHandler;
 

@@ -1,21 +1,19 @@
 package com.passin.pmvp.di.component;
 
+import android.app.Application;
 import com.passin.pmvp.base.delegate.AppDelegateImpl;
 import com.passin.pmvp.di.module.AppModule;
-import com.passin.pmvp.di.module.ArmsModule;
 import com.passin.pmvp.di.module.GlobalConfigModule;
 import com.passin.pmvp.di.module.HttpClientModule;
 import com.passin.pmvp.http.repository.IRepositoryManager;
 import com.passin.pmvp.integration.AppManager;
 import com.passin.pmvp.integration.cache.Cache;
-import com.passin.pmvp.rxerrorhandler.RxErrorHandler;
-
+import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
+import dagger.BindsInstance;
+import dagger.Component;
 import java.io.File;
 import java.util.Map;
-
 import javax.inject.Singleton;
-
-import dagger.Component;
 import okhttp3.OkHttpClient;
 
 /**
@@ -30,7 +28,7 @@ import okhttp3.OkHttpClient;
         AppModule.class,
         HttpClientModule.class,
         GlobalConfigModule.class,
-        ArmsModule.class
+//        ArmsModule.class
 })
 public interface ArmsComponent {
 
@@ -41,7 +39,7 @@ public interface ArmsComponent {
     RxErrorHandler rxErrorHandler();
 
     //存在LruExtras的数据可能被移除，若该数据一定不能为空，请使用extras
-    Cache<String, Object> LruExtras();
+    Cache<String, Object> lruExtras();
 
     Map<String, Object> extras();
 
@@ -52,4 +50,14 @@ public interface ArmsComponent {
     Cache.Factory cacheFactory();
 
     void inject(AppDelegateImpl delegate);
+
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
+        Builder globalConfigModule(GlobalConfigModule globalConfigModule);
+        ArmsComponent build();
+    }
+
 }

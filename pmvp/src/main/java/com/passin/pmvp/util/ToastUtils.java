@@ -18,10 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.passin.pmvp.base.BaseApplication;
-
-import butterknife.internal.Utils;
 
 /**
  * <pre>
@@ -157,6 +154,7 @@ public class ToastUtils {
 
     private static void show(final CharSequence text, final int duration) {
         HANDLER.post(new Runnable() {
+            @Override
             public void run() {
                 ToastUtils.cancel();
                 ToastUtils.sToast = Toast.makeText(BaseApplication.getApp(), text, duration);
@@ -168,6 +166,7 @@ public class ToastUtils {
                 } else {
                     tvMessage.setTextColor(msgColor);
                 }
+                tvMessage.setTextSize(14);
 
                 if(ToastUtils.sGravity != -1 || ToastUtils.sXOffset != -1 || ToastUtils.sYOffset != -1) {
                     ToastUtils.sToast.setGravity(ToastUtils.sGravity, ToastUtils.sXOffset, ToastUtils.sYOffset);
@@ -181,6 +180,7 @@ public class ToastUtils {
 
     private static void show(final View view, final int duration) {
         HANDLER.post(new Runnable() {
+            @Override
             public void run() {
                 ToastUtils.cancel();
                 ToastUtils.sToast = new Toast(BaseApplication.getApp());

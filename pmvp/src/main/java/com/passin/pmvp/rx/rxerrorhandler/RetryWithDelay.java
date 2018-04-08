@@ -1,4 +1,4 @@
-package com.passin.pmvp.rxerrorhandler;
+package com.passin.pmvp.rx.rxerrorhandler;
 
 import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;

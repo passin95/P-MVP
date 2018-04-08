@@ -1,4 +1,4 @@
-package com.passin.pmvp.rxerrorhandler;
+package com.passin.pmvp.rx.rxerrorhandler;
 
 import org.reactivestreams.Subscriber;
 
