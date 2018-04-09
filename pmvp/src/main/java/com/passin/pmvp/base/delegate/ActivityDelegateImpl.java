@@ -3,16 +3,8 @@ package com.passin.pmvp.base.delegate;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-
-import org.greenrobot.eventbus.EventBus;
-
-import javax.inject.Inject;
-
 import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * <pre>
@@ -22,12 +14,11 @@ import dagger.android.support.HasSupportFragmentInjector;
  * </pre>
  */
 
-public class ActivityDelegateImpl implements ActivityDelegate,HasSupportFragmentInjector{
+public class ActivityDelegateImpl implements ActivityDelegate{
 
     private Activity mActivity;
     private IActivity iActivity;
-    @Inject
-    DispatchingAndroidInjector<Fragment> mFragmentInjector;
+
 
     public ActivityDelegateImpl(Activity activity) {
         this.mActivity = activity;
@@ -74,8 +65,5 @@ public class ActivityDelegateImpl implements ActivityDelegate,HasSupportFragment
             EventBus.getDefault().unregister(mActivity);
     }
 
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return this.mFragmentInjector;
-    }
+
 }

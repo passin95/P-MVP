@@ -1,12 +1,10 @@
 package me.passin.pmvp.example.app.di.module;
 
-import com.passin.pmvp.di.component.BaseActivityComponent;
 import com.passin.pmvp.di.scope.PageScope;
-
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import me.passin.pmvp.example.mvp.ui.module.UserModule;
 import me.passin.pmvp.example.mvp.ui.activity.UserActivity;
+import me.passin.pmvp.example.mvp.ui.module.UserModule;
 
 /**
  * <pre>
@@ -15,7 +13,7 @@ import me.passin.pmvp.example.mvp.ui.activity.UserActivity;
  * Date: 2018/3/21 14:41
  * </pre>
  */
-@Module(subcomponents = {BaseActivityComponent.class})
+@Module
 public abstract class ExampleActivitiesModule {
 
 

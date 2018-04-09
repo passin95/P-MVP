@@ -1,22 +1,17 @@
 package me.passin.pmvp.example.mvp.presenter;
 
 import android.arch.lifecycle.LifecycleOwner;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.passin.pmvp.base.BasePresenter;
 import com.passin.pmvp.di.scope.PageScope;
 import com.passin.pmvp.rx.rxerrorhandler.ErrorHandleSubscriber;
 import com.passin.pmvp.rx.rxerrorhandler.RetryWithDelay;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import dagger.Lazy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import java.util.List;
+import javax.inject.Inject;
 import me.passin.pmvp.example.mvp.IView.UserView;
 import me.passin.pmvp.example.mvp.model.UserModel;
 import me.passin.pmvp.example.mvp.model.entity.User;
@@ -72,27 +67,25 @@ public class UserPresenter extends BasePresenter<UserView>{
             isEvictCache = false;
         }
 
-        mModel.get().getUsers(lastUserId, isEvictCache)
+        mCompositeDisposable.add(mModel.get().getUsers(lastUserId, isEvictCache)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(disposable -> {
-                    if (pullToRefresh)
+                    if (pullToRefresh) {
                         mRootView.showLoading("");//显示下拉刷新的进度条
-                    else
+                    } else {
                         mRootView.startLoadMore();//显示上拉加载更多的进度条
+                    }
                 }).subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> {
-                    if (pullToRefresh)
+                    if (pullToRefresh) {
                         mRootView.hideLoading();//隐藏下拉刷新的进度条
-                    else
+                    } else {
                         mRootView.endLoadMore();//隐藏上拉加载更多的进度条
-                })
-                .subscribe(new ErrorHandleSubscriber<List<User>>(mErrorHandler) {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        addDispose(d);
                     }
+                })
+              .subscribeWith(new ErrorHandleSubscriber<List<User>>(mErrorHandler) {
 
                     @Override
                     public void onNext(List<User> users) {
@@ -105,7 +98,7 @@ public class UserPresenter extends BasePresenter<UserView>{
                         else
                             mAdapter.notifyItemRangeInserted(preEndIndex, users.size());
                     }
-                });
+                }));
     }
 
     @Override

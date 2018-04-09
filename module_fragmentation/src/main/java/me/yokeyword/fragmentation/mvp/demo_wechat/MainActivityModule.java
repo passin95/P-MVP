@@ -1,13 +1,10 @@
-package me.yokeyword.fragmentation.app.di;
+package me.yokeyword.fragmentation.mvp.demo_wechat;
 
 import android.arch.lifecycle.LifecycleOwner;
-
 import com.passin.pmvp.base.IView;
 import com.passin.pmvp.di.scope.PageScope;
-
 import dagger.Module;
 import dagger.Provides;
-import me.yokeyword.fragmentation.mvp.demo_wechat.MainActivity;
 
 /**
  * <pre>

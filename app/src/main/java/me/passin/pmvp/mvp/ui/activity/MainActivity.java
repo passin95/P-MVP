@@ -5,24 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.OnClick;
 import com.billy.cc.core.component.CC;
 import com.billy.cc.core.component.CCResult;
 import com.billy.cc.core.component.IComponentCallback;
 import com.passin.pmvp.base.BaseActivity;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
-
-import com.passin.pmvp.util.ToastUtils;
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import me.passin.pmvp.R;
 import me.passin.pmvp.globalconfig.constant.ComponentActionConstant;
 import me.passin.pmvp.globalconfig.constant.ComponentNameConstant;
 import me.passin.pmvp.globalconfig.utils.JsonFormat;
-import me.passin.pmvp.mvp.presenter.MainPresenter;
 import me.passin.pmvp.mvp.IView.MainView;
+import me.passin.pmvp.mvp.presenter.MainPresenter;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
 
@@ -32,6 +28,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Inject
     RxErrorHandler mErrorHandler;
+
 
 
     @Override
@@ -70,7 +67,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         if (cc != null && result != null) {
             showResult(cc, result);
         }
-        ToastUtils.showShort("你好你好");
     }
 
 

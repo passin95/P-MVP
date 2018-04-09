@@ -1,8 +1,7 @@
 package com.passin.pmvp.rx.rxerrorhandler;
 
-import org.reactivestreams.Subscriber;
-
 import io.reactivex.annotations.NonNull;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 /**
  * <pre>
@@ -11,7 +10,7 @@ import io.reactivex.annotations.NonNull;
  * Date: 2018/3/13 14:29
  * </pre>
  */
-public abstract class ErrorHandleSubscriberOfFlowable<T> implements Subscriber<T> {
+public abstract class ErrorHandleSubscriberOfFlowable<T> extends DisposableSubscriber<T> {
     private RxErrorHandler mErrorHandler;
 
     public ErrorHandleSubscriberOfFlowable(RxErrorHandler rxErrorHandler) {

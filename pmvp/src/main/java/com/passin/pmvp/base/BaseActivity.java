@@ -3,28 +3,28 @@ package com.passin.pmvp.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
-
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import com.passin.pmvp.base.delegate.IActivity;
 import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.integration.cache.CacheType;
 import com.passin.pmvp.util.PmvpUtils;
-
-import org.greenrobot.eventbus.EventBus;
-
-import javax.inject.Inject;
-
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import javax.inject.Inject;
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportActivity;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivityDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * <pre>
@@ -36,13 +36,15 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
  * 请抽取这些P层的共性作为接口IPresenter的方法，并将泛型改为继承IPresenter。
  * </pre>
  */
-public abstract class BaseActivity <P extends BasePresenter> extends AppCompatActivity implements IActivity,ISupportActivity {
+public abstract class BaseActivity <P extends BasePresenter> extends AppCompatActivity implements IActivity,ISupportActivity,HasSupportFragmentInjector {
 
     protected CompositeDisposable mCompositeDisposable;
     private Cache<String, Object> mCache;
     private Unbinder mUnbinder;
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
 
+    @Inject
+    DispatchingAndroidInjector<Fragment> mFragmentInjector;
 
     @NonNull
     @Override
@@ -79,6 +81,11 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
             e.printStackTrace();
         }
         initData(savedInstanceState);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return this.mFragmentInjector;
     }
 
     @Override

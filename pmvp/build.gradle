@@ -113,5 +113,4 @@ dependencies {
 
     api rootProject.ext.dependencies["fragmentation"]
 
-
 }
