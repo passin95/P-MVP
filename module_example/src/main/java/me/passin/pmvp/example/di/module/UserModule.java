@@ -1,4 +1,4 @@
-package me.passin.pmvp.example.mvp.ui.module;
+package me.passin.pmvp.example.di.module;
 
 import android.arch.lifecycle.LifecycleOwner;
 

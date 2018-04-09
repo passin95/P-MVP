@@ -1,4 +1,4 @@
-package me.passin.pmvp.example.app.di.module;
+package me.passin.pmvp.example.di;
 
 import dagger.Module;
 

@@ -16,7 +16,7 @@ import com.passin.pmvp.di.component.DaggerArmsComponent;
 import com.passin.pmvp.di.module.GlobalConfigModule;
 import com.passin.pmvp.integration.ManifestParser;
 import com.passin.pmvp.integration.ModuleConfig;
-import com.passin.pmvp.integration.lifecycle.ActivityLifecycle;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;

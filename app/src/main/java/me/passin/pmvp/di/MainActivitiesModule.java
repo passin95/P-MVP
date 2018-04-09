@@ -1,10 +1,10 @@
-package me.passin.pmvp.app.di.module;
+package me.passin.pmvp.di;
 
 import com.passin.pmvp.di.scope.PageScope;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import me.passin.pmvp.mvp.ui.activity.MainActivity;
-import me.passin.pmvp.mvp.ui.module.MainActivityModule;
+import me.passin.pmvp.di.module.MainActivityModule;
 
 /**
  * <pre>

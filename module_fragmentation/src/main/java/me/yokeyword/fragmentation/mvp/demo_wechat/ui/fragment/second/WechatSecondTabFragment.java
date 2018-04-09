@@ -42,16 +42,17 @@ public class WechatSecondTabFragment extends NoInjectFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
-        mToolbar.setTitle(R.string.fragmentation_discover);
 
-        mTab.addTab(mTab.newTab());
-        mTab.addTab(mTab.newTab());
     }
 
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
+        mToolbar.setTitle(R.string.fragmentation_discover);
+
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
         mViewPager.setAdapter(new WechatPagerFragmentAdapter(getChildFragmentManager()
                 , getString(R.string.fragmentation_all), getString(R.string.fragmentation_more)));
         mTab.setupWithViewPager(mViewPager);

@@ -13,14 +13,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.passin.pmvp.base.delegate.IFragment;
-import com.passin.pmvp.integration.cache.Cache;
-import com.passin.pmvp.integration.cache.CacheType;
-import com.passin.pmvp.util.PmvpUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import me.yokeyword.fragmentation.ExtraTransaction;
@@ -28,6 +27,7 @@ import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragmentDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import timber.log.Timber;
 
 /**
  * <pre>
@@ -42,26 +42,20 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     protected CompositeDisposable mCompositeDisposable;
     final SupportFragmentDelegate mDelegate = new SupportFragmentDelegate(this);
     protected FragmentActivity _mActivity;
-    private Cache<String, Object> mCache;
+    private Unbinder mUnbinder;
 
     @Inject
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
 
-    @NonNull
-    @Override
-    public synchronized Cache<String, Object> provideCache() {
-        if (mCache == null) {
-            mCache = PmvpUtils.obtainArmsComponentFromContext(_mActivity).cacheFactory().build(CacheType.FRAGMENT_CACHE);
-        }
-        return mCache;
-    }
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return initView(inflater, container, savedInstanceState);
+        View view = initView(inflater, container, savedInstanceState);
+        mUnbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
 
@@ -161,18 +155,27 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void onDestroyView() {
-        mDelegate.onDestroyView();
-        super.onDestroyView();
         if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();
         }
+        mDelegate.onDestroyView();
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
+            try {
+                mUnbinder.unbind();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                //fix Bindings already cleared
+                Timber.w("onDestroyView: " + e.getMessage());
+            }
+        }
+        super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
         mDelegate.onDestroy();
         super.onDestroy();
-
+        this.mUnbinder = null;
     }
 
     @Override

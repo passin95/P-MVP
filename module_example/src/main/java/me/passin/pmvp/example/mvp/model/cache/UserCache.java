@@ -1,4 +1,4 @@
-package me.passin.pmvp.example.mvp.model.api.cache;
+package me.passin.pmvp.example.mvp.model.cache;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

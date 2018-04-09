@@ -16,9 +16,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.rx_cache2.DynamicKey;
 import io.rx_cache2.EvictDynamicKey;
-import me.passin.pmvp.example.mvp.model.api.cache.UserCache;
-import me.passin.pmvp.example.mvp.model.api.service.UserService;
+import me.passin.pmvp.example.mvp.model.cache.UserCache;
 import me.passin.pmvp.example.mvp.model.entity.User;
+import me.passin.pmvp.example.mvp.model.service.UserService;
 
 /**
  * <pre>

@@ -1,6 +1,7 @@
 package com.passin.pmvp.di.component;
 
 import android.app.Application;
+
 import com.passin.pmvp.base.delegate.AppDelegateImpl;
 import com.passin.pmvp.di.module.AppModule;
 import com.passin.pmvp.di.module.GlobalConfigModule;
@@ -9,11 +10,14 @@ import com.passin.pmvp.http.repository.IRepositoryManager;
 import com.passin.pmvp.integration.AppManager;
 import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
-import dagger.BindsInstance;
-import dagger.Component;
+
 import java.io.File;
 import java.util.Map;
+
 import javax.inject.Singleton;
+
+import dagger.BindsInstance;
+import dagger.Component;
 import okhttp3.OkHttpClient;
 
 /**
@@ -28,7 +32,6 @@ import okhttp3.OkHttpClient;
         AppModule.class,
         HttpClientModule.class,
         GlobalConfigModule.class,
-//        ArmsModule.class
 })
 public interface ArmsComponent {
 

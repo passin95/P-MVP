@@ -24,15 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 
 public interface IFragment {
 
-    /**
-     * 提供在 {@link Fragment} 生命周期内的缓存容器, 可向此 {@link Fragment} 存取一些必要的数据
-     * 此缓存容器和 {@link Fragment} 的生命周期绑定, 如果 {@link Fragment} 在屏幕旋转或者配置更改的情况下
-     * 重新创建, 那此缓存容器中的数据也会被清空
-     *
-     * @return like {@link LruCache}
-     */
-    @NonNull
-    Cache<String, Object> provideCache();
 
 
     /**

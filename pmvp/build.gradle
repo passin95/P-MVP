@@ -51,13 +51,11 @@ dependencies {
         exclude module: 'support-annotations'
     }
 
-
     //rx系列
     api rootProject.ext.dependencies["rxjava2"]
     api(rootProject.ext.dependencies["rxandroid2"]) {
         exclude module: 'rxjava'
     }
-
     api(rootProject.ext.dependencies["rxcache2"]) {
         exclude module: 'rxjava'
         exclude module: 'dagger'
@@ -65,7 +63,6 @@ dependencies {
     api(rootProject.ext.dependencies["rxcache-jolyglot-gson"]) {
         exclude module: 'gson'
     }
-
     api(rootProject.ext.dependencies["rxpermissions2"]) {
         exclude module: 'rxjava'
         exclude module: 'support-annotations'
@@ -98,6 +95,7 @@ dependencies {
         exclude module: 'jsr305'
     }
 
+    //tool
     api rootProject.ext.dependencies["gson"]
     api rootProject.ext.dependencies["timber"]
     api rootProject.ext.dependencies["eventbus"]
@@ -111,6 +109,8 @@ dependencies {
     api rootProject.ext.dependencies["dagger2-android-support"]
     annotationProcessor rootProject.ext.dependencies["dagger2-android-processor"]
 
+
+    //fragment
     api rootProject.ext.dependencies["fragmentation"]
 
 }

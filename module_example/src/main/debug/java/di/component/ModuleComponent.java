@@ -1,4 +1,4 @@
-package me.passin.pmvp.example.app.di.component;
+package di.component;
 
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.di.scope.AppScope;
@@ -6,8 +6,7 @@ import com.passin.pmvp.di.scope.AppScope;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
 import me.passin.pmvp.example.app.ModuleApplication;
-import me.passin.pmvp.example.app.di.ExampleActivitiesModule;
-import me.passin.pmvp.example.app.di.ExampleFragmentsModule;
+import me.passin.pmvp.example.di.ExampleActivitiesModule;
 
 /**
  * <pre>

@@ -1,9 +1,7 @@
 package com.passin.pmvp.integration.cache;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.http.repository.RepositoryManager;
@@ -91,51 +89,6 @@ public interface CacheType {
         }
     };
 
-    /**
-     * {@link Activity} 中存储数据的容器
-     */
-    CacheType ACTIVITY_CACHE = new CacheType() {
-        private static final int MAX_SIZE = 80;
-        private static final float MAX_SIZE_MULTIPLIER = 0.0008f;
-
-        @Override
-        public int getCacheTypeId() {
-            return ACTIVITY_CACHE_TYPE_ID;
-        }
-
-        @Override
-        public int calculateCacheSize(Context context) {
-            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            int targetMemoryCacheSize = (int) (activityManager.getMemoryClass() * MAX_SIZE_MULTIPLIER * 1024);
-            if (targetMemoryCacheSize >= MAX_SIZE) {
-                return MAX_SIZE;
-            }
-            return targetMemoryCacheSize;
-        }
-    };
-
-    /**
-     * {@link Fragment} 中存储数据的容器
-     */
-    CacheType FRAGMENT_CACHE = new CacheType() {
-        private static final int MAX_SIZE = 80;
-        private static final float MAX_SIZE_MULTIPLIER = 0.0008f;
-
-        @Override
-        public int getCacheTypeId() {
-            return FRAGMENT_CACHE_TYPE_ID;
-        }
-
-        @Override
-        public int calculateCacheSize(Context context) {
-            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            int targetMemoryCacheSize = (int) (activityManager.getMemoryClass() * MAX_SIZE_MULTIPLIER * 1024);
-            if (targetMemoryCacheSize >= MAX_SIZE) {
-                return MAX_SIZE;
-            }
-            return targetMemoryCacheSize;
-        }
-    };
 
     /**
      * 返回框架内需要缓存的模块对应的 {@code id}

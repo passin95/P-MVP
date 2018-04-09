@@ -1,4 +1,4 @@
-package me.passin.pmvp.example.mvp.model.api.service;
+package me.passin.pmvp.example.mvp.model.service;
 
 import java.util.List;
 

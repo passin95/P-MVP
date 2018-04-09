@@ -13,7 +13,6 @@ buildscript {
         classpath 'com.billy.android:autoregister:1.2.0'
 
         classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-SNAPSHOT'
-
     }
 }
 

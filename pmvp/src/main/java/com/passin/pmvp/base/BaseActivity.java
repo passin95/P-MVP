@@ -6,25 +6,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
+
+import com.passin.pmvp.base.delegate.IActivity;
+
+import org.greenrobot.eventbus.EventBus;
+
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import com.passin.pmvp.base.delegate.IActivity;
-import com.passin.pmvp.integration.cache.Cache;
-import com.passin.pmvp.integration.cache.CacheType;
-import com.passin.pmvp.util.PmvpUtils;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import javax.inject.Inject;
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportActivity;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportActivityDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * <pre>
@@ -39,21 +40,12 @@ import org.greenrobot.eventbus.EventBus;
 public abstract class BaseActivity <P extends BasePresenter> extends AppCompatActivity implements IActivity,ISupportActivity,HasSupportFragmentInjector {
 
     protected CompositeDisposable mCompositeDisposable;
-    private Cache<String, Object> mCache;
     private Unbinder mUnbinder;
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
 
     @Inject
     DispatchingAndroidInjector<Fragment> mFragmentInjector;
 
-    @NonNull
-    @Override
-    public synchronized Cache<String, Object> provideCache() {
-        if (mCache == null) {
-            mCache = PmvpUtils.obtainArmsComponentFromContext(this).cacheFactory().build(CacheType.ACTIVITY_CACHE);
-        }
-        return mCache;
-    }
 
     /**
      * 如果页面逻辑简单，可不需求P层,继承该类时不指定泛型即可。
@@ -74,7 +66,6 @@ public abstract class BaseActivity <P extends BasePresenter> extends AppCompatAc
             if (layoutResID != 0) {
                 setContentView(layoutResID);
                 //绑定到butterknife
-
                 mUnbinder = ButterKnife.bind(this);
             }
         } catch (Exception e) {

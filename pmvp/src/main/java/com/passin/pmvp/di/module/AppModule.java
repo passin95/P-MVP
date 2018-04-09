@@ -9,8 +9,8 @@ import com.passin.pmvp.http.repository.RepositoryManager;
 import com.passin.pmvp.integration.AppManager;
 import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.integration.cache.CacheType;
-import com.passin.pmvp.integration.lifecycle.ActivityLifecycle;
-import com.passin.pmvp.integration.lifecycle.FragmentLifecycle;
+import com.passin.pmvp.base.delegate.ActivityLifecycle;
+import com.passin.pmvp.base.delegate.FragmentLifecycle;
 
 import java.util.ArrayList;
 import java.util.List;

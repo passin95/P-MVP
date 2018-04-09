@@ -1,4 +1,4 @@
-package me.passin.pmvp.mvp.model.api.service;
+package me.passin.pmvp.mvp.model.service;
 
 
 /**

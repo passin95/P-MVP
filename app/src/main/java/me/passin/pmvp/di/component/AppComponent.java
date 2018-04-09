@@ -1,14 +1,14 @@
-package me.passin.pmvp.app.di.component;
+package me.passin.pmvp.di.component;
 
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.di.scope.AppScope;
 
 import dagger.Component;
 import me.passin.pmvp.app.MainApplication;
-import me.passin.pmvp.app.di.module.MainActivitiesModule;
-import me.passin.pmvp.app.di.module.MainFragmentsModule;
-import me.passin.pmvp.example.app.di.module.ExampleActivitiesModule;
-import me.passin.pmvp.example.app.di.module.ExampleFragmentsModule;
+import me.passin.pmvp.di.MainActivitiesModule;
+import me.passin.pmvp.di.MainFragmentsModule;
+import me.passin.pmvp.example.di.ExampleActivitiesModule;
+import me.passin.pmvp.example.di.ExampleFragmentsModule;
 import me.yokeyword.fragmentation.app.di.FragmentationActivitiesModule;
 
 /**

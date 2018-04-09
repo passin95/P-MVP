@@ -109,4 +109,10 @@ public class UserActivity extends BaseActivity<UserPresenter> implements UserVie
     public void endLoadMore() {
         isLoadingMore = false;
     }
+
+    @Override
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
+        overridePendingTransition(R.anim.v_fragment_pop_enter, R.anim.v_fragment_pop_exit);
+    }
 }

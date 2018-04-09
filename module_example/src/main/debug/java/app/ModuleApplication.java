@@ -2,7 +2,7 @@ package me.passin.pmvp.example.app;
 
 import com.passin.pmvp.base.BaseApplication;
 
-import me.passin.pmvp.example.app.di.component.DaggerModuleComponent;
+import di.component.DaggerModuleComponent;
 
 
 /**
