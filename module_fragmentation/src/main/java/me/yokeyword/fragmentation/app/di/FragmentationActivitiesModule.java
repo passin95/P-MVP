@@ -14,9 +14,9 @@ import me.yokeyword.fragmentation.mvp.demo_wechat.MainActivityModule;
  * </pre>
  */
 @Module
-public abstract class FragmentationActivitiesModule {
+public interface FragmentationActivitiesModule {
 
     @PageScope
     @ContributesAndroidInjector(modules = MainActivityModule.class)
-    abstract MainActivity contributeMainActivity();
+     MainActivity contributeMainActivity();
 }

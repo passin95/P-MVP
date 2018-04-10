@@ -11,22 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-
-import com.passin.pmvp.base.delegate.IFragment;
-
-import org.greenrobot.eventbus.EventBus;
-
-import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.passin.pmvp.base.delegate.IFragment;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import javax.inject.Inject;
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragmentDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
+import org.greenrobot.eventbus.EventBus;
+import pub.devrel.easypermissions.EasyPermissions;
 import timber.log.Timber;
 
 /**
@@ -37,27 +34,33 @@ import timber.log.Timber;
  * </pre>
  */
 
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements IFragment, ISupportFragment {
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements IFragment,
+        ISupportFragment {
 
-    protected CompositeDisposable mCompositeDisposable;
     final SupportFragmentDelegate mDelegate = new SupportFragmentDelegate(this);
+    protected CompositeDisposable mCompositeDisposable;
     protected FragmentActivity _mActivity;
-    private Unbinder mUnbinder;
-
     @Inject
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
+    private Unbinder mUnbinder;
 
-
-
-    @Nullable
+    /**
+     * 是否使用{@link EventBus},默认为不使用(false)，
+     * 如果true，必须真的接收某个事件
+     */
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = initView(inflater, container, savedInstanceState);
-        mUnbinder = ButterKnife.bind(this, view);
-        return view;
+    public boolean useEventBus() {
+        return false;
     }
 
+    /**
+     * 是否使用Dagger注入,默认为使用(true)，
+     */
+    @Override
+    public boolean useInject() {
+        return true;
+    }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
@@ -65,37 +68,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
     /**
-     * 是否使用{@link EventBus},默认为不使用(false)，
-     * 如果true，必须真的接收某个事件
-     *
-     * @return
-     */
-    @Override
-    public boolean useEventBus() {
-        return false;
-    }
-
-
-    /**
-     * 是否使用Dagger注入,默认为使用(true)，
-     *
-     * @return
-     */
-    @Override
-    public boolean useInject() {
-        return true;
-    }
-
-    /**
      * 将 {@link Disposable} 添加到 {@link CompositeDisposable} 中统一管理
      * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏
-     *
-     * @param disposable
      */
     public void addDispose(Disposable disposable) {
         mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
     }
-
 
     @Override
     public SupportFragmentDelegate getSupportDelegate() {
@@ -109,85 +87,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public ExtraTransaction extraTransaction() {
         return mDelegate.extraTransaction();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mDelegate.onAttach(activity);
-        _mActivity = mDelegate.getActivity();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mDelegate.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        return mDelegate.onCreateAnimation(transit, enter, nextAnim);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mDelegate.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mDelegate.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mDelegate.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mDelegate.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (mCompositeDisposable != null) {
-            mCompositeDisposable.clear();
-        }
-        mDelegate.onDestroyView();
-        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
-            try {
-                mUnbinder.unbind();
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-                //fix Bindings already cleared
-                Timber.w("onDestroyView: " + e.getMessage());
-            }
-        }
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        mDelegate.onDestroy();
-        super.onDestroy();
-        this.mUnbinder = null;
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        mDelegate.onHiddenChanged(hidden);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        mDelegate.setUserVisibleHint(isVisibleToUser);
     }
 
     /**
@@ -225,7 +124,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
         mDelegate.onEnterAnimationEnd(savedInstanceState);
     }
-
 
     /**
      * Lazy initial，Called when fragment is first called.
@@ -294,30 +192,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
     /**
-     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
-     */
-    public void loadMultipleRootFragment(int containerId, int showPosition, ISupportFragment... toFragments) {
-        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
-    }
-
-    /**
-     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
-     */
-    public void showHideFragment(ISupportFragment showFragment, ISupportFragment hideFragment) {
-        mDelegate.showHideFragment(showFragment, hideFragment);
-    }
-
-    /**
-     * 按返回键触发,前提是SupportActivity的onBackPressed()方法能被调用
-     *
-     * @return false则继续向上传递, true则消费掉该事件
-     */
-    @Override
-    public boolean onBackPressedSupport() {
-        return mDelegate.onBackPressedSupport();
-    }
-
-    /**
      * 类似 {@link Activity#setResult(int, Intent)}
      * <p>
      * Similar to {@link Activity#setResult(int, Intent)}
@@ -365,9 +239,128 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         mDelegate.putNewBundle(newBundle);
     }
 
+    /**
+     * 按返回键触发,前提是SupportActivity的onBackPressed()方法能被调用
+     *
+     * @return false则继续向上传递, true则消费掉该事件
+     */
+    @Override
+    public boolean onBackPressedSupport() {
+        return mDelegate.onBackPressedSupport();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        mDelegate.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        mDelegate.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mDelegate.onAttach(activity);
+        _mActivity = mDelegate.getActivity();
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        return mDelegate.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDelegate.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+        View view = initView(inflater, container, savedInstanceState);
+        mUnbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDelegate.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDelegate.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mDelegate.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mDelegate.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
+        }
+        mDelegate.onDestroyView();
+        if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
+            try {
+                mUnbinder.unbind();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                //fix Bindings already cleared
+                Timber.w("onDestroyView: " + e.getMessage());
+            }
+        }
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        mDelegate.onDestroy();
+        super.onDestroy();
+        this.mUnbinder = null;
+    }
+
+    /**
+     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
+     */
+    public void loadMultipleRootFragment(int containerId, int showPosition,
+            ISupportFragment... toFragments) {
+        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
+    }
 
     /****************************************以下为可选方法(Optional methods)******************************************************/
     // 自定制Support时，可移除不必要的方法
+
+    /**
+     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
+     */
+    public void showHideFragment(ISupportFragment showFragment, ISupportFragment hideFragment) {
+        mDelegate.showHideFragment(showFragment, hideFragment);
+    }
 
     /**
      * 隐藏软键盘
@@ -387,13 +380,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
      * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
      *
      * @param containerId 容器id
-     * @param toFragment  目标Fragment
+     * @param toFragment 目标Fragment
      */
     public void loadRootFragment(int containerId, ISupportFragment toFragment) {
         mDelegate.loadRootFragment(containerId, toFragment);
     }
 
-    public void loadRootFragment(int containerId, ISupportFragment toFragment, boolean addToBackStack, boolean allowAnim) {
+    public void loadRootFragment(int containerId, ISupportFragment toFragment,
+            boolean addToBackStack, boolean allowAnim) {
         mDelegate.loadRootFragment(containerId, toFragment, addToBackStack, allowAnim);
     }
 
@@ -423,11 +417,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     }
 
     /**
-     * @see #popTo(Class, boolean)
-     * +
+     * @see #popTo(Class, boolean) +
      * @see #start(ISupportFragment)
      */
-    public void startWithPopTo(ISupportFragment toFragment, Class<?> targetFragmentClass, boolean includeTargetFragment) {
+    public void startWithPopTo(ISupportFragment toFragment, Class<?> targetFragmentClass,
+            boolean includeTargetFragment) {
         mDelegate.startWithPopTo(toFragment, targetFragmentClass, includeTargetFragment);
     }
 
@@ -445,7 +439,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
      * <p>
      * 出栈到目标fragment
      *
-     * @param targetFragmentClass   目标fragment
+     * @param targetFragmentClass 目标fragment
      * @param includeTargetFragment 是否包含该fragment
      */
     public void popTo(Class<?> targetFragmentClass, boolean includeTargetFragment) {

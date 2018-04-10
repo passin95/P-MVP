@@ -11,6 +11,7 @@ import com.passin.pmvp.integration.AppManager;
 import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 
+import dagger.android.AndroidInjector;
 import java.io.File;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ import okhttp3.OkHttpClient;
         HttpClientModule.class,
         GlobalConfigModule.class,
 })
-public interface ArmsComponent {
+public interface ArmsComponent extends AndroidInjector<AppDelegateImpl>{
 
     IRepositoryManager repositoryManager();
 
@@ -51,8 +52,6 @@ public interface ArmsComponent {
     File cacheFile();
 
     Cache.Factory cacheFactory();
-
-    void inject(AppDelegateImpl delegate);
 
 
     @Component.Builder

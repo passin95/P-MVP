@@ -14,11 +14,11 @@ import me.passin.pmvp.example.di.module.UserModule;
  * </pre>
  */
 @Module
-public abstract class ExampleActivitiesModule {
+public interface ExampleActivitiesModule {
 
 
     @PageScope
     @ContributesAndroidInjector(modules = UserModule.class)
-    abstract UserActivity contributeMainActivity();
+    UserActivity contributeMainActivity();
 
 }

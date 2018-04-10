@@ -14,10 +14,10 @@ import me.passin.pmvp.di.module.LeftFragmentModule;
  * </pre>
  */
 @Module
-public abstract class MainFragmentsModule {
+public interface MainFragmentsModule {
 
 
     @PageScope
     @ContributesAndroidInjector(modules = LeftFragmentModule.class)
-    abstract LeftMenuFragment contributeLeftMenuFragment();
+    LeftMenuFragment contributeLeftMenuFragment();
 }

@@ -10,7 +10,7 @@ import dagger.Module;
  * </pre>
  */
 @Module
-public abstract class ExampleFragmentsModule {
+public interface ExampleFragmentsModule {
 
 
 //    @PageScope
