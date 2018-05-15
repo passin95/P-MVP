@@ -34,7 +34,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * 请抽取这些P层的共性作为接口IPresenter的方法，并将泛型改为继承IPresenter。
  * </pre>
  */
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements
+public abstract class BaseActivity extends AppCompatActivity implements
         IActivity, ISupportActivity, HasSupportFragmentInjector {
 
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
@@ -42,9 +42,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     /**
      * 如果页面逻辑简单，可不需求P层,继承该类时不指定泛型即可。
      */
-    @Inject
-    @Nullable
-    protected P mPresenter;
     @Inject
     DispatchingAndroidInjector<Fragment> mFragmentInjector;
     private Unbinder mUnbinder;
@@ -199,6 +196,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (mDelegate == null) {
+            super.dispatchTouchEvent(ev);
+        }
         return mDelegate.dispatchTouchEvent(ev) || super.dispatchTouchEvent(ev);
     }
 

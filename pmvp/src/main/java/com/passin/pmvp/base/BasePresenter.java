@@ -1,15 +1,17 @@
 package com.passin.pmvp.base;
 
+import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
-
-import org.greenrobot.eventbus.EventBus;
-
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.view.View;
 import dagger.internal.Preconditions;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * <pre>
@@ -23,20 +25,27 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
 
     protected CompositeDisposable mCompositeDisposable;
 
+    protected Context mContext;
+
     protected V mRootView;
 
 
     public BasePresenter(V rootView) {
         this.mRootView = Preconditions.checkNotNull(rootView,"%s cannot be null", IView.class.getName());
-        initData();
+        if (rootView instanceof Activity) {
+            mContext = (Activity) rootView;
+        } else if (rootView instanceof Fragment) {
+            mContext = ((Fragment) rootView).getContext();
+        } else if (rootView instanceof View) {
+            mContext = ((View) rootView).getContext();
+        }
+        onStart();
     }
 
 
-    public void initData() {
-        mCompositeDisposable = new CompositeDisposable();
-
-        if (mRootView!=null&&mRootView instanceof LifecycleOwner) {
-            ((LifecycleOwner)mRootView).getLifecycle().addObserver(this);
+    public void onStart() {
+        if (mRootView != null && mRootView instanceof LifecycleOwner) {
+            ((LifecycleOwner) mRootView).getLifecycle().addObserver(this);
         }
         //如果要使用 Eventbus 请将此方法返回 true
         if (useEventBus()) {
@@ -69,6 +78,9 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
      * @param disposable
      */
     public void addDispose(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
     }
 

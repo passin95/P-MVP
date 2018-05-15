@@ -107,6 +107,7 @@ public class DefaultFormatPrinter implements FormatPrinter{
         logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true);
         logLines(tag, responseBody.split(LINE_SEPARATOR), true);
         Timber.tag(tag).i(END_LINE);
+        Timber.tag(tag).i("Body(用于coty)："+bodyString);
     }
 
     /**

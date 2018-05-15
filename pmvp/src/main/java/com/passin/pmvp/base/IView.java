@@ -1,8 +1,7 @@
 package com.passin.pmvp.base;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
+import com.passin.pmvp.util.PmvpUtils;
 
 /**
  * <pre>
@@ -16,29 +15,30 @@ public interface IView {
     /**
      * 显示加载
      */
-    void showLoading(@NonNull String content);
+    default void showLoading(){
+
+    }
 
     /**
      * 隐藏加载
      */
-    void hideLoading();
+    default void hideLoading(){
 
-    /**
-     * 跳转 {@link Activity}
-     *
-     * @param intent {@code intent} 不能为 {@code null}
-     */
-    void launchActivity(@NonNull Intent intent);
+    }
 
     /**
      * 显示信息
      *
      * @param message 消息内容, 不能为 {@code null}
      */
-    void showMessage(@NonNull String message);
+    default void showMessage(@NonNull String message){
+        PmvpUtils.snackbarText(message);
+    }
 
     /**
      * 杀死自己
      */
-    void killMyself();
+    default void killMyself(){
+
+    }
 }

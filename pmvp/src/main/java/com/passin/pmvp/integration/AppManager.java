@@ -1,15 +1,20 @@
 package com.passin.pmvp.integration;
 
 import android.app.Activity;
-
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import com.passin.pmvp.util.SnackbarUtils;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import timber.log.Timber;
 
 /**
@@ -21,18 +26,86 @@ import timber.log.Timber;
  */
 @Singleton
 public class AppManager {
-    protected final String TAG = this.getClass().getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
     public static final String APPMANAGER_MESSAGE = "appmanager_message";
     //true 为不需要加入到 Activity 容器进行统一管理,默认为 false
     public static final String IS_NOT_ADD_ACTIVITY_LIST = "is_not_add_activity_list";
+    public static final int SHOW_SNACKBAR = 5001;
+    public static final int APP_EXIT = 5002;
+    @Inject
+    public Application mApplication;
     //管理所有存活的 Activity, 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致
     private List<Activity> mActivityList;
-    //当前在前台的 Activity
+
 
     @Inject
     public AppManager() {
+        EventBus.getDefault().register(this);
     }
 
+    public static void post(AppManagerEvent msg) {
+        EventBus.getDefault().post(msg);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceive(AppManagerEvent message) {
+        switch (message.what) {
+            case SHOW_SNACKBAR:
+                if (message.obj == null) {
+                    break;
+                }
+                showSnackbar(message.context, (String) message.obj);
+                break;
+            case APP_EXIT:
+                appExit();
+                break;
+            default:
+                Timber.tag(TAG).w("The message.what not match");
+                break;
+        }
+    }
+
+    public void showSnackbar(Context context, String message) {
+        if (context != null && context instanceof Activity) {
+            SnackbarUtils.with(((Activity) context).getWindow().getDecorView()
+                    .findViewById(android.R.id.content)).setMessage(message).show();
+        } else if (getTopActivity() != null) {
+            SnackbarUtils.with(getTopDecorView()).setMessage(message).show();
+        } else {
+            Timber.tag(TAG).w("mTopActivity == null when showSnackbar(String,boolean)");
+        }
+    }
+
+
+    public void startActivity(Intent intent) {
+        if (getTopActivity() == null) {
+            Timber.tag(TAG).w("mCurrentActivity == null when startActivity(Intent)");
+            //如果没有前台的activity就使用new_task模式启动activity
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mApplication.startActivity(intent);
+            return;
+        }
+        getTopActivity().startActivity(intent);
+    }
+
+
+    public View getTopDecorView() {
+        return getTopActivity().getWindow().getDecorView()
+                .findViewById(android.R.id.content);
+    }
+
+    /**
+     * 退出应用程序
+     */
+    public void appExit() {
+        killAll();
+        try {
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 获取最近启动的一个 {@link Activity}, 此方法不保证获取到的 {@link Activity} 正处于前台可见状态
@@ -41,8 +114,6 @@ public class AppManager {
      * 比较适合大部分的使用场景, 如 startActivity
      * <p>
      * Tips: mActivityList 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致
-     *
-     * @return
      */
     public Activity getTopActivity() {
         if (mActivityList == null) {
@@ -52,11 +123,22 @@ public class AppManager {
         return mActivityList.size() > 0 ? mActivityList.get(mActivityList.size() - 1) : null;
     }
 
+    /**
+     * 关闭所有 {@link Activity}
+     */
+    public void killAll() {
+        synchronized (AppManager.class) {
+            Iterator<Activity> iterator = getActivityList().iterator();
+            while (iterator.hasNext()) {
+                Activity next = iterator.next();
+                iterator.remove();
+                next.finish();
+            }
+        }
+    }
 
     /**
      * 返回一个存储所有未销毁的 {@link Activity} 的集合
-     *
-     * @return
      */
     public List<Activity> getActivityList() {
         if (mActivityList == null) {
@@ -64,7 +146,6 @@ public class AppManager {
         }
         return mActivityList;
     }
-
 
     /**
      * 添加 {@link Activity} 到集合
@@ -97,8 +178,6 @@ public class AppManager {
 
     /**
      * 删除集合里的指定位置的 {@link Activity}
-     *
-     * @param location
      */
     public Activity removeActivity(int location) {
         if (mActivityList == null) {
@@ -115,8 +194,6 @@ public class AppManager {
 
     /**
      * 关闭指定的 {@link Activity} class 的所有的实例
-     *
-     * @param activityClass
      */
     public void killActivity(Class<?> activityClass) {
         if (mActivityList == null) {
@@ -136,12 +213,10 @@ public class AppManager {
         }
     }
 
-
     /**
      * 指定的 {@link Activity} 实例是否存活
      *
      * @param {@link Activity}
-     * @return
      */
     public boolean activityInstanceIsLive(Activity activity) {
         if (mActivityList == null) {
@@ -151,12 +226,8 @@ public class AppManager {
         return mActivityList.contains(activity);
     }
 
-
     /**
      * 指定的 {@link Activity} class 是否存活(同一个 {@link Activity} class 可能有多个实例)
-     *
-     * @param activityClass
-     * @return
      */
     public boolean activityClassIsLive(Class<?> activityClass) {
         if (mActivityList == null) {
@@ -171,12 +242,8 @@ public class AppManager {
         return false;
     }
 
-
     /**
      * 获取指定 {@link Activity} class 的实例,没有则返回 null(同一个 {@link Activity} class 有多个实例,则返回最早创建的实例)
-     *
-     * @param activityClass
-     * @return
      */
     public Activity findActivity(Class<?> activityClass) {
         if (mActivityList == null) {
@@ -191,24 +258,6 @@ public class AppManager {
         return null;
     }
 
-
-    /**
-     * 关闭所有 {@link Activity}
-     */
-    public void killAll() {
-//        while (getActivityList().size() != 0) { //此方法只能兼容LinkedList
-//            getActivityList().remove(0).finish();
-//        }
-        synchronized (AppManager.class) {
-            Iterator<Activity> iterator = getActivityList().iterator();
-            while (iterator.hasNext()) {
-                Activity next = iterator.next();
-                iterator.remove();
-                next.finish();
-            }
-        }
-    }
-
     /**
      * 关闭所有 {@link Activity},排除指定的 {@link Activity}
      *
@@ -221,8 +270,9 @@ public class AppManager {
             while (iterator.hasNext()) {
                 Activity next = iterator.next();
 
-                if (excludeList.contains(next.getClass()))
+                if (excludeList.contains(next.getClass())) {
                     continue;
+                }
 
                 iterator.remove();
                 next.finish();
@@ -242,26 +292,12 @@ public class AppManager {
             while (iterator.hasNext()) {
                 Activity next = iterator.next();
 
-                if (excludeList.contains(next.getClass().getName()))
+                if (excludeList.contains(next.getClass().getName())) {
                     continue;
-
+                }
                 iterator.remove();
                 next.finish();
             }
-        }
-    }
-
-
-    /**
-     * 退出应用程序
-     */
-    public void appExit() {
-        try {
-            killAll();
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

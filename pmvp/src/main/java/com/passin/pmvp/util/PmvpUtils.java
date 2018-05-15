@@ -1,11 +1,18 @@
 package com.passin.pmvp.util;
 
+import static com.passin.pmvp.integration.AppManager.APP_EXIT;
+import static com.passin.pmvp.integration.AppManager.SHOW_SNACKBAR;
+
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
-
+import android.view.View;
 import com.passin.pmvp.base.delegate.IArms;
 import com.passin.pmvp.di.component.ArmsComponent;
+import com.passin.pmvp.integration.AppManager;
+import com.passin.pmvp.integration.AppManagerEvent;
 
 /**
  * <pre>
@@ -24,6 +31,139 @@ public class PmvpUtils {
         return ((IArms) context.getApplicationContext()).getArmsComponent();
     }
 
+    /**
+     * 获得资源
+     */
+    public static Resources getResources(Context context) {
+        return context.getResources();
+    }
+
+    /**
+     * dip转pix
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = getResources(context).getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 得到字符数组
+     */
+    public static String[] getStringArray(Context context, int id) {
+        return getResources(context).getStringArray(id);
+    }
+
+
+    /**
+     * pix转dip
+     */
+    public static int pix2dip(Context context, int pix) {
+        final float densityDpi = getResources(context).getDisplayMetrics().density;
+        return (int) (pix / densityDpi + 0.5f);
+    }
+
+
+    /**
+     * 从 dimens 中获得尺寸
+     */
+    public static int getDimens(Context context, int id) {
+        return (int) getResources(context).getDimension(id);
+    }
+
+
+    /**
+     * 从 dimens 中获得尺寸
+     */
+    public static float getDimens(Context context, String dimenName) {
+        return getResources(context).getDimension(
+                getResources(context).getIdentifier(dimenName, "dimen", context.getPackageName()));
+    }
+
+
+    /**
+     * 从String 中获得字符
+     */
+    public static String getString(Context context, String strName) {
+        return getString(context,
+                getResources(context).getIdentifier(strName, "string", context.getPackageName()));
+    }
+
+    /**
+     * 从String 中获得字符
+     */
+    public static String getString(Context context, int stringID) {
+        return getResources(context).getString(stringID);
+    }
+
+
+    /**
+     * 获得颜色
+     */
+    public static int getColor(Context context, String colorName) {
+        return getColor(context,
+                getResources(context).getIdentifier(colorName, "color", context.getPackageName()));
+    }
+
+    /**
+     * 获得颜色
+     */
+    public static int getColor(Context context, int rid) {
+        return getResources(context).getColor(rid);
+    }
+
+
+    /**
+     * 获得屏幕的宽度
+     */
+    public static int getScreenWidth(Context context) {
+        return getResources(context).getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获得屏幕的高度
+     */
+    public static int getScreenHeight(Context context) {
+        return getResources(context).getDisplayMetrics().heightPixels;
+    }
+
+
+    /**
+     * 填充view
+     */
+    public static View inflate(Context context, int detailScreen) {
+        return View.inflate(context, detailScreen, null);
+    }
+
+    /**
+     * 退出APP
+     */
+    public static void exitApp() {
+        AppManagerEvent message = new AppManagerEvent();
+        message.what = APP_EXIT;
+        AppManager.post(message);
+    }
+
+    /**
+     *  snackbarText
+     */
+    public static void snackbarText(String text) {
+        AppManagerEvent message = new AppManagerEvent();
+        message.what = SHOW_SNACKBAR;
+        message.obj = text;
+        AppManager.post(message);
+    }
+
+    /**
+     *  snackbarText
+     */
+    public static void snackbarText(Context context,String text) {
+        AppManagerEvent message = new AppManagerEvent();
+        message.context = context;
+        message.what = SHOW_SNACKBAR;
+        message.obj = text;
+        AppManager.post(message);
+    }
+
 
     public static void configRecyclerView(final RecyclerView recyclerView
             , RecyclerView.LayoutManager layoutManager) {
@@ -31,5 +171,14 @@ public class PmvpUtils {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public static Bitmap convertViewToBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
     }
 }
