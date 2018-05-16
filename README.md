@@ -1,47 +1,33 @@
 <h1 align="center">P-MVP</h1>
-<h2 align="center">基于dagger.android的组件化Demo</h2>
-
-## Directory
-
-<img src="https://github.com/passin95/P-MVP/blob/master/image/module_relationship%20.png">
+<h2 align="center">基于dagger.android的mvp框架</h2>
 
 
-        - app                整个项目的最顶层，包含着所有业务Module，也是所有业务Module的跳转开关。
-        - module_业务        根据业务划分Module，对于一些全局化的配置建议在app_global_config中配置，
-                             因为在Module业务设置全局配置其他Module也会生效（或覆盖app_global_config已配置好的属性），
-                             会给其它Module带来不确定性，该Module对ModuleConfig的实现的作用更应该是针对本身Module进行约束操作。
-        - module_view        对于一些体量较大的控件（界面）或功能可单独抽为Module，例如大厂的搜索功能。
-        - app_global_config  app的全局配置，以及一些全局使用的类库（往往带有一些可变性）应在此依赖。
-        - pmvp               可理解为Framework层，整个APP架构底层所在，对外暴露接口或方式对APP进行配置，
-                             该层与app_global_config的最大区别在于，pmvp的代码往往是必不可少的。
-
-## Notice
-
-- 请在local.properties下添加（true代表以该Module作为Application编译）：
 
 
-        app = true
-        module_example = false
-        module_fragmentation = false
-        说明：local.properties不会被add到仓库，方便协作， 更改完后请同步一次gradle
-        如果没有此需求，可按需对cc-setttings.gradle修改。
-        
-- 该想更换组件通信方式的自行按需求更换，该Demo的目的主要为大家提供组件化思路。
-- 该Demo从开始尝试（3月13日）到至今（不断的学习、尝试、修改）时间较短，因此还不够完善，但大概思路已实现。
-- 思路都在代码里面，**请阅读源码**，**请阅读源码**，**请阅读源码**，重要的事情说三遍！！！
-- [**更多组件通信方式的使用请移步CC**](https://github.com/luckybilly/CC)
-- [**更多fragment的使用请移步Fragmentation**](https://github.com/YoKeyword/Fragmentation)
+## 优势
+- 将所有的activity、fragment、dialog都看成一个page，以page为单位使用定义P和Mo层的@Scope（生命周期），可很大的自由的随意复用P层和M层。
+- 不需要重复在每一个V层重复编写Module注入的代码
+- 由于Retrofit已经做了一层接口封装，并且M层大部分都是网络请求，因此去掉了M层和P层的接口，可针对数据库单独写一个M层。
+- 业务包名建议以界面为单位，方便同一界面类之间的查找和归类，如果需求需要删除某个界面，也只会右键删除包名即可删除该界面的所有有关类。
+- 集成了Fragmentation对fragment去尽量避免fragment存在的坑，且方便查看fragment栈的管理，个人推荐对fragment的使用更对在于针对“碎片”的需求亦或某个很重要的界面需要比较快的启动速度，其余时候依旧推荐使用activity。
+- 出于性能优化和实用性的考虑，取消了activity和fragment的生命周期代理类，因为android sdk已存在activity和fragment的生命周期回调，已可在回调中进行想要的操作。
+- 为了方便开发，根目录也提供了本人在组件化项目中使用的页面tempelate，需要的可以参考一下根据自身需求修改。
 
-
-## Thanks
+## 说明
+- 不在BaseActivity中通过泛型生成P层的原因是，我某些时候希望我在不使用P层的时候依旧使用dagger注入的功能
+- 在对比了实用性以及目前的维护情况等多方面因素后，最终选择了严振杰老哥的AndPermission，碰到有关权限问题也推荐大家直接向老哥提PR，一起为国产手机权限问题做贡献。
+- 对于一个项目来说底层基础库异常重要（由于覆盖的点较多，开发者应该对基础库有一些了解，否则遇到问题会不知所措影响业务开发），因此个人不是很推荐远程依赖的方式去集成（还能按个人需求去修改，毕竟适合自己的才是最好的），再加上其它个人原因，所以不提供远程依赖的方式（但会不定时更新自己的见解），大家可直接clone项目多看源码，改造成适合自己的。
+- 给大家安利一个[**屏幕适配**](https://blog.csdn.net/fesdgasdgasdg/article/details/78108169)方式以及工具，个人得从多方面分析都觉得很不错。
+## 致谢
 * [**MVPArms**](https://github.com/JessYanCoding/MVPArms)
-* [**CC**](https://github.com/luckybilly/CC)
 * [**Fragmentation**](https://github.com/YoKeyword/Fragmentation)
+* [**AndPermission**](https://github.com/yanzhenjie/AndPermission)
+* ……
 
 ## Speech
-* **如果该Deme给您带来了帮助，请您点击右上角 Star 支持一下谢谢!**
-* **如果该Deme给您带来了帮助，请您点击右上角 Star 支持一下谢谢!**
-* **如果该Deme给您带来了帮助，请您点击右上角 Star 支持一下谢谢!**
+* **如果给您带来了帮助，请您点击右上角 Star 支持一下谢谢!**
+* **如果给您带来了帮助，请您点击右上角 Star 支持一下谢谢!**
+* **如果给您带来了帮助，请您点击右上角 Star 支持一下谢谢!**
 
 ## License
 ``` 
