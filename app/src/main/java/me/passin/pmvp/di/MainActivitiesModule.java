@@ -3,8 +3,12 @@ package me.passin.pmvp.di;
 import com.passin.pmvp.di.scope.PageScope;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import me.passin.pmvp.mvp.ui.activity.MainActivity;
-import me.passin.pmvp.di.module.MainActivityModule;
+import me.passin.pmvp.feature.multiplexpresenter.MultiplexPresenterActivity;
+import me.passin.pmvp.feature.multiplexpresenter.MultiplexPresenterModule;
+import me.passin.pmvp.feature.nullpresenter.NullPresenterActivity;
+import me.passin.pmvp.feature.nullpresenter.NullPresenterModule;
+import me.passin.pmvp.feature.user.UserActivity;
+import me.passin.pmvp.feature.user.UserModule;
 
 /**
  * <pre>
@@ -17,7 +21,17 @@ import me.passin.pmvp.di.module.MainActivityModule;
 public interface  MainActivitiesModule {
 
     @PageScope
-    @ContributesAndroidInjector(modules = {MainActivityModule.class})
-    MainActivity contributeMainActivity();
+    @ContributesAndroidInjector(modules = {UserModule.class})
+    UserActivity contributeUserActivity();
+
+
+    @PageScope
+    @ContributesAndroidInjector(modules = {MultiplexPresenterModule.class})
+    MultiplexPresenterActivity contributeMultiplexPresenterActivity();
+
+
+    @PageScope
+    @ContributesAndroidInjector(modules = {NullPresenterModule.class})
+    NullPresenterActivity contributeNullPresenterActivity();
 
 }

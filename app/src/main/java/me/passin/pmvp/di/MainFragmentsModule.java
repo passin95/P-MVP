@@ -1,10 +1,6 @@
 package me.passin.pmvp.di;
 
-import com.passin.pmvp.di.scope.PageScope;
 import dagger.Module;
-import dagger.android.ContributesAndroidInjector;
-import me.passin.pmvp.mvp.ui.fragment.LeftMenuFragment;
-import me.passin.pmvp.di.module.LeftFragmentModule;
 
 /**
  * <pre>
@@ -16,8 +12,4 @@ import me.passin.pmvp.di.module.LeftFragmentModule;
 @Module
 public interface MainFragmentsModule {
 
-
-    @PageScope
-    @ContributesAndroidInjector(modules = LeftFragmentModule.class)
-    LeftMenuFragment contributeLeftMenuFragment();
 }

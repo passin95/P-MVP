@@ -1,6 +1,4 @@
-apply from: rootProject.file('cc-settings.gradle')
-
-
+apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
@@ -12,9 +10,6 @@ android {
     }
 
     defaultConfig {
-        if (project.ext.runAsApp) {
-            applicationId "me.passin.pmvp"
-        }
 
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -64,11 +59,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':app_global_config')
-
-    if (project.ext.runAsApp) {
-        implementation project(':module_example')
-        implementation project(':module_fragmentation')
+    implementation project(':pmvp')
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
     }
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    annotationProcessor rootProject.ext.dependencies["dagger2-android-processor"]
+
+    api rootProject.ext.dependencies["brvah"]
+
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    releaseImplementation rootProject.ext.dependencies["canary-release"]
+    testImplementation rootProject.ext.dependencies["canary-release"]
 
 }

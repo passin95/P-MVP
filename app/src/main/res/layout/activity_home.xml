@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/tv_normal"
+        android:text="正常使用"
+        android:gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="100dp"/>
+
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/tv_no_p"
+        android:text="没P层依旧使用注入"
+        android:gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="100dp"/>
+
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/tv_multiplex_p"
+        android:text="复用P层"
+        android:gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="100dp"/>
+</LinearLayout>

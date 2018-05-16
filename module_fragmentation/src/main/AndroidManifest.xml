@@ -1,7 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="me.yokeyword.fragmentation">
-    <application>
-        <activity android:name="me.yokeyword.fragmentation.mvp.demo_wechat.MainActivity" >
-        </activity>
-    </application>
-</manifest>
