@@ -22,7 +22,6 @@ import me.yokeyword.fragmentation.SupportActivityDelegate;
 import me.yokeyword.fragmentation.SupportHelper;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 import org.greenrobot.eventbus.EventBus;
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * <pre>
@@ -120,6 +119,9 @@ public abstract class BaseActivity extends AppCompatActivity implements
      * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏
      */
     public void addDispose(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
     }
 
@@ -210,12 +212,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
         mDelegate.onBackPressed();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 
     /****************************************以下为可选方法(Optional methods)******************************************************/
 

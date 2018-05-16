@@ -63,13 +63,6 @@ dependencies {
     api(rootProject.ext.dependencies["rxcache-jolyglot-gson"]) {
         exclude module: 'gson'
     }
-    api(rootProject.ext.dependencies["easypermissions"]) {
-        exclude module: 'appcompat-v7'
-        exclude module: 'support-annotations'
-        exclude module: 'support-fragment'
-        exclude module: 'support-compat'
-        exclude module: 'support-design'
-    }
 
     //network
     api rootProject.ext.dependencies["okhttp3"]
@@ -115,4 +108,11 @@ dependencies {
     //fragment
     api rootProject.ext.dependencies["fragmentation"]
 
+
+    api (rootProject.ext.dependencies["permission"]){
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-annotations'
+        exclude module: 'support-fragment'
+        exclude module: 'support-compat'
+    }
 }

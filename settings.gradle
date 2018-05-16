@@ -1,1 +1,2 @@
-include ':app', ':pmvp', ':module_example', ':module_fragmentation', ':app_global_config'
+include ':app', ':pmvp'
+//, ':module_example', ':module_fragmentation', ':app_global_config'
