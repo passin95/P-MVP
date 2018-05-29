@@ -56,13 +56,6 @@ dependencies {
     api(rootProject.ext.dependencies["rxandroid2"]) {
         exclude module: 'rxjava'
     }
-    api(rootProject.ext.dependencies["rxcache2"]) {
-        exclude module: 'rxjava'
-        exclude module: 'dagger'
-    }
-    api(rootProject.ext.dependencies["rxcache-jolyglot-gson"]) {
-        exclude module: 'gson'
-    }
 
     //network
     api rootProject.ext.dependencies["okhttp3"]
@@ -95,6 +88,7 @@ dependencies {
     api rootProject.ext.dependencies["gson"]
     api rootProject.ext.dependencies["timber"]
     api rootProject.ext.dependencies["eventbus"]
+    api rootProject.ext.dependencies["multidex"]
     testImplementation rootProject.ext.dependencies["junit"]
     compileOnly rootProject.ext.dependencies["javax.annotation"]
 

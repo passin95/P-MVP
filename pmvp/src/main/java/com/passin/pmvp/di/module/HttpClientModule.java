@@ -3,7 +3,6 @@ package com.passin.pmvp.di.module;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.Nullable;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.passin.pmvp.http.GlobalHttpHandler;
@@ -11,20 +10,14 @@ import com.passin.pmvp.http.log.RequestInterceptor;
 import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 import com.passin.pmvp.util.FileUtils;
-
+import dagger.Binds;
+import dagger.Module;
+import dagger.Provides;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Named;
 import javax.inject.Singleton;
-
-import dagger.Binds;
-import dagger.Module;
-import dagger.Provides;
-import io.rx_cache2.internal.RxCache;
-import io.victoralbertos.jolyglot.GsonSpeaker;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -119,26 +112,8 @@ public abstract class HttpClientModule {
 
     @Singleton
     @Provides
-    static RxCache provideRxCache(Application application, @Nullable RxCacheConfiguration configuration, @Named("RxCacheDirectory") File cacheDirectory) {
-        RxCache.Builder builder = new RxCache.Builder();
-        RxCache rxCache = null;
-        if (configuration != null) {
-            rxCache = configuration.configRxCache(application, builder);
-        }
-        if (rxCache != null) {
-            return rxCache;
-        } else {
-            return builder
-                    .persistence(cacheDirectory, new GsonSpeaker());
-        }
-    }
-
-
-    @Singleton
-    @Provides
-    @Named("RxCacheDirectory")
-    static File provideRxCacheDirectory(File cacheDir) {
-        File cacheDirectory = new File(cacheDir, "RxCache");
+    static File provideCacheDirectory(File cacheDir) {
+        File cacheDirectory = new File(cacheDir, "cache");
         return FileUtils.makeDirs(cacheDirectory);
     }
 
@@ -202,18 +177,5 @@ public abstract class HttpClientModule {
         void configGson(Context context, GsonBuilder builder);
     }
 
-    public interface RxCacheConfiguration {
-        /**
-         * 提供接口，自定义配置 RxCache
-         * 若想自定义 RxCache 的缓存文件夹或者解析方式, 如改成 fastjson
-         * 请 {@code return rxCacheBuilder.persistence(cacheDirectory, new FastJsonSpeaker());},
-         * 否则请 {@code return null;}
-         *
-         * @param context Context
-         * @param builder RxCache.Builder
-         * @return RxCache
-         */
-        RxCache configRxCache(Context context, RxCache.Builder builder);
-    }
 
 }
