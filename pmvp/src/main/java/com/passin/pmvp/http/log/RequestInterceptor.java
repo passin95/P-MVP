@@ -1,21 +1,17 @@
 package com.passin.pmvp.http.log;
 
 import android.support.annotation.Nullable;
-
 import com.passin.pmvp.http.GlobalHttpHandler;
 import com.passin.pmvp.util.CharSequenceUtils;
 import com.passin.pmvp.util.ZipUtils;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -55,6 +51,7 @@ public class RequestInterceptor implements Interceptor {
     }
 
     @Inject
+//    @Named("requestInterceptor")
     public RequestInterceptor() {
     }
 

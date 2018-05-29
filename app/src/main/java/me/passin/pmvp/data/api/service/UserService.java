@@ -18,7 +18,8 @@ import retrofit2.http.Query;
 public interface UserService {
     String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
 
-    @Headers({HEADER_API_VERSION})
+    @Headers({HEADER_API_VERSION
+            ,"Cache-Control:public ,max-age=60"})
     @GET("/users")
     Observable<List<User>> getUsers(@Query("since") int lastIdQueried,
             @Query("per_page") int perPage);

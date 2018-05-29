@@ -16,10 +16,8 @@ import com.passin.pmvp.http.repository.RepositoryManager;
 
 public interface CacheType {
     int RETROFIT_SERVICE_CACHE_TYPE_ID = 0;
-    int CACHE_SERVICE_CACHE_TYPE_ID = 1;
     int EXTRAS_TYPE_ID = 2;
-    int ACTIVITY_CACHE_TYPE_ID = 3;
-    int FRAGMENT_CACHE_TYPE_ID = 4;
+
     /**
      * {@link RepositoryManager}中存储 Retrofit Service 的容器
      */
@@ -43,28 +41,6 @@ public interface CacheType {
         }
     };
 
-    /**
-     * {@link RepositoryManager} 中储存 Cache Service 的容器
-     */
-    CacheType CACHE_SERVICE_CACHE = new CacheType() {
-        private static final int MAX_SIZE = 150;
-        private static final float MAX_SIZE_MULTIPLIER = 0.002f;
-
-        @Override
-        public int getCacheTypeId() {
-            return CACHE_SERVICE_CACHE_TYPE_ID;
-        }
-
-        @Override
-        public int calculateCacheSize(Context context) {
-            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            int targetMemoryCacheSize = (int) (activityManager.getMemoryClass() * MAX_SIZE_MULTIPLIER * 1024);
-            if (targetMemoryCacheSize >= MAX_SIZE) {
-                return MAX_SIZE;
-            }
-            return targetMemoryCacheSize;
-        }
-    };
 
     /**
      * {@link ArmsComponent} 中的 extras

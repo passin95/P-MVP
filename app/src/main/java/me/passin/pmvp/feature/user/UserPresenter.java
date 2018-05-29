@@ -3,7 +3,7 @@ package me.passin.pmvp.feature.user;
 import android.arch.lifecycle.LifecycleOwner;
 import com.passin.pmvp.base.BasePresenter;
 import com.passin.pmvp.di.scope.PageScope;
-import com.passin.pmvp.rx.rxerrorhandler.ErrorHandleSubscriber;
+import com.passin.pmvp.rx.rxerrorhandler.BaseErrorHandleSubscriber;
 import com.passin.pmvp.rx.rxerrorhandler.RetryWithDelay;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 import dagger.Lazy;
@@ -61,7 +61,7 @@ public class UserPresenter extends BasePresenter<UserView> {
             isEvictCache = false;
         }
 
-        addDispose(mModel.get().getUsers(lastUserId, isEvictCache)
+        addDispose(mModel.get().getUsers(lastUserId)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(disposable -> {
@@ -80,7 +80,7 @@ public class UserPresenter extends BasePresenter<UserView> {
                         mRootView.endRefresh();//隐藏下拉刷新的进度条
                     }
                 })
-                .subscribeWith(new ErrorHandleSubscriber<List<User>>(mErrorHandler) {
+                .subscribeWith(new BaseErrorHandleSubscriber<List<User>>(mErrorHandler) {
 
                     @Override
                     public void onError(Throwable t) {

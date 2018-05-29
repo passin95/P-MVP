@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.passin.pmvp.http.GlobalHttpHandler;
+import com.passin.pmvp.http.cache.CacheInterceptor;
 import com.passin.pmvp.http.log.RequestInterceptor;
 import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
@@ -17,7 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Named;
 import javax.inject.Singleton;
+import okhttp3.Cache;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -69,8 +72,9 @@ public abstract class HttpClientModule {
 
     @Singleton
     @Provides
-    static OkHttpClient provideClient(Application application, @Nullable OkhttpConfiguration configuration, OkHttpClient.Builder builder, Interceptor intercept
-            , @Nullable List<Interceptor> interceptors, @Nullable final GlobalHttpHandler handler) {
+    static OkHttpClient provideClient(Application application, @Nullable OkhttpConfiguration configuration, OkHttpClient.Builder builder, @Named("requestInterceptor") Interceptor intercept
+            , @Named("cacheInterceptor") Interceptor cacheIntercept,@Nullable List<Interceptor> interceptors
+            , @Nullable final GlobalHttpHandler handler,@Named("httpCache") File file,@Named("httpCacheSize") int httpCacheSize) {
         builder
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
@@ -84,6 +88,10 @@ public abstract class HttpClientModule {
                 }
             });
         }
+
+        //设置全局http缓存大小
+        builder.addNetworkInterceptor(cacheIntercept)
+                .cache(new Cache(file,httpCacheSize));
 
         //如果外部提供了interceptor的集合则遍历添加
         if (interceptors != null) {
@@ -112,13 +120,21 @@ public abstract class HttpClientModule {
 
     @Singleton
     @Provides
+    @Named("httpCache")
     static File provideCacheDirectory(File cacheDir) {
-        File cacheDirectory = new File(cacheDir, "cache");
+        File cacheDirectory = new File(cacheDir, "httpCache");
         return FileUtils.makeDirs(cacheDirectory);
     }
 
     @Binds
+    @Named("requestInterceptor")
     abstract Interceptor bindInterceptor(RequestInterceptor interceptor);
+
+
+    @Binds
+    @Named("cacheInterceptor")
+    abstract Interceptor bindCacheInterceptor(CacheInterceptor interceptor);
+
 
 
     @Singleton

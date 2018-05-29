@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -51,6 +52,7 @@ public class GlobalConfigModule {
     private RequestInterceptor.Level mPrintHttpLogLevel;
     private FormatPrinter mFormatPrinter;
     private Cache.Factory mCacheFactory;
+    private int mHttpCacheSize;
 
 
     private GlobalConfigModule(Builder builder) {
@@ -66,6 +68,7 @@ public class GlobalConfigModule {
         this.mPrintHttpLogLevel = builder.printHttpLogLevel;
         this.mFormatPrinter = builder.formatPrinter;
         this.mCacheFactory = builder.cacheFactory;
+        this.mHttpCacheSize = builder.httpCacheSize;
     }
 
     public static Builder builder() {
@@ -165,11 +168,13 @@ public class GlobalConfigModule {
         return mPrintHttpLogLevel == null ? RequestInterceptor.Level.ALL : mPrintHttpLogLevel;
     }
 
+
     @Singleton
     @Provides
     FormatPrinter provideFormatPrinter(){
         return mFormatPrinter == null ? new DefaultFormatPrinter() : mFormatPrinter;
     }
+
 
     @Singleton
     @Provides
@@ -185,6 +190,15 @@ public class GlobalConfigModule {
         } : mCacheFactory;
     }
 
+    @Singleton
+    @Provides
+    @Named("httpCacheSize")
+    int provideHttpCacheSize() {
+        //不设置缓存大小时 默认10M
+        return mHttpCacheSize==0?10 * 1024 * 1024:mHttpCacheSize;
+    }
+
+
 
     public static final class Builder {
         private HttpUrl apiUrl;
@@ -199,6 +213,7 @@ public class GlobalConfigModule {
         private RequestInterceptor.Level printHttpLogLevel;
         private FormatPrinter formatPrinter;
         private Cache.Factory cacheFactory;
+        private int httpCacheSize;
 
         private Builder() {
         }
@@ -236,7 +251,6 @@ public class GlobalConfigModule {
             return this;
         }
 
-
         public Builder cacheFile(File cacheFile) {
             this.cacheFile = cacheFile;
             return this;
@@ -272,9 +286,18 @@ public class GlobalConfigModule {
             return this;
         }
 
+
+        public Builder cacheFactory(int httpCacheSize) {
+            this.httpCacheSize = httpCacheSize;
+            return this;
+        }
+
+
         public GlobalConfigModule build() {
             return new GlobalConfigModule(this);
         }
+
+
 
 
     }

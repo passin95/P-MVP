@@ -10,11 +10,11 @@ import io.reactivex.observers.DisposableObserver;
  * Date: 2018/3/13 12:09
  * </pre>
  */
-public abstract class ErrorHandleSubscriber <T> extends DisposableObserver<T> {
+public abstract class BaseErrorHandleSubscriber<T> extends DisposableObserver<T> {
 
     private RxErrorHandler mErrorHandler;
 
-    public ErrorHandleSubscriber(RxErrorHandler rxErrorHandler){
+    public BaseErrorHandleSubscriber(RxErrorHandler rxErrorHandler){
         this.mErrorHandler = rxErrorHandler;
     }
 

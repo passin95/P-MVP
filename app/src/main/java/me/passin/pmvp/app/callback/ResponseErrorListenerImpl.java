@@ -5,7 +5,7 @@ import android.net.ParseException;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParseException;
 import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
-import com.passin.pmvp.util.ToastUtils;
+import com.passin.pmvp.util.PmvpUtils;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import org.json.JSONException;
@@ -36,8 +36,7 @@ public class ResponseErrorListenerImpl implements ResponseErrorListener {
         } else if (t instanceof JsonParseException || t instanceof ParseException || t instanceof JSONException || t instanceof JsonIOException) {
             msg = "数据解析错误";
         }
-        ToastUtils.showLong(msg);
-//        ArmsUtils.snackbarText(msg);
+        PmvpUtils.snackbarText(msg);
     }
 
     private String convertStatusCode(HttpException httpException) {
