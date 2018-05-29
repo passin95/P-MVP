@@ -16,7 +16,6 @@ import butterknife.Unbinder;
 import com.passin.pmvp.base.delegate.IFragment;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import javax.inject.Inject;
 import me.yokeyword.fragmentation.ExtraTransaction;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragmentDelegate;
@@ -33,15 +32,12 @@ import timber.log.Timber;
  * </pre>
  */
 
-public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements IFragment,
+public abstract class BaseFragment extends Fragment implements IFragment,
         ISupportFragment {
 
     final SupportFragmentDelegate mDelegate = new SupportFragmentDelegate(this);
     protected CompositeDisposable mCompositeDisposable;
     protected FragmentActivity _mActivity;
-    @Inject
-    @Nullable
-    protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
     private Unbinder mUnbinder;
 
     /**
@@ -63,7 +59,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
     }
 
     /**
