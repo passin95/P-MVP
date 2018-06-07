@@ -37,7 +37,6 @@
             android:name="me.passin.pmvp.app.GlobalConfiguration"
             android:value="ModuleConfig"/>
 
-
     </application>
 
 </manifest>
