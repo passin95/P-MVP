@@ -315,6 +315,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
             try {
                 mUnbinder.unbind();
+                this.mUnbinder = null;
             } catch (IllegalStateException e) {
                 e.printStackTrace();
                 //fix Bindings already cleared
@@ -328,7 +329,6 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     public void onDestroy() {
         mDelegate.onDestroy();
         super.onDestroy();
-        this.mUnbinder = null;
     }
 
     /**

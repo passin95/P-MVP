@@ -73,13 +73,13 @@ public abstract class BaseActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         mDelegate.onDestroy();
-        super.onDestroy();
         if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();
         }
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY) {
             mUnbinder.unbind();
         }
+        super.onDestroy();
     }
 
     @Override
@@ -111,7 +111,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
      */
     @Override
     public boolean useFragment() {
-        return true;
+        return false;
     }
 
     /**
