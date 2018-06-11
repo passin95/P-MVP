@@ -78,7 +78,7 @@ public class AppDelegateImpl implements AppDelegate,IArms{
                 .build();
         mArmsComponent.inject(this);
 
-        mArmsComponent.lruExtras().put(ModuleConfig.class.getName(), mModules);
+        mArmsComponent.extras().put(ModuleConfig.class.getName(), mModules);
         this.mModules = null;
 
         for (AppDelegate lifecycle : mAppLifecycles) {

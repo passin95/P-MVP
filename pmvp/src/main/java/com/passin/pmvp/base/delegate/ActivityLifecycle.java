@@ -5,20 +5,15 @@ import android.app.Application;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-
 import com.passin.pmvp.base.BaseFragment;
 import com.passin.pmvp.integration.AppManager;
 import com.passin.pmvp.integration.ModuleConfig;
-import com.passin.pmvp.integration.cache.Cache;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import dagger.Lazy;
 import dagger.android.AndroidInjection;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * <pre>
@@ -34,7 +29,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     @Inject
     Application mApplication;
     @Inject
-    Cache<String, Object> mExtras;
+    Map<String, Object> mExtras;
     @Inject
     Lazy<FragmentManager.FragmentLifecycleCallbacks> mFragmentLifecycle;
     @Inject
