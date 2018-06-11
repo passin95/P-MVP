@@ -30,11 +30,11 @@ public class UserModel extends BaseModel{
 
 
 
-    public Observable<List<User>> getUsers(int lastIdQueried) {
+    public Observable<List<User>> getUsers(int lastIdQueried,boolean isEvictCache) {
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
         return mRepositoryManager
                 .obtainRetrofitService(UserService.class)
-                .getUsers(lastIdQueried, USERS_PER_PAGE);
+                .getUsers(isEvictCache?"no-cache":"public ,max-age=100",lastIdQueried, USERS_PER_PAGE);
     }
 
     public void test() {

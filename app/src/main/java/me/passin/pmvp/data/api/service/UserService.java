@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import java.util.List;
 import me.passin.pmvp.data.bean.User;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
@@ -18,9 +19,10 @@ import retrofit2.http.Query;
 public interface UserService {
     String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
 
-    @Headers({HEADER_API_VERSION
-            ,"Cache-Control:public ,max-age=60"})
+    @Headers({HEADER_API_VERSION})
+//            ,"Cache-Control:no-cache"})
+//            ,"Cache-Control:public ,max-age=60"})
     @GET("/users")
-    Observable<List<User>> getUsers(@Query("since") int lastIdQueried,
+    Observable<List<User>> getUsers(@Header("Cache-Control") String cacheHeaders,@Query("since") int lastIdQueried,
             @Query("per_page") int perPage);
 }
