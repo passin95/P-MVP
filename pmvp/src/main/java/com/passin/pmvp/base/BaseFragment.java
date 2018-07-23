@@ -66,6 +66,9 @@ public abstract class BaseFragment extends Fragment implements IFragment,
      * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏
      */
     public void addDispose(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
         mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
     }
 
