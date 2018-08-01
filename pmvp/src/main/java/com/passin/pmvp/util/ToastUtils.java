@@ -141,11 +141,11 @@ public class ToastUtils {
     }
 
     private static void show(@StringRes int resId, int duration) {
-        show((CharSequence) BaseApplication.getApp().getResources().getText(resId).toString(), duration);
+        show((CharSequence) PmvpUtils.getApp().getResources().getText(resId).toString(), duration);
     }
 
     private static void show(@StringRes int resId, int duration, Object... args) {
-        show((CharSequence)String.format(BaseApplication.getApp().getResources().getString(resId), args), duration);
+        show((CharSequence)String.format(PmvpUtils.getApp().getResources().getString(resId), args), duration);
     }
 
     private static void show(String format, int duration, Object... args) {
@@ -157,7 +157,7 @@ public class ToastUtils {
             @Override
             public void run() {
                 ToastUtils.cancel();
-                ToastUtils.sToast = Toast.makeText(BaseApplication.getApp(), text, duration);
+                ToastUtils.sToast = Toast.makeText(PmvpUtils.getApp(), text, duration);
                 TextView tvMessage = (TextView)ToastUtils.sToast.getView().findViewById(16908299);
                 int msgColor = tvMessage.getCurrentTextColor();
                 TextViewCompat.setTextAppearance(tvMessage, 16973886);
@@ -183,7 +183,7 @@ public class ToastUtils {
             @Override
             public void run() {
                 ToastUtils.cancel();
-                ToastUtils.sToast = new Toast(BaseApplication.getApp());
+                ToastUtils.sToast = new Toast(PmvpUtils.getApp());
                 ToastUtils.sToast.setView(view);
                 ToastUtils.sToast.setDuration(duration);
                 if(ToastUtils.sGravity != -1 || ToastUtils.sXOffset != -1 || ToastUtils.sYOffset != -1) {
@@ -234,7 +234,7 @@ public class ToastUtils {
     }
 
     private static View getView(@LayoutRes int layoutId) {
-        LayoutInflater inflate = (LayoutInflater)BaseApplication.getApp().getSystemService("layout_inflater");
+        LayoutInflater inflate = (LayoutInflater)PmvpUtils.getApp().getSystemService("layout_inflater");
         return inflate != null?inflate.inflate(layoutId, (ViewGroup)null):null;
     }
 }

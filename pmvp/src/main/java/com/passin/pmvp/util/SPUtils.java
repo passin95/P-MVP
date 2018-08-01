@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v4.util.SimpleArrayMap;
-
-import com.passin.pmvp.base.BaseApplication;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -51,7 +48,7 @@ public class SPUtils {
     }
 
     private SPUtils(final String spName) {
-        sp = BaseApplication.getApp().getSharedPreferences(spName, Context.MODE_PRIVATE);
+        sp = PmvpUtils.getApp().getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
     /**

@@ -30,7 +30,6 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class BaseApplication extends MultiDexApplication implements IArms, HasActivityInjector, HasSupportFragmentInjector {
 
-    private static BaseApplication mApplication;
 
     @Inject
     DispatchingAndroidInjector<Activity> activityInjector;
@@ -56,7 +55,6 @@ public class BaseApplication extends MultiDexApplication implements IArms, HasAc
     @Override
     public void onCreate() {
         super.onCreate();
-        mApplication = this;
         this.mAppDelegate.onCreate(this);
     }
 
@@ -91,10 +89,6 @@ public class BaseApplication extends MultiDexApplication implements IArms, HasAc
         return activityInjector;
     }
 
-
-    public static BaseApplication getApp() {
-        return mApplication;
-    }
 
 
     @Override

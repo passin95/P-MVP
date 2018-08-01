@@ -3,9 +3,11 @@ package com.passin.pmvp.util;
 import static com.passin.pmvp.integration.AppManager.APP_EXIT;
 import static com.passin.pmvp.integration.AppManager.SHOW_SNACKBAR;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,6 +25,24 @@ import com.passin.pmvp.integration.AppManagerEvent;
  */
 
 public class PmvpUtils {
+
+    private static Application sApplication;
+
+    private PmvpUtils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
+    public static void init(@NonNull Context context) {
+        PmvpUtils.sApplication = (Application) context.getApplicationContext();
+    }
+
+    public static Application getApp() {
+        if (sApplication != null) {
+            return sApplication;
+        } else {
+            throw new NullPointerException("u should init first");
+        }
+    }
 
 
     public static ArmsComponent obtainArmsComponentFromContext(Context context) {

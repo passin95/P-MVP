@@ -22,7 +22,7 @@ public class NetworkUtils {
 
     @RequiresPermission("android.permission.ACCESS_NETWORK_STATE")
     private static NetworkInfo getActiveNetworkInfo() {
-        ConnectivityManager manager = (ConnectivityManager) BaseApplication.getApp().getSystemService("connectivity");
+        ConnectivityManager manager = (ConnectivityManager) PmvpUtils.getApp().getSystemService("connectivity");
         return manager == null?null:manager.getActiveNetworkInfo();
     }
 

@@ -16,7 +16,7 @@ import com.passin.pmvp.di.component.DaggerArmsComponent;
 import com.passin.pmvp.di.module.GlobalConfigModule;
 import com.passin.pmvp.integration.ManifestParser;
 import com.passin.pmvp.integration.ModuleConfig;
-
+import com.passin.pmvp.util.PmvpUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -70,6 +70,7 @@ public class AppDelegateImpl implements AppDelegate,IArms{
     @Override
     public void onCreate(Application application) {
         this.mApplication = application;
+        PmvpUtils.init(application);
 
         mArmsComponent = DaggerArmsComponent
                 .builder()
