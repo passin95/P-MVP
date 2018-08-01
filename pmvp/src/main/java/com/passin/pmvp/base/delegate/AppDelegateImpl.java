@@ -7,9 +7,7 @@ import android.content.ComponentCallbacks2;
 import android.content.ContentProvider;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.di.component.DaggerArmsComponent;
@@ -58,9 +56,6 @@ public class AppDelegateImpl implements AppDelegate,IArms{
 
     @Override
     public void attachBaseContext(Context base) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            MultiDex.install(base);  //这里比 onCreate 先执行,常用于 MultiDex 初始化,插件化框架的初始化
-        }
         //遍历 mAppLifecycles, 执行所有已注册的 AppLifecycles 的 attachBaseContext() 方法 (框架外部, 开发者扩展的逻辑)
         for (AppDelegate lifecycle : mAppLifecycles) {
             lifecycle.attachBaseContext(base);

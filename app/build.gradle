@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
-    useLibrary 'org.apache.http.legacy'
+//    useLibrary 'org.apache.http.legacy'
 
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
@@ -25,6 +25,8 @@ android {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "true"
             minifyEnabled false
+            //手动分包
+            multiDexKeepProguard file('multidex-config.pro')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -34,6 +36,8 @@ android {
             minifyEnabled true
             shrinkResources false
             zipAlignEnabled true
+            //手动分包
+            multiDexKeepProguard file('multidex-config.pro')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

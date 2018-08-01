@@ -2,6 +2,8 @@ package me.passin.pmvp.app.callback;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.support.multidex.MultiDex;
 import butterknife.ButterKnife;
 import com.passin.pmvp.base.delegate.AppDelegate;
 import com.passin.pmvp.util.PmvpUtils;
@@ -22,9 +24,9 @@ import timber.log.Timber;
 public class AppLifecyclesImpl implements AppDelegate{
     @Override
     public void attachBaseContext(Context base) {
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            MultiDex.install(base);  //这里比 onCreate 先执行,常用于 MultiDex 初始化,插件化框架的初始化
-//        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            MultiDex.install(base);  //这里比 onCreate 先执行,常用于 MultiDex 初始化,插件化框架的初始化
+        }
     }
 
     @Override

@@ -1,24 +1,21 @@
 package com.passin.pmvp.base;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.multidex.MultiDexApplication;
 import android.support.v4.app.Fragment;
-
 import com.passin.pmvp.base.delegate.AppDelegate;
 import com.passin.pmvp.base.delegate.AppDelegateImpl;
 import com.passin.pmvp.base.delegate.IArms;
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.util.PmvpUtils;
 import com.passin.pmvp.util.Preconditions;
-
-import javax.inject.Inject;
-
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import javax.inject.Inject;
 
 /**
  * <pre>
@@ -28,7 +25,7 @@ import dagger.android.support.HasSupportFragmentInjector;
  * </pre>
  */
 
-public class BaseApplication extends MultiDexApplication implements IArms, HasActivityInjector, HasSupportFragmentInjector {
+public class BaseApplication extends Application implements IArms, HasActivityInjector, HasSupportFragmentInjector {
 
 
     @Inject
