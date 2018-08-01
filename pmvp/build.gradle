@@ -34,11 +34,18 @@ android {
 dependencies {
 
     api(rootProject.ext.dependencies["support-v4"]) {
-        exclude module: 'support-annotations'
+        exclude module: 'support-fragment'
+        exclude module: 'support-compat'
+        exclude module: 'support-core-utils'
+        exclude module: 'support-core-ui'
+    }
+    api(rootProject.ext.dependencies["support-fragment"]){
+        exclude module: 'support-core-utils'
     }
     api(rootProject.ext.dependencies["appcompat-v7"]) {
         exclude module: 'support-annotations'
-        exclude module: 'support-v4'
+        exclude module: 'support-core-utils'
+        exclude module: 'support-fragment'
     }
     api(rootProject.ext.dependencies["design"]) {
         exclude module: 'support-annotations'
@@ -47,8 +54,10 @@ dependencies {
     }
     api rootProject.ext.dependencies["annotations"]
 
+
     api(rootProject.ext.dependencies["butterknife"]) {
         exclude module: 'support-annotations'
+        exclude module: 'support-compat'
     }
 
     //rx系列
@@ -79,6 +88,11 @@ dependencies {
     //图片加载
     api(rootProject.ext.dependencies["glide"]) {
         exclude module: 'support-v4'
+        exclude module: 'support-fragment'
+        exclude module: 'gifdecoder'
+    }
+    api(rootProject.ext.dependencies["glide-gifdecoder"]) {
+        exclude module: 'support-annotations'
     }
     annotationProcessor(rootProject.ext.dependencies["glide-compiler"]) {
         exclude module: 'jsr305'
@@ -94,12 +108,20 @@ dependencies {
 
     //dagger
     api rootProject.ext.dependencies["dagger2"]
+    api (rootProject.ext.dependencies["dagger2-android"]){
+        exclude module: 'support-annotations'
+        exclude module: 'dagger'
+    }
+    api (rootProject.ext.dependencies["dagger2-android-support"]){
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-annotations'
+        exclude module: 'support-fragment'
+        exclude module: 'dagger'
+        exclude module: 'dagger-android'
+    }
     annotationProcessor  rootProject.ext.dependencies["dagger2-compiler"]
-    api rootProject.ext.dependencies["dagger2-android"]
-    api rootProject.ext.dependencies["dagger2-android-support"]
     annotationProcessor rootProject.ext.dependencies["dagger2-android-processor"]
 
-    //fragment
     api rootProject.ext.dependencies["fragmentation"]
 
 
