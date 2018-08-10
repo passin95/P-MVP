@@ -4,7 +4,6 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
 import com.passin.pmvp.http.BaseUrl;
 import com.passin.pmvp.http.GlobalHttpHandler;
 import com.passin.pmvp.http.log.DefaultFormatPrinter;
@@ -16,16 +15,12 @@ import com.passin.pmvp.integration.cache.LruCache;
 import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
 import com.passin.pmvp.util.FileUtils;
 import com.passin.pmvp.util.Preconditions;
-
+import dagger.Module;
+import dagger.Provides;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Named;
 import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 
@@ -52,7 +47,6 @@ public class GlobalConfigModule {
     private RequestInterceptor.Level mPrintHttpLogLevel;
     private FormatPrinter mFormatPrinter;
     private Cache.Factory mCacheFactory;
-    private int mHttpCacheSize;
 
 
     private GlobalConfigModule(Builder builder) {
@@ -68,7 +62,6 @@ public class GlobalConfigModule {
         this.mPrintHttpLogLevel = builder.printHttpLogLevel;
         this.mFormatPrinter = builder.formatPrinter;
         this.mCacheFactory = builder.cacheFactory;
-        this.mHttpCacheSize = builder.httpCacheSize;
     }
 
     public static Builder builder() {
@@ -190,14 +183,6 @@ public class GlobalConfigModule {
         } : mCacheFactory;
     }
 
-    @Singleton
-    @Provides
-    @Named("httpCacheSize")
-    int provideHttpCacheSize() {
-        //不设置缓存大小时 默认10M
-        return mHttpCacheSize==0?10 * 1024 * 1024:mHttpCacheSize;
-    }
-
 
 
     public static final class Builder {
@@ -213,7 +198,6 @@ public class GlobalConfigModule {
         private RequestInterceptor.Level printHttpLogLevel;
         private FormatPrinter formatPrinter;
         private Cache.Factory cacheFactory;
-        private int httpCacheSize;
 
         private Builder() {
         }
@@ -286,11 +270,6 @@ public class GlobalConfigModule {
             return this;
         }
 
-
-        public Builder cacheFactory(int httpCacheSize) {
-            this.httpCacheSize = httpCacheSize;
-            return this;
-        }
 
 
         public GlobalConfigModule build() {
