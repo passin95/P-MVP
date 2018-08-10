@@ -9,6 +9,7 @@ import com.passin.pmvp.base.delegate.AppDelegate;
 import com.passin.pmvp.di.module.GlobalConfigModule;
 import com.passin.pmvp.http.log.RequestInterceptor;
 import com.passin.pmvp.integration.ModuleConfig;
+import com.passin.pmvp.util.FileUtils;
 import com.passin.pmvp.util.PmvpUtils;
 import com.squareup.leakcanary.RefWatcher;
 import java.util.List;
@@ -19,6 +20,7 @@ import me.passin.pmvp.app.callback.AppLifecyclesImpl;
 import me.passin.pmvp.app.callback.GlobalHttpHandlerImpl;
 import me.passin.pmvp.app.callback.ResponseErrorListenerImpl;
 import me.passin.pmvp.data.api.Api;
+import okhttp3.Cache;
 
 
 /**
@@ -106,6 +108,7 @@ public class GlobalConfiguration implements ModuleConfig{
                 .okhttpConfiguration((context1, okhttpBuilder) -> {//这里可以自己自定义配置Okhttp的参数
 //                    okhttpBuilder.sslSocketFactory(); //支持 Https,详情请百度
                     okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
+                    okhttpBuilder.cache(new Cache(FileUtils.getCacheFile(context), 1024*1024 * 30));
                 });
     }
 
