@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import com.passin.pmvp.util.ScreenUtils;
 import me.passin.pmvp.R;
 import timber.log.Timber;
 
@@ -21,6 +22,7 @@ public class ActivityLifecycleCallbacksImpl implements Application.ActivityLifec
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        ScreenUtils.adaptScreen4VerticalSlide(activity,360);
         Timber.w(activity + " - onActivityCreated");
     }
 
