@@ -187,8 +187,6 @@ public class ZipUtils {
             e.printStackTrace();
         } finally {
             CloseUtils.closeIO(gos, os);
-//            closeQuietly(gos);
-//            closeQuietly(os);
         }
         return null;
     }

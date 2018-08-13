@@ -47,38 +47,40 @@ public class PmvpUtils {
 
     public static ArmsComponent obtainArmsComponentFromContext(Context context) {
         Preconditions.checkNotNull(context, "%s cannot be null", Context.class.getName());
-        Preconditions.checkState(context.getApplicationContext() instanceof IArms, "Application does not implements App");
+        Preconditions.checkState(context.getApplicationContext() instanceof IArms,
+                "Application does not implements App");
         return ((IArms) context.getApplicationContext()).getArmsComponent();
     }
+
 
     /**
      * 获得资源
      */
-    public static Resources getResources(Context context) {
-        return context.getResources();
+    public static Resources getResources() {
+        return PmvpUtils.getApp().getResources();
     }
+
 
     /**
      * dip转pix
      */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = getResources(context).getDisplayMetrics().density;
+    public static int dip2px(float dpValue) {
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
     /**
      * 得到字符数组
      */
-    public static String[] getStringArray(Context context, int id) {
-        return getResources(context).getStringArray(id);
+    public static String[] getStringArray(int id) {
+        return getResources().getStringArray(id);
     }
-
 
     /**
      * pix转dip
      */
-    public static int pix2dip(Context context, int pix) {
-        final float densityDpi = getResources(context).getDisplayMetrics().density;
+    public static int px2dip(int pix) {
+        final float densityDpi = getResources().getDisplayMetrics().density;
         return (int) (pix / densityDpi + 0.5f);
     }
 
@@ -86,64 +88,40 @@ public class PmvpUtils {
     /**
      * 从 dimens 中获得尺寸
      */
-    public static int getDimens(Context context, int id) {
-        return (int) getResources(context).getDimension(id);
-    }
-
-
-    /**
-     * 从 dimens 中获得尺寸
-     */
-    public static float getDimens(Context context, String dimenName) {
-        return getResources(context).getDimension(
-                getResources(context).getIdentifier(dimenName, "dimen", context.getPackageName()));
+    public static int getDimens(int id) {
+        return (int) getResources().getDimension(id);
     }
 
 
     /**
      * 从String 中获得字符
      */
-    public static String getString(Context context, String strName) {
-        return getString(context,
-                getResources(context).getIdentifier(strName, "string", context.getPackageName()));
-    }
-
-    /**
-     * 从String 中获得字符
-     */
-    public static String getString(Context context, int stringID) {
-        return getResources(context).getString(stringID);
+    public static String getString(int stringID) {
+        return getResources().getString(stringID);
     }
 
 
     /**
      * 获得颜色
      */
-    public static int getColor(Context context, String colorName) {
-        return getColor(context,
-                getResources(context).getIdentifier(colorName, "color", context.getPackageName()));
-    }
-
-    /**
-     * 获得颜色
-     */
-    public static int getColor(Context context, int rid) {
-        return getResources(context).getColor(rid);
+    public static int getColor(int rid) {
+        return getResources().getColor(rid);
     }
 
 
     /**
      * 获得屏幕的宽度
      */
-    public static int getScreenWidth(Context context) {
-        return getResources(context).getDisplayMetrics().widthPixels;
+    public static int getScreenWidth() {
+        return getResources().getDisplayMetrics().widthPixels;
     }
+
 
     /**
      * 获得屏幕的高度
      */
     public static int getScreenHeight(Context context) {
-        return getResources(context).getDisplayMetrics().heightPixels;
+        return getResources().getDisplayMetrics().heightPixels;
     }
 
 
@@ -164,7 +142,7 @@ public class PmvpUtils {
     }
 
     /**
-     *  snackbarText
+     * snackbarText
      */
     public static void snackbarText(String text) {
         AppManagerEvent message = new AppManagerEvent();
@@ -174,9 +152,9 @@ public class PmvpUtils {
     }
 
     /**
-     *  snackbarText
+     * snackbarText
      */
-    public static void snackbarText(Context context,String text) {
+    public static void snackbarText(Context context, String text) {
         AppManagerEvent message = new AppManagerEvent();
         message.context = context;
         message.what = SHOW_SNACKBAR;
@@ -192,6 +170,7 @@ public class PmvpUtils {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
+
 
     public static Bitmap convertViewToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
