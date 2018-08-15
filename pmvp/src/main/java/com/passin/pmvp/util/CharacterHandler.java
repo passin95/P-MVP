@@ -24,7 +24,7 @@ import javax.xml.transform.stream.StreamSource;
  * Date: 2018/3/19 14:33
  * </pre>
  */
-public class CharSequenceUtils {
+public class CharacterHandler {
     /**
      * json 格式化
      *

@@ -2,7 +2,7 @@ package com.passin.pmvp.http.log;
 
 import android.support.annotation.Nullable;
 import com.passin.pmvp.http.GlobalHttpHandler;
-import com.passin.pmvp.util.CharSequenceUtils;
+import com.passin.pmvp.util.CharacterHandler;
 import com.passin.pmvp.util.ZipUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -189,7 +189,8 @@ public class RequestInterceptor implements Interceptor {
             if (contentType != null) {
                 charset = contentType.charset(charset);
             }
-            return CharSequenceUtils.jsonFormat(URLDecoder.decode(requestbuffer.readString(charset), convertCharset(charset)));
+            return CharacterHandler
+                    .jsonFormat(URLDecoder.decode(requestbuffer.readString(charset), convertCharset(charset)));
         } catch (IOException e) {
             e.printStackTrace();
             return "{\"error\": \"" + e.getMessage() + "\"}";
