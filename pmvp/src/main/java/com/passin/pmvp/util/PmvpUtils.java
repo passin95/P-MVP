@@ -44,7 +44,6 @@ public class PmvpUtils {
         }
     }
 
-
     public static ArmsComponent obtainArmsComponentFromContext(Context context) {
         Preconditions.checkNotNull(context, "%s cannot be null", Context.class.getName());
         Preconditions.checkState(context.getApplicationContext() instanceof IArms,
@@ -52,14 +51,12 @@ public class PmvpUtils {
         return ((IArms) context.getApplicationContext()).getArmsComponent();
     }
 
-
     /**
      * 获得资源
      */
     public static Resources getResources() {
         return PmvpUtils.getApp().getResources();
     }
-
 
     /**
      * dip转pix
@@ -84,14 +81,12 @@ public class PmvpUtils {
         return (int) (pix / densityDpi + 0.5f);
     }
 
-
     /**
      * 从 dimens 中获得尺寸
      */
     public static int getDimens(int id) {
         return (int) getResources().getDimension(id);
     }
-
 
     /**
      * 从String 中获得字符
@@ -100,30 +95,12 @@ public class PmvpUtils {
         return getResources().getString(stringID);
     }
 
-
     /**
      * 获得颜色
      */
     public static int getColor(int rid) {
         return getResources().getColor(rid);
     }
-
-
-    /**
-     * 获得屏幕的宽度
-     */
-    public static int getScreenWidth() {
-        return getResources().getDisplayMetrics().widthPixels;
-    }
-
-
-    /**
-     * 获得屏幕的高度
-     */
-    public static int getScreenHeight(Context context) {
-        return getResources().getDisplayMetrics().heightPixels;
-    }
-
 
     /**
      * 填充view
@@ -162,7 +139,6 @@ public class PmvpUtils {
         AppManager.post(message);
     }
 
-
     public static void configRecyclerView(final RecyclerView recyclerView
             , RecyclerView.LayoutManager layoutManager) {
         recyclerView.setLayoutManager(layoutManager);
@@ -170,7 +146,6 @@ public class PmvpUtils {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
-
 
     public static Bitmap convertViewToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
