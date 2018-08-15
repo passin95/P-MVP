@@ -44,8 +44,8 @@
 -keep public class * implements com.passin.pmvp.integration.ModuleConfig
 
  #实体类不参与混淆
- -keep class me.passin.pmvp.example.mvp.model.entity.** { *; }
-#-keep class com.jess.arms.widget.** { *; } #自定义控件不参与混淆
+ -keep class me.passin.pmvp.data.mvp.bean..** { *; }
+#-keep class me.passin.pmvp.widget.** { *; } #自定义控件不参与混淆
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
@@ -73,14 +73,6 @@
 -dontwarn android.support.**
 
 
-################alipay###############
-
-#-keep class com.alipay.android.app.IAlixPay{*;}
-#-keep class com.alipay.android.app.IAlixPay$Stub{*;}
-#-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
-#-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
-#-keep class com.alipay.sdk.app.PayTask{ public *;}
-#-keep class com.alipay.sdk.app.AuthTask{ public *;}
 
 ################retrofit###############
 -dontwarn retrofit2.**
@@ -232,10 +224,13 @@
 # Marshmallow removed Notification.setLatestEventInfo()
 -dontwarn android.app.Notification
 
+################EventBus#################
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
-################BRVAH#################
--keep class com.chad.library.adapter.** { *; }
--keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
--keep public class * extends com.chad.library.adapter.base.BaseViewHolder
--keepclassmembers class **$** extends com.chad.library.adapter.base.BaseViewHolder { <init>(...); }
+-dontwarn com.yanzhenjie.permission.**
+
 
