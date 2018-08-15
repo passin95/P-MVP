@@ -1,13 +1,14 @@
-<h1 >P-MVP：基于 dagger.android 的 mvp 框架 </h1>
+<h1 >P-MVP：基于 dagger.android 的 MVP 框架 </h1>
 
 <p>
-   <a href="https://bintray.com/passin95/maven/P-MVP/0.0.1">
-    <img src="https://img.shields.io/badge/Jcenter-v0.01-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
+   <a href="https://bintray.com/passin95/maven/P-MVP/0.0.2">
+    <img src="https://img.shields.io/badge/Jcenter-v0.0.2-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
   </a>
 </p>
 
 
 ## Difference
+
 - 将所有的 activity、fragment、dialog 都看成一个个 page，以 page 为单位使用定义 P 和 M 层的@Scope（生命周期），相对来说很自由的复用 P 层和 M 层。
 - 不需要重复在每一个 V 层重复编写 Module 注入的代码。
 - 由于 Retrofit 已经做了一层接口封装，并且 M 层大部分都是网络请求，因此去掉了 M 层和 P 层的接口，可针对数据库单独写一个 M 层。
@@ -21,14 +22,12 @@
 - 在对比了实用性以及目前的维护情况等多方面因素后，最终选择了严振杰老哥的 AndPermission，碰到有关权限问题也推荐大家直接向严振杰老哥提 PR，为国产手机权限问题做贡献。
 - 给大家安利两种不错的屏幕适配方法，[**第一种方式**](https://blog.csdn.net/fesdgasdgasdg/article/details/78108169) 相对完美，但 apk 大小会增加几百 k；[**第二种方式**](https://www.jianshu.com/p/d09a8961d6ec) 为今日头条适配方式的衍生版，已在 ScreenUtils 中提供，大家可根据实际情况选择使用。
 - 为了方便开发，根目录也提供了本人在组件化项目中使用的页面 tempelate，需要的可以参考一下根据自身需求修改。
-## 
 
 ## Usage
 
 ```
-implementation 'me.passin:pmvp:0.0.1'
+implementation 'me.passin:pmvp:0.0.2'
 ```
-
 
 ## Thanks
 
