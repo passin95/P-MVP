@@ -1,11 +1,8 @@
 package com.passin.pmvp.http.log;
 
 import android.text.TextUtils;
-
 import com.passin.pmvp.util.CharacterHandler;
-
 import java.util.List;
-
 import okhttp3.MediaType;
 import okhttp3.Request;
 import timber.log.Timber;
@@ -18,7 +15,7 @@ import timber.log.Timber;
  * </pre>
  */
 public class DefaultFormatPrinter implements FormatPrinter {
-    private static final String TAG = "ArmsHttpLog";
+    private static final String TAG = "HttpLog";
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final String DOUBLE_SEPARATOR = LINE_SEPARATOR + LINE_SEPARATOR;
 
@@ -41,6 +38,12 @@ public class DefaultFormatPrinter implements FormatPrinter {
     private static final String CENTER_LINE = "├ ";
     private static final String DEFAULT_LINE = "│ ";
 
+    String dataJsonKey;
+
+    public DefaultFormatPrinter(String dataJsonKey) {
+        this.dataJsonKey = dataJsonKey;
+    }
+
 
     private static boolean isEmpty(String line) {
         return TextUtils.isEmpty(line) || N.equals(line) || T.equals(line) || TextUtils.isEmpty(line.trim());
@@ -62,6 +65,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
         logLines(tag, getRequest(request), true);
         logLines(tag, requestBody.split(LINE_SEPARATOR), true);
         Timber.tag(tag).i(END_LINE);
+        Timber.tag(tag).i("body(用于copy)："+bodyString);
     }
 
     /**
@@ -96,10 +100,16 @@ public class DefaultFormatPrinter implements FormatPrinter {
     @Override
     public void printJsonResponse(long chainMs, boolean isSuccessful, int code, String headers, MediaType contentType,
             String bodyString, List<String> segments, String message, final String responseUrl) {
-        bodyString = RequestInterceptor.isJson(contentType) ? CharacterHandler.jsonFormat(bodyString)
-                : RequestInterceptor.isXml(contentType) ? CharacterHandler.xmlFormat(bodyString) : bodyString;
+        String formatbody;
+        if (RequestInterceptor.isJson(contentType)||RequestInterceptor.isText(contentType)) {
+            formatbody = CharacterHandler.jsonFormat(bodyString,dataJsonKey);
+        } else if (RequestInterceptor.isXml(contentType)) {
+            formatbody = CharacterHandler.xmlFormat(bodyString);
+        } else {
+            formatbody = bodyString;
+        }
 
-        final String responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + bodyString;
+        final String responseBody = LINE_SEPARATOR + BODY_TAG + LINE_SEPARATOR + formatbody;
         final String tag = getTag(false);
         final String[] urlLine = {URL_TAG + responseUrl, N};
 
@@ -108,6 +118,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
         logLines(tag, getResponse(headers, chainMs, code, isSuccessful, segments, message), true);
         logLines(tag, responseBody.split(LINE_SEPARATOR), true);
         Timber.tag(tag).i(END_LINE);
+        Timber.tag(tag).i("body(用于copy)："+bodyString);
     }
 
     /**
@@ -145,7 +156,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
     private static void logLines(String tag, String[] lines, boolean withLineSize) {
         for (String line : lines) {
             int lineLength = line.length();
-            int MAX_LONG_SIZE = withLineSize ? 110 : lineLength;
+            int MAX_LONG_SIZE = withLineSize ? 120 : lineLength;
             for (int i = 0; i <= lineLength / MAX_LONG_SIZE; i++) {
                 int start = i * MAX_LONG_SIZE;
                 int end = (i + 1) * MAX_LONG_SIZE;

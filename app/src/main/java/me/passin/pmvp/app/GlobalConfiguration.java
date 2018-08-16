@@ -39,6 +39,17 @@ public class GlobalConfiguration implements ModuleConfig{
         }
 
         builder.baseurl(Api.APP_DOMAIN)
+                /**
+                 * 专门用于以下格式的数据，并且data的数据是Array形式，目的是为了减少log打印。
+                 * dataJsonKey 为服务器提供的 json key 值，例如 data。
+                 * 使用该功能则只打印一个data中一个数据实体。
+                 * public class BaseJson <T>{
+                 *     private String code;
+                 *     private T data;
+                 * }
+                 * @return
+                 */
+//                .dataJsonKey("data")
                 //以下方式是 Arms 框架自带的切换 BaseUrl 的方式, 在整个 App 生命周期内只能切换一次, 若需要无限次的切换 BaseUrl, 以及各种复杂的应用场景还是需要使用 RetrofitUrlManager 框架
                 //以下代码只是配置, 还要使用 Okhttp (AppComponent中提供) 请求服务器获取到正确的 BaseUrl 后赋值给 GlobalConfiguration.sDomain
                 //切记整个过程必须在第一次调用 Retrofit 接口之前完成, 如果已经调用过 Retrofit 接口, 此种方式将不能切换 BaseUrl

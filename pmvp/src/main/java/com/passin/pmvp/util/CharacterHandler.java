@@ -40,6 +40,10 @@ public class CharacterHandler {
             json = json.trim();
             if (json.startsWith("{")) {
                 JSONObject jsonObject = new JSONObject(json);
+                if (isArray(jsonObject)) {
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    return data.getJSONObject(0).toString(4);
+                }
                 message = jsonObject.toString(4);
             } else if (json.startsWith("[")) {
                 JSONArray jsonArray = new JSONArray(json);
@@ -52,6 +56,44 @@ public class CharacterHandler {
         }
         return message;
     }
+
+    public static String jsonFormat(String json,String dataJsonKey) {
+        if (TextUtils.isEmpty(json)) {
+            return "Empty/Null json content";
+        }
+        String message;
+        try {
+            json = json.trim();
+            if (json.startsWith("{")) {
+                JSONObject jsonObject = new JSONObject(json);
+                if (dataJsonKey!=null&&isArray(jsonObject)) {
+                    JSONArray data = jsonObject.getJSONArray(dataJsonKey);
+                    return data.getJSONObject(0).toString(4);
+                }
+                message = jsonObject.toString(4);
+            } else if (json.startsWith("[")) {
+                JSONArray jsonArray = new JSONArray(json);
+                message = jsonArray.toString(4);
+            } else {
+                message = json;
+            }
+        } catch (JSONException e) {
+            message = json;
+        }
+        return message;
+    }
+
+
+    public static boolean isArray(JSONObject jsonObject) {
+        try {
+            jsonObject.getJSONArray("data");
+        } catch (JSONException e) {
+            return false;
+        }
+        return true;
+    }
+
+
 
 
     /**

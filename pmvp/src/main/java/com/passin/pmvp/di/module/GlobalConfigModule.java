@@ -37,6 +37,7 @@ public class GlobalConfigModule {
 
     private HttpUrl mApiUrl;
     private BaseUrl mBaseUrl;
+    private String dataJsonKey;
     private GlobalHttpHandler mHandler;
     private List<Interceptor> mInterceptors;
     private ResponseErrorListener mErrorListener;
@@ -52,6 +53,7 @@ public class GlobalConfigModule {
     private GlobalConfigModule(Builder builder) {
         this.mApiUrl = builder.apiUrl;
         this.mBaseUrl = builder.baseUrl;
+        this.dataJsonKey = builder.dataJsonKey;
         this.mHandler = builder.handler;
         this.mInterceptors = builder.interceptors;
         this.mErrorListener = builder.responseErrorListener;
@@ -93,7 +95,6 @@ public class GlobalConfigModule {
         }
         return mApiUrl == null ? HttpUrl.parse("https://api.github.com/") : mApiUrl;
     }
-
 
 
     /**
@@ -165,7 +166,7 @@ public class GlobalConfigModule {
     @Singleton
     @Provides
     FormatPrinter provideFormatPrinter(){
-        return mFormatPrinter == null ? new DefaultFormatPrinter() : mFormatPrinter;
+        return mFormatPrinter == null ? new DefaultFormatPrinter(dataJsonKey) : mFormatPrinter;
     }
 
 
@@ -188,6 +189,7 @@ public class GlobalConfigModule {
     public static final class Builder {
         private HttpUrl apiUrl;
         private BaseUrl baseUrl;
+        private String dataJsonKey;
         private GlobalHttpHandler handler;
         private List<Interceptor> interceptors;
         private ResponseErrorListener responseErrorListener;
@@ -215,6 +217,10 @@ public class GlobalConfigModule {
             return this;
         }
 
+        public Builder dataJsonKey(String keyName) {
+            this.dataJsonKey = Preconditions.checkNotNull(keyName, "keyName can not be null.");
+            return this;
+        }
 
         public Builder globalHttpHandler(GlobalHttpHandler handler) {//用来处理http响应结果
             this.handler = handler;
@@ -228,7 +234,6 @@ public class GlobalConfigModule {
             this.interceptors.add(interceptor);
             return this;
         }
-
 
         public Builder responseErrorListener(ResponseErrorListener listener) {//处理所有RxJava的onError逻辑
             this.responseErrorListener = listener;
@@ -270,14 +275,9 @@ public class GlobalConfigModule {
             return this;
         }
 
-
-
         public GlobalConfigModule build() {
             return new GlobalConfigModule(this);
         }
-
-
-
 
     }
 
