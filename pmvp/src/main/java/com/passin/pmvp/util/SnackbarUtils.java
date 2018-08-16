@@ -38,13 +38,12 @@ public final class SnackbarUtils {
     private static final int COLOR_DEFAULT = 0xFEFFFFFF;
     private static final int COLOR_SUCCESS = 0xFF2BB600;
     private static final int COLOR_WARNING = 0xFFFFC100;
-//    private static final int COLOR_ERROR   = 0xFFFF0000;
-    private static final int COLOR_ERROR   = 0xFFCE170D;
+    private static final int COLOR_ERROR   = 0xFFFF0000;
     private static final int COLOR_MESSAGE = 0xFFFFFFFF;
 
     private static WeakReference<Snackbar> sReference;
 
-    private View view;
+    private View                 view;
     private CharSequence         message;
     private int                  messageColor;
     private int                  bgColor;
@@ -66,7 +65,7 @@ public final class SnackbarUtils {
         bgColor = COLOR_DEFAULT;
         bgResource = -1;
         duration = LENGTH_SHORT;
-        actionText = "我知道了";
+        actionText = "";
         actionTextColor = COLOR_DEFAULT;
         bottomMargin = 0;
     }
@@ -209,16 +208,9 @@ public final class SnackbarUtils {
                     (ViewGroup.MarginLayoutParams) snackbarView.getLayoutParams();
             params.bottomMargin = bottomMargin;
         }
-//        LayoutParams layoutParams = snackbarView.getLayoutParams();
-//        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(layoutParams.width, layoutParams.height);
-//        llp.gravity = Gravity.CENTER;
-//        snackbarView.setLayoutParams(llp);
-        if (actionText.length() > 0 ) {
+        if (actionText.length() > 0 && actionListener != null) {
             if (actionTextColor != COLOR_DEFAULT) {
                 snackbar.setActionTextColor(actionTextColor);
-            }
-            if (actionListener == null) {
-                actionListener = view1 -> dismiss();
             }
             snackbar.setAction(actionText, actionListener);
         }
@@ -262,14 +254,6 @@ public final class SnackbarUtils {
         if (sReference != null && sReference.get() != null) {
             sReference.get().dismiss();
             sReference = null;
-        }
-    }
-
-    public static boolean isdismiss() {
-        if (sReference != null && sReference.get() != null && sReference.get().isShown()) {
-            return false;
-        } else {
-            return true;
         }
     }
 
