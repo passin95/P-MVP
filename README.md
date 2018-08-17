@@ -1,8 +1,8 @@
 <h1 >P-MVP：基于 dagger.android 的 MVP 框架 </h1>
 
 <p>
-   <a href="https://bintray.com/passin95/maven/P-MVP/0.0.2">
-    <img src="https://img.shields.io/badge/Jcenter-v0.0.2-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
+   <a href="https://bintray.com/passin95/maven/P-MVP/0.0.3">
+    <img src="https://img.shields.io/badge/Jcenter-v0.0.3-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
   </a>
 </p>
 
@@ -23,10 +23,10 @@
 - 给大家安利两种不错的屏幕适配方法，[**第一种方式**](https://blog.csdn.net/fesdgasdgasdg/article/details/78108169) 相对完美，但 apk 大小会增加几百 k；[**第二种方式**](https://www.jianshu.com/p/d09a8961d6ec) 为今日头条适配方式的衍生版，已在 ScreenUtils 中提供，大家可根据实际情况选择使用。
 - 为了方便开发，根目录也提供了本人在组件化项目中使用的页面 tempelate，需要的可以参考一下根据自身需求修改。
 
-## Usage
+## Download
 
 ```
-implementation 'me.passin:pmvp:0.0.2'
+implementation 'me.passin:pmvp:0.0.3'
 ```
 
 ## Thanks
