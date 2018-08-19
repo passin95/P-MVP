@@ -22,7 +22,6 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
-        maven { url "https://dl.bintray.com/passin95/maven" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/"}
     }
