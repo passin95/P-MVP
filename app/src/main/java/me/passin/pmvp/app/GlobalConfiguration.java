@@ -2,21 +2,18 @@ package me.passin.pmvp.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import com.passin.pmvp.base.delegate.AppDelegate;
 import com.passin.pmvp.di.module.GlobalConfigModule;
 import com.passin.pmvp.http.log.RequestInterceptor;
 import com.passin.pmvp.integration.ModuleConfig;
 import com.passin.pmvp.util.FileUtils;
-import com.passin.pmvp.util.PmvpUtils;
-import com.squareup.leakcanary.RefWatcher;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import me.passin.pmvp.BuildConfig;
 import me.passin.pmvp.app.callback.ActivityLifecycleCallbacksImpl;
 import me.passin.pmvp.app.callback.AppLifecyclesImpl;
+import me.passin.pmvp.app.callback.FragmentLifecycleCallbacksImpl;
 import me.passin.pmvp.app.callback.GlobalHttpHandlerImpl;
 import me.passin.pmvp.app.callback.ResponseErrorListenerImpl;
 import me.passin.pmvp.data.api.Api;
@@ -139,26 +136,6 @@ public class GlobalConfiguration implements ModuleConfig{
 
     @Override
     public void injectFragmentLifecycle(Context context, List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
-        lifecycles.add(new FragmentManager.FragmentLifecycleCallbacks() {
-
-            @Override
-            public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
-                // 在配置变化的时候将这个 Fragment 保存下来,在 Activity 由于配置变化重建时重复利用已经创建的 Fragment。
-                // https://developer.android.com/reference/android/app/Fragment.html?hl=zh-cn#setRetainInstance(boolean)
-                // 如果在 XML 中使用 <Fragment/> 标签,的方式创建 Fragment 请务必在标签中加上 android:id 或者 android:tag 属性,否则 setRetainInstance(true) 无效
-                // 在 Activity 中绑定少量的 Fragment 建议这样做,如果需要绑定较多的 Fragment 不建议设置此参数,如 ViewPager 需要展示较多 Fragment
-                f.setRetainInstance(true);
-            }
-
-
-            @Override
-            public void onFragmentDestroyed(FragmentManager fm, Fragment f) {
-                ((RefWatcher) PmvpUtils
-                        .obtainArmsComponentFromContext(f.getActivity())
-                        .extras()
-                        .get(RefWatcher.class.getName()))
-                        .watch(f);
-            }
-        });
+        lifecycles.add(new FragmentLifecycleCallbacksImpl());
     }
 }
