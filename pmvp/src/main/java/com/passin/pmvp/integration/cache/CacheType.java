@@ -2,9 +2,9 @@ package com.passin.pmvp.integration.cache;
 
 import android.app.ActivityManager;
 import android.content.Context;
-
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.http.repository.RepositoryManager;
+import com.passin.pmvp.util.AppUtils;
 
 /**
  * <pre>
@@ -16,14 +16,13 @@ import com.passin.pmvp.http.repository.RepositoryManager;
 
 public interface CacheType {
     int RETROFIT_SERVICE_CACHE_TYPE_ID = 0;
-    int EXTRAS_TYPE_ID = 2;
+    int EXTRAS_TYPE_ID = 1;
 
     /**
      * {@link RepositoryManager}中存储 Retrofit Service 的容器
      */
     CacheType RETROFIT_SERVICE_CACHE = new CacheType() {
-        private static final int MAX_SIZE = 150;
-        private static final float MAX_SIZE_MULTIPLIER = 0.002f;
+        private static final int MAX_SIZE = 70;
 
         @Override
         public int getCacheTypeId() {
@@ -33,7 +32,12 @@ public interface CacheType {
         @Override
         public int calculateCacheSize(Context context) {
             ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            int targetMemoryCacheSize = (int) (activityManager.getMemoryClass() * MAX_SIZE_MULTIPLIER * 1024);
+            int targetMemoryCacheSize;
+            if (AppUtils.isLowMemoryDevice(activityManager)) {
+                targetMemoryCacheSize = activityManager.getMemoryClass() / 6;
+            } else {
+                targetMemoryCacheSize = activityManager.getMemoryClass() / 4;
+            }
             if (targetMemoryCacheSize >= MAX_SIZE) {
                 return MAX_SIZE;
             }
@@ -43,11 +47,10 @@ public interface CacheType {
 
 
     /**
-     * {@link ArmsComponent} 中的 extras
+     * {@link ArmsComponent} 中的 lruExtras
      */
-    CacheType EXTRAS = new CacheType() {
-        private static final int MAX_SIZE = 300;
-        private static final float MAX_SIZE_MULTIPLIER = 0.005f;
+    CacheType LRU_EXTRAS = new CacheType() {
+        private static final int MAX_SIZE = 100;
 
         @Override
         public int getCacheTypeId() {
@@ -57,7 +60,12 @@ public interface CacheType {
         @Override
         public int calculateCacheSize(Context context) {
             ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            int targetMemoryCacheSize = (int) (activityManager.getMemoryClass() * MAX_SIZE_MULTIPLIER * 1024);
+            int targetMemoryCacheSize;
+            if (AppUtils.isLowMemoryDevice(activityManager)) {
+                targetMemoryCacheSize = activityManager.getMemoryClass() / 5;
+            } else {
+                targetMemoryCacheSize = activityManager.getMemoryClass() / 3;
+            }
             if (targetMemoryCacheSize >= MAX_SIZE) {
                 return MAX_SIZE;
             }
