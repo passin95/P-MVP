@@ -22,7 +22,7 @@ public class ActivityLifecycleCallbacksImpl implements Application.ActivityLifec
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        ScreenUtils.adaptScreen4VerticalSlide(activity,360);
+        ScreenUtils.adaptScreenVerticalSlide(activity,360);
         Timber.d(activity + " - onActivityCreated");
     }
 

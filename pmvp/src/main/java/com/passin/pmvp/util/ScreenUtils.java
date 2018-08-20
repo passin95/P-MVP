@@ -298,37 +298,37 @@ public final class ScreenUtils {
      * Adapt the screen for vertical slide.
      *
      * @param activity        The activity.
-     * @param designWidthInPx The size of design diagram's width, in pixel.
+     * @param designWidthInDp The size of design diagram's width, in dp.
      */
-    public static void adaptScreen4VerticalSlide(final Activity activity,
-            final int designWidthInPx) {
-        adaptScreen(activity, designWidthInPx, true);
+    public static void adaptScreenVerticalSlide(final Activity activity,
+            final int designWidthInDp) {
+        adaptScreen(activity, designWidthInDp, true);
     }
 
     /**
      * Adapt the screen for horizontal slide.
      *
      * @param activity         The activity.
-     * @param designHeightInPx The size of design diagram's height, in pixel.
+     * @param designHeightInDp The size of design diagram's height, in dp.
      */
-    public static void adaptScreen4HorizontalSlide(final Activity activity,
-            final int designHeightInPx) {
-        adaptScreen(activity, designHeightInPx, false);
+    public static void adaptScreenHorizontalSlide(final Activity activity,
+            final int designHeightInDp) {
+        adaptScreen(activity, designHeightInDp, false);
     }
 
     /**
      * Reference from: https://mp.weixin.qq.com/s/d9QCoBP6kV9VSWvVldVVwA
      */
     private static void adaptScreen(final Activity activity,
-            final int sizeInPx,
+            final int sizeInDp,
             final boolean isVerticalSlide) {
         final DisplayMetrics systemDm = Resources.getSystem().getDisplayMetrics();
         final DisplayMetrics appDm = PmvpUtils.getApp().getResources().getDisplayMetrics();
         final DisplayMetrics activityDm = activity.getResources().getDisplayMetrics();
         if (isVerticalSlide) {
-            activityDm.density = activityDm.widthPixels / (float) sizeInPx;
+            activityDm.density = activityDm.widthPixels / (float) sizeInDp;
         } else {
-            activityDm.density = activityDm.heightPixels / (float) sizeInPx;
+            activityDm.density = activityDm.heightPixels / (float) sizeInDp;
         }
         activityDm.scaledDensity = activityDm.density * (systemDm.scaledDensity / systemDm.density);
         activityDm.densityDpi = (int) (160 * activityDm.density);
