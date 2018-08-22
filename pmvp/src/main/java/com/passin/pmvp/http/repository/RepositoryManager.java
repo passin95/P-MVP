@@ -37,18 +37,18 @@ public class RepositoryManager implements IRepositoryManager {
 
     /**
      * 根据传入的 Class 获取对应的 Retrofit service
-     * 
+     *
      * @param service
      * @param <T>
      * @return
      */
     @Override
-    public synchronized <T> T obtainRetrofitService(Class<T> service) {
+    public <T> T obtainRetrofitService(Class<T> service) {
         return createWrapperService(service);
     }
 
 
-    private <T> T createWrapperService( Class<T> serviceClass) {
+    private <T> T createWrapperService(Class<T> serviceClass) {
         return (T) Proxy.newProxyInstance(serviceClass.getClassLoader(),
                 new Class<?>[]{serviceClass}, new InvocationHandler() {
                     @Override
@@ -61,8 +61,7 @@ public class RepositoryManager implements IRepositoryManager {
                                 // 执行真正的 Retrofit 动态代理的方法
                                 return ((Observable) getRetrofitMethod(service, method)
                                         .invoke(service, args))
-                                        .subscribeOn(Schedulers.io());
-                            })
+                                        .subscribeOn(Schedulers.io()); })
                                     .subscribeOn(Schedulers.single());
                         }
                         // 返回值不是 Observable 的话不处理
@@ -74,8 +73,14 @@ public class RepositoryManager implements IRepositoryManager {
 
 
     private <T> T getRetrofitService(Class<T> service) {
-        if (mRetrofitServiceCache == null)
-            mRetrofitServiceCache = mCachefactory.build(CacheType.RETROFIT_SERVICE_CACHE);
+        if (mRetrofitServiceCache == null) {
+            synchronized (this) {
+                if (mRetrofitServiceCache == null) {
+                    mRetrofitServiceCache = mCachefactory.build(CacheType.RETROFIT_SERVICE_CACHE);
+                }
+            }
+        }
+
         Preconditions.checkNotNull(mRetrofitServiceCache, "Cannot return null from a Cache.Factory#build(int) method");
         T retrofitService = (T) mRetrofitServiceCache.get(service.getCanonicalName());
         if (retrofitService == null) {
