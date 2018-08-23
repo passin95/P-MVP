@@ -82,16 +82,15 @@ public class RepositoryManager implements IRepositoryManager {
         }
 
         Preconditions.checkNotNull(mRetrofitServiceCache, "Cannot return null from a Cache.Factory#build(int) method");
-        T retrofitService = (T) mRetrofitServiceCache.get(service.getCanonicalName());
-        if (retrofitService == null) {
-            synchronized (service) {
-                if (retrofitService == null) {
-                    retrofitService = mRetrofit.get().create(service);
-                    mRetrofitServiceCache.put(service.getCanonicalName(), retrofitService);
-                }
+
+        synchronized (service) {
+            T retrofitService = (T) mRetrofitServiceCache.get(service.getCanonicalName());
+            if (retrofitService == null) {
+                retrofitService = mRetrofit.get().create(service);
+                mRetrofitServiceCache.put(service.getCanonicalName(), retrofitService);
             }
+            return retrofitService;
         }
-        return retrofitService;
     }
 
     private <T> Method getRetrofitMethod(T service, Method method) throws NoSuchMethodException {
