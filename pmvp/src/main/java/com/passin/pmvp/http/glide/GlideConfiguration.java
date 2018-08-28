@@ -1,23 +1,18 @@
 package com.passin.pmvp.http.glide;
 
 import android.content.Context;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
-import com.bumptech.glide.load.engine.cache.LruResourceCache;
-import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 import com.passin.pmvp.di.component.ArmsComponent;
 import com.passin.pmvp.http.OkHttpUrlLoader;
 import com.passin.pmvp.util.FileUtils;
 import com.passin.pmvp.util.PmvpUtils;
-
 import java.io.File;
 import java.io.InputStream;
 
@@ -43,15 +38,15 @@ public class GlideConfiguration extends AppGlideModule {
             }
         });
 
-        MemorySizeCalculator calculator = new MemorySizeCalculator.Builder(context).build();
-        int defaultMemoryCacheSize = calculator.getMemoryCacheSize();
-        int defaultBitmapPoolSize = calculator.getBitmapPoolSize();
+        // MemorySizeCalculator calculator = new MemorySizeCalculator.Builder(context).build();
+        // int defaultMemoryCacheSize = calculator.getMemoryCacheSize();
+        // int defaultBitmapPoolSize = calculator.getBitmapPoolSize();
 
-        int customMemoryCacheSize = (int) (1.2 * defaultMemoryCacheSize);
-        int customBitmapPoolSize = (int) (1.2 * defaultBitmapPoolSize);
+        // int customMemoryCacheSize = (int) (1.2 * defaultMemoryCacheSize);
+        // int customBitmapPoolSize = (int) (1.2 * defaultBitmapPoolSize);
 
-        builder.setMemoryCache(new LruResourceCache(customMemoryCacheSize));
-        builder.setBitmapPool(new LruBitmapPool(customBitmapPoolSize));
+        // builder.setMemoryCache(new LruResourceCache(customMemoryCacheSize));
+        // builder.setBitmapPool(new LruBitmapPool(customBitmapPoolSize));
 
     }
 
