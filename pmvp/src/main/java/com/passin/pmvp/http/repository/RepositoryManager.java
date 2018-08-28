@@ -60,8 +60,7 @@ public class RepositoryManager implements IRepositoryManager {
                                 final T service = getRetrofitService(serviceClass);
                                 // 执行真正的 Retrofit 动态代理的方法
                                 return ((Observable) getRetrofitMethod(service, method)
-                                        .invoke(service, args))
-                                        .subscribeOn(Schedulers.io()); })
+                                        .invoke(service, args));})
                                     .subscribeOn(Schedulers.single());
                         }
                         // 返回值不是 Observable 的话不处理

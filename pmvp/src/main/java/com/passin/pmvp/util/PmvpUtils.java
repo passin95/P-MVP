@@ -62,15 +62,8 @@ public class PmvpUtils {
      * dip转pix
      */
     public static int dip2px(float dpValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        final float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * 得到字符数组
-     */
-    public static String[] getStringArray(int id) {
-        return getResources().getStringArray(id);
     }
 
     /**
@@ -79,6 +72,13 @@ public class PmvpUtils {
     public static int px2dip(int pix) {
         final float densityDpi = getResources().getDisplayMetrics().density;
         return (int) (pix / densityDpi + 0.5f);
+    }
+
+    /**
+     * 得到字符数组
+     */
+    public static String[] getStringArray(int id) {
+        return getResources().getStringArray(id);
     }
 
     /**
@@ -139,6 +139,9 @@ public class PmvpUtils {
         AppManager.post(message);
     }
 
+    /**
+     * 配置RecyclerView
+     */
     public static void configRecyclerView(final RecyclerView recyclerView
             , RecyclerView.LayoutManager layoutManager) {
         recyclerView.setLayoutManager(layoutManager);
@@ -147,6 +150,9 @@ public class PmvpUtils {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+    /**
+     * 获取view的绘制转为Bitmap
+     */
     public static Bitmap convertViewToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
