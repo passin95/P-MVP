@@ -73,12 +73,12 @@
 -dontwarn android.support.**
 
 
-
 ################retrofit###############
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+
 
 ################butterknife###############
 -keep class butterknife.** { *; }
@@ -110,6 +110,7 @@
     public *;
 }
 
+
 ################okhttp###############
 -keepattributes Signature
 -keepattributes *Annotation*
@@ -118,9 +119,6 @@
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn com.squareup.okhttp.**
-
-
-
 
 
 ################RxJava and RxAndroid###############
@@ -180,11 +178,9 @@
 -dontwarn io.reactivex.internal.util.unsafe.**
 
 
-
 ################espresso###############
 -keep class android.support.test.espresso.** { *; }
 -keep interface android.support.test.espresso.** { *; }
-
 
 
 ################annotation###############
@@ -192,22 +188,10 @@
 -keep interface android.support.annotation.** { *; }
 
 
-
-################RxPermissions#################
--keep class com.tbruyelle.rxpermissions2.** { *; }
--keep interface com.tbruyelle.rxpermissions2.** { *; }
-
-################RxCache#################
--dontwarn io.rx_cache2.internal.**
--keep class io.rx_cache2.internal.Record { *; }
--keep class io.rx_cache2.Source { *; }
-
--keep class io.victoralbertos.jolyglot.** { *; }
--keep interface io.victoralbertos.jolyglot.** { *; }
-
 ################RxErrorHandler#################
  -keep class com.passin.pmvp.rx.rxerrorhandler.** { *; }
  -keep interface com.passin.pmvp.rx.rxerrorhandler.** { *; }
+
 
 ################Timber#################
 -dontwarn org.jetbrains.annotations.**
@@ -223,6 +207,7 @@
 
 # Marshmallow removed Notification.setLatestEventInfo()
 -dontwarn android.app.Notification
+
 
 ################EventBus#################
 -keepattributes *Annotation*

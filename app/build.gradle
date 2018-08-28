@@ -33,7 +33,7 @@ android {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled true
-            shrinkResources false
+            shrinkResources true
             zipAlignEnabled true
             //手动分包
             multiDexKeepProguard file('multidex-config.pro')
@@ -62,8 +62,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-//    implementation 'me.passin:pmvp:0.0.3'
-    implementation project(':pmvp')
+    implementation 'me.passin:pmvp:0.0.4'
+//    implementation project(':pmvp')
 
     annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'
