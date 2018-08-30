@@ -20,6 +20,14 @@ public interface IView {
     }
 
     /**
+     * 显示加载
+     * @param content 显示的内容
+     */
+    default void showLoading(String content){
+
+    }
+
+    /**
      * 隐藏加载
      */
     default void hideLoading(){
