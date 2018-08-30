@@ -8,7 +8,6 @@ import com.passin.pmvp.rx.rxerrorhandler.RetryWithDelay;
 import com.passin.pmvp.rx.rxerrorhandler.RxErrorHandler;
 import dagger.Lazy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import javax.inject.Inject;
 import me.passin.pmvp.data.bean.User;
@@ -60,7 +59,6 @@ public class UserPresenter extends BasePresenter<UserView> {
         }
 
         addDispose(mModel.get().getUsers(lastUserId,isEvictCache)
-                .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(disposable -> {
                     if (pullToRefresh) {

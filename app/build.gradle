@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-
+        applicationId "me.passin.pmvp.demo"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -62,8 +62,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'me.passin:pmvp:0.0.4'
-//    implementation project(':pmvp')
+//    implementation 'me.passin:pmvp:0.0.5'
+    implementation project(':pmvp')
 
     annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'

@@ -5,8 +5,8 @@ ext {
                buildToolsVersion       : "27.0.3",
                minSdkVersion           : 14,
                targetSdkVersion        : 27,
-               versionCode             : 4,
-               versionName             : "0.0.4"
+               versionCode             : 5,
+               versionName             : "0.0.5"
     ]
 
      version = [
@@ -48,7 +48,7 @@ ext {
                 "pickerview"               : "com.contrarywind:Android-PickerView:4.1.6",
                 "photoview"                : "com.github.chrisbanes.photoview:library:2.1.4",
                 "vlayout"                  : "com.alibaba.android:vlayout:1.2.8@aar",
-                "constraintlayout"         : "com.android.support.constraint:constraint-layout:1.1.0",
+                "constraintlayout"         : "com.android.support.constraint:constraint-layout:1.1.2",
 
 
                 //rx2
