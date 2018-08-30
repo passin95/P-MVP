@@ -1,8 +1,8 @@
 <h1 >P-MVP：基于 dagger.android 的 MVP 框架 </h1>
 
 <p>
-   <a href="https://bintray.com/passin95/maven/P-MVP/0.0.5">
-    <img src="https://img.shields.io/badge/Jcenter-v0.0.5-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
+   <a href="https://bintray.com/passin95/maven/P-MVP/0.0.9">
+    <img src="https://img.shields.io/badge/Jcenter-v0.0.9-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
   </a>
 </p>
 
@@ -26,7 +26,7 @@
 ## Download
 
 ```
-implementation 'me.passin:pmvp:0.0.5'
+implementation 'me.passin:pmvp:0.0.9'
 ```
 
 ## Thanks
