@@ -258,6 +258,19 @@ public final class SnackbarUtils {
     }
 
     /**
+     * Return the snackbar is dismiss.
+     *
+     * @return the snackbar is dismiss
+     */
+    public static boolean isdismiss() {
+        if (sReference != null && sReference.get() != null && sReference.get().isShown()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Return the view of snackbar.
      *
      * @return the view of snackbar
@@ -302,4 +315,6 @@ public final class SnackbarUtils {
             layout.addView(child, params);
         }
     }
+
+
 }

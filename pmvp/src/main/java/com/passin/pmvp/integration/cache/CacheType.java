@@ -16,7 +16,7 @@ import com.passin.pmvp.util.AppUtils;
 
 public interface CacheType {
     int RETROFIT_SERVICE_CACHE_TYPE_ID = 0;
-    int EXTRAS_TYPE_ID = 1;
+    int LUR_EXTRAS_TYPE_ID = 1;
 
     /**
      * {@link RepositoryManager}中存储 Retrofit Service 的容器
@@ -54,7 +54,7 @@ public interface CacheType {
 
         @Override
         public int getCacheTypeId() {
-            return EXTRAS_TYPE_ID;
+            return LUR_EXTRAS_TYPE_ID;
         }
 
         @Override
