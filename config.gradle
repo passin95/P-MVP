@@ -14,7 +14,7 @@ ext {
                    retrofitSdkVersion      : "2.4.0",
                    dagger2SdkVersion       : "2.16",
                    glideSdkVersion         : "4.8.0",
-                   butterknifeSdkVersion   : "9.0.0-SNAPSHOT",
+                   butterknifeSdkVersion   : "8.8.1",
                    espressoSdkVersion      : "3.0.1",
                    canarySdkVersion        : "1.5.4"
         ]
@@ -53,7 +53,7 @@ ext {
 
                 //rx2
                 "rxandroid2"                : "io.reactivex.rxjava2:rxandroid:2.0.2",
-                "rxjava2"                   : "io.reactivex.rxjava2:rxjava:2.1.14",
+                "rxjava2"                   : "io.reactivex.rxjava2:rxjava:2.2.1",
 
 
                 //tools
