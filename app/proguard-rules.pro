@@ -44,7 +44,7 @@
 -keep public class * implements com.passin.pmvp.integration.ModuleConfig
 
  #实体类不参与混淆
- -keep class me.passin.pmvp.data.mvp.bean..** { *; }
+ -keep class me.passin.pmvp.data.bean.** { *; }
 #-keep class me.passin.pmvp.widget.** { *; } #自定义控件不参与混淆
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
@@ -217,5 +217,11 @@
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
 -dontwarn com.yanzhenjie.permission.**
+
+################BRVAH#################
+-keep class com.chad.library.adapter.** { *; }
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers class **$** extends com.chad.library.adapter.base.BaseViewHolder { <init>(...); }
 
 
