@@ -3,9 +3,9 @@ package com.passin.pmvp.http.log;
 import android.support.annotation.Nullable;
 import com.passin.pmvp.http.GlobalHttpHandler;
 import com.passin.pmvp.util.CharacterHandler;
+import com.passin.pmvp.util.UrlEncoderUtils;
 import com.passin.pmvp.util.ZipUtils;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -40,18 +40,17 @@ public class RequestInterceptor implements Interceptor {
     Level printLevel;
 
     public enum Level {
-        //不打印log
+        // 不打印log
         NONE,
-        //只打印请求信息
+        // 只打印请求信息
         REQUEST,
-        //只打印响应信息
+        // 只打印响应信息
         RESPONSE,
-        //所有数据全部打印
+        // 所有数据全部打印
         ALL
     }
 
     @Inject
-//    @Named("requestInterceptor")
     public RequestInterceptor() {
     }
 
@@ -62,7 +61,7 @@ public class RequestInterceptor implements Interceptor {
         boolean logRequest = printLevel == Level.ALL || (printLevel != Level.NONE && printLevel == Level.REQUEST);
 
         if (logRequest) {
-            //打印请求信息
+            // 打印请求信息
             if (request.body() != null && isParseable(request.body().contentType())) {
                 mPrinter.printJsonRequest(request, parseParams(request));
             } else {
@@ -84,10 +83,10 @@ public class RequestInterceptor implements Interceptor {
 
         ResponseBody responseBody = originalResponse.body();
 
-        //打印响应结果
+        // 打印响应结果
         String bodyString = null;
         if (responseBody != null && isParseable(responseBody.contentType())) {
-            bodyString = printResult(request, originalResponse, logResponse);
+            bodyString = ResponseResult(originalResponse);
         }
 
         if (logResponse) {
@@ -108,7 +107,8 @@ public class RequestInterceptor implements Interceptor {
 
         }
 
-        if (mHandler != null)//这里可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如token超时,重新获取
+        // 这里可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如token超时,重新获取
+        if (mHandler != null)
             return mHandler.onHttpResultResponse(bodyString, chain, originalResponse);
 
         return originalResponse;
@@ -117,29 +117,26 @@ public class RequestInterceptor implements Interceptor {
     /**
      * 打印响应结果
      *
-     * @param request
      * @param response
-     * @param logResponse
      * @return
-     * @throws IOException
      */
     @Nullable
-    private String printResult(Request request, Response response, boolean logResponse) throws IOException {
+    private String ResponseResult(Response response) {
         try {
-            //读取服务器返回的结果
+            // 读取服务器返回的结果
             ResponseBody responseBody = response.newBuilder().build().body();
             BufferedSource source = responseBody.source();
-            source.request(Long.MAX_VALUE); // Buffer the entire body.
+            source.request(Long.MAX_VALUE);
             Buffer buffer = source.buffer();
 
-            //获取content的压缩类型
+            // 获取content的压缩类型
             String encoding = response
                     .headers()
                     .get("Content-Encoding");
 
             Buffer clone = buffer.clone();
 
-            //解析response content
+            // 解析response content
             return parseContent(responseBody, encoding, clone);
         } catch (IOException e) {
             e.printStackTrace();
@@ -162,10 +159,11 @@ public class RequestInterceptor implements Interceptor {
         if (contentType != null) {
             charset = contentType.charset(charset);
         }
-        if (encoding != null && encoding.equalsIgnoreCase("gzip")) {//content使用gzip压缩
-            return ZipUtils.decompressForGzip(clone.readByteArray(), convertCharset(charset));//解压
+        // content使用gzip压缩
+        if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
+            return ZipUtils.decompressForGzip(clone.readByteArray(), convertCharset(charset));
         } else if (encoding != null && encoding.equalsIgnoreCase("zlib")) {//content使用zlib压缩
-            return ZipUtils.decompressToStringForZlib(clone.readByteArray(), convertCharset(charset));//解压
+            return ZipUtils.decompressToStringForZlib(clone.readByteArray(), convertCharset(charset));
         } else {//content没有被压缩
             return clone.readString(charset);
         }
@@ -176,9 +174,8 @@ public class RequestInterceptor implements Interceptor {
      *
      * @param request
      * @return
-     * @throws UnsupportedEncodingException
      */
-    public static String parseParams(Request request) throws UnsupportedEncodingException {
+    public static String parseParams(Request request)  {
         try {
             RequestBody body = request.newBuilder().build().body();
             if (body == null) return "";
@@ -189,8 +186,11 @@ public class RequestInterceptor implements Interceptor {
             if (contentType != null) {
                 charset = contentType.charset(charset);
             }
-            return CharacterHandler
-                    .jsonFormat(URLDecoder.decode(requestbuffer.readString(charset), convertCharset(charset)));
+            String url = requestbuffer.readString(charset);
+            if (UrlEncoderUtils.hasUrlEncoded(url)) {
+                url = URLDecoder.decode(url, convertCharset(charset));
+            }
+            return CharacterHandler.jsonFormat(url);
         } catch (IOException e) {
             e.printStackTrace();
             return "{\"error\": \"" + e.getMessage() + "\"}";
