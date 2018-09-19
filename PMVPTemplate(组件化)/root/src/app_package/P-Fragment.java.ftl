@@ -27,7 +27,7 @@ import com.passin.pmvp.base.BaseFragment;
  */
 public class ${pageName}Fragment extends BaseFragment<#if needIView == true> implements ${pageName}View </#if>{
 
-    @BindView(R.id.toolbar_title)
+    @BindView(R2.id.toolbar_title)
     TextView mTvToolbarTitle;
 
 	<#if needPresenter == true>
