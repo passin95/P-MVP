@@ -58,6 +58,10 @@ public class PmvpUtils {
         return PmvpUtils.getApp().getResources();
     }
 
+    public static Resources getResources(Context context) {
+        return context.getResources();
+    }
+
     /**
      * dip转pix
      */
@@ -66,12 +70,22 @@ public class PmvpUtils {
         return (int) (dpValue * scale + 0.5f);
     }
 
+    public static int dip2px(@NonNull Context context, float dpValue) {
+        final float scale = getResources(context).getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
     /**
      * pix转dip
      */
-    public static int px2dip(int pix) {
+    public static int px2dip(int pxValue) {
         final float densityDpi = getResources().getDisplayMetrics().density;
-        return (int) (pix / densityDpi + 0.5f);
+        return (int) (pxValue / densityDpi + 0.5f);
+    }
+
+    public static int px2dip(@NonNull Context context, int pxValue) {
+        final float scale = getResources(context).getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
     }
 
     /**
@@ -81,11 +95,19 @@ public class PmvpUtils {
         return getResources().getStringArray(id);
     }
 
+    public static String[] getStringArray(Context context, int id) {
+        return getResources(context).getStringArray(id);
+    }
+
     /**
      * 从 dimens 中获得尺寸
      */
     public static int getDimens(int id) {
         return (int) getResources().getDimension(id);
+    }
+
+    public static int getDimens(Context context, int id) {
+        return (int) getResources(context).getDimension(id);
     }
 
     /**
@@ -95,11 +117,19 @@ public class PmvpUtils {
         return getResources().getString(stringID);
     }
 
+    public static String getString(Context context, int stringID) {
+        return getResources(context).getString(stringID);
+    }
+
     /**
      * 获得颜色
      */
     public static int getColor(int rid) {
         return getResources().getColor(rid);
+    }
+
+    public static int getColor(Context context, int rid) {
+        return getResources(context).getColor(rid);
     }
 
     /**
