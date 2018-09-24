@@ -38,9 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     final SupportActivityDelegate mDelegate = new SupportActivityDelegate(this);
     protected CompositeDisposable mCompositeDisposable;
-    /**
-     * 如果页面逻辑简单，可不需求P层,继承该类时不指定泛型即可。
-     */
+
     @Inject
     DispatchingAndroidInjector<Fragment> mFragmentInjector;
     private Unbinder mUnbinder;

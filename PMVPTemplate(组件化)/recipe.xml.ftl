@@ -20,7 +20,7 @@
     <instantiate from="root/src/app_package/P-Activity.java.ftl"
                    to="${projectOut}/src/main/java/${slashedPackageName(ativityPackageName)}/${pageName}Activity.java" />
     <open file="${projectOut}/src/main/java/${slashedPackageName(ativityPackageName)}/${pageName}Activity.java" />
-	<open file="${projectOut}/src/main/java/${slashedPackageName(packageName)}/di/ActivitiesModule.java" />
+	<open file="${projectOut}/src/main/java/${slashedPackageName(packageName)}/${moduleName}/di/${moduleName?cap_first}ActivitiesModule.java" />
 	<open file="${projectOut}/src/main/java/${slashedPackageName(modulePackageName)}/PleaseCopyToProvider.java" />
 </#if>
 
@@ -28,7 +28,7 @@
     <instantiate from="root/src/app_package/P-Fragment.java.ftl"
                    to="${projectOut}/src/main/java/${slashedPackageName(fragmentPackageName)}/${pageName}Fragment.java" />
     <open file="${projectOut}/src/main/java/${slashedPackageName(fragmentPackageName)}/${pageName}Fragment.java" />
-	<open file="${projectOut}/src/main/java/${slashedPackageName(packageName)}/di/FragmentsModule.java" />
+	<open file="${projectOut}/src/main/java/${slashedPackageName(packageName)}/${moduleName}/di/${moduleName?cap_first}ActivitiesModule.java" />
 	<open file="${projectOut}/src/main/java/${slashedPackageName(modulePackageName)}/PleaseCopyToProvider.java" />
 </#if>
 
