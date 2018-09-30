@@ -10,10 +10,10 @@ import io.reactivex.subscribers.DisposableSubscriber;
  * Date: 2018/3/13 14:29
  * </pre>
  */
-public abstract class ErrorHandleSubscriberOfFlowable<T> extends DisposableSubscriber<T> {
+public abstract class BaseErrorHandleSubscriberOfFlowable<T> extends DisposableSubscriber<T> {
     private RxErrorHandler mErrorHandler;
 
-    public ErrorHandleSubscriberOfFlowable(RxErrorHandler rxErrorHandler) {
+    public BaseErrorHandleSubscriberOfFlowable(RxErrorHandler rxErrorHandler) {
         this.mErrorHandler = rxErrorHandler;
     }
 
