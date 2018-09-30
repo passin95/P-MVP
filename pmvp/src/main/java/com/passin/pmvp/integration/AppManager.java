@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +27,7 @@ import timber.log.Timber;
  */
 @Singleton
 public class AppManager {
+
     private final String TAG = this.getClass().getSimpleName();
     public static final String APPMANAGER_MESSAGE = "appmanager_message";
     /**
@@ -39,7 +41,9 @@ public class AppManager {
     /**
      * 管理所有存活的 Activity, 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致。
      */
-    private List<Activity> mActivityList;
+    private List<Activity> mActivityList = new LinkedList<>();
+
+    ReentrantReadWriteLock activityListLock = new ReentrantReadWriteLock();
 
 
     @Inject
@@ -120,34 +124,35 @@ public class AppManager {
      * Tips: mActivityList 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致。
      */
     public Activity getTopActivity() {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when getTopActivity()");
+        activityListLock.readLock().lock();
+        if (mActivityList.size() > 0) {
+            Activity activity = mActivityList.get(mActivityList.size() - 1);
+            activityListLock.readLock().unlock();
+            return activity;
+        } else {
+            activityListLock.readLock().unlock();
             return null;
         }
-        return mActivityList.size() > 0 ? mActivityList.get(mActivityList.size() - 1) : null;
     }
 
     /**
      * 关闭所有管理列表的 {@link Activity}。
      */
     public void killAll() {
-        synchronized (AppManager.class) {
-            Iterator<Activity> iterator = getActivityList().iterator();
-            while (iterator.hasNext()) {
-                Activity next = iterator.next();
-                iterator.remove();
-                next.finish();
-            }
+        activityListLock.writeLock().lock();
+        Iterator<Activity> iterator = getActivityList().iterator();
+        while (iterator.hasNext()) {
+            Activity next = iterator.next();
+            iterator.remove();
+            next.finish();
         }
+        activityListLock.writeLock().unlock();
     }
 
     /**
      * 返回一个存储所有未销毁的 {@link Activity} 的集合。
      */
     public List<Activity> getActivityList() {
-        if (mActivityList == null) {
-            mActivityList = new LinkedList<>();
-        }
         return mActivityList;
     }
 
@@ -155,12 +160,12 @@ public class AppManager {
      * 添加 {@link Activity} 到集合。
      */
     public void addActivity(Activity activity) {
-        synchronized (AppManager.class) {
-            List<Activity> activities = getActivityList();
-            if (!activities.contains(activity)) {
-                activities.add(activity);
-            }
+        activityListLock.writeLock().lock();
+        List<Activity> activities = getActivityList();
+        if (!activities.contains(activity)) {
+            activities.add(activity);
         }
+        activityListLock.writeLock().unlock();
     }
 
     /**
@@ -169,52 +174,29 @@ public class AppManager {
      * @param {@link Activity}
      */
     public void removeActivity(Activity activity) {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when removeActivity(Activity)");
-            return;
+        activityListLock.writeLock().lock();
+        if (mActivityList.contains(activity)) {
+            mActivityList.remove(activity);
         }
-        synchronized (AppManager.class) {
-            if (mActivityList.contains(activity)) {
-                mActivityList.remove(activity);
-            }
-        }
+        activityListLock.writeLock().unlock();
     }
 
-    /**
-     * 删除集合里的指定位置的 {@link Activity}。
-     */
-    public Activity removeActivity(int location) {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when removeActivity(int)");
-            return null;
-        }
-        synchronized (AppManager.class) {
-            if (location > 0 && location < mActivityList.size()) {
-                return mActivityList.remove(location);
-            }
-        }
-        return null;
-    }
 
     /**
      * 关闭指定的 {@link Activity} class 的所有的实例。
      */
     public void killActivity(Class<?> activityClass) {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when killActivity(Class)");
-            return;
-        }
-        synchronized (AppManager.class) {
-            Iterator<Activity> iterator = getActivityList().iterator();
-            while (iterator.hasNext()) {
-                Activity next = iterator.next();
+        activityListLock.writeLock().lock();
+        Iterator<Activity> iterator = getActivityList().iterator();
+        while (iterator.hasNext()) {
+            Activity next = iterator.next();
 
-                if (next.getClass().equals(activityClass)) {
-                    iterator.remove();
-                    next.finish();
-                }
+            if (next.getClass().equals(activityClass)) {
+                iterator.remove();
+                next.finish();
             }
         }
+        activityListLock.writeLock().unlock();
     }
 
     /**
@@ -223,26 +205,24 @@ public class AppManager {
      * @param {@link Activity}
      */
     public boolean activityInstanceIsLive(Activity activity) {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when activityInstanceIsLive(Activity)");
-            return false;
-        }
-        return mActivityList.contains(activity);
+        activityListLock.readLock().lock();
+        boolean isContains = mActivityList.contains(activity);
+        activityListLock.readLock().unlock();
+        return isContains;
     }
 
     /**
      * 指定的 {@link Activity} class 是否存活 (同一个 {@link Activity} class 可能有多个实例)。
      */
     public boolean activityClassIsLive(Class<?> activityClass) {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when activityClassIsLive(Class)");
-            return false;
-        }
+        activityListLock.readLock().lock();
         for (Activity activity : mActivityList) {
             if (activity.getClass().equals(activityClass)) {
+                activityListLock.readLock().unlock();
                 return true;
             }
         }
+        activityListLock.readLock().unlock();
         return false;
     }
 
@@ -250,15 +230,14 @@ public class AppManager {
      * 获取指定 {@link Activity} class 的实例,没有则返回 null(同一个 {@link Activity} class 有多个实例,则返回最早创建的实例)。
      */
     public Activity findActivity(Class<?> activityClass) {
-        if (mActivityList == null) {
-            Timber.tag(TAG).w("mActivityList == null when findActivity(Class)");
-            return null;
-        }
+        activityListLock.readLock().lock();
         for (Activity activity : mActivityList) {
             if (activity.getClass().equals(activityClass)) {
+                activityListLock.readLock().unlock();
                 return activity;
             }
         }
+        activityListLock.readLock().unlock();
         return null;
     }
 
@@ -269,7 +248,7 @@ public class AppManager {
      */
     public void killAll(Class<?>... excludeActivityClasses) {
         List<Class<?>> excludeList = Arrays.asList(excludeActivityClasses);
-        synchronized (AppManager.class) {
+        activityListLock.writeLock().lock();
             Iterator<Activity> iterator = getActivityList().iterator();
             while (iterator.hasNext()) {
                 Activity next = iterator.next();
@@ -281,27 +260,7 @@ public class AppManager {
                 iterator.remove();
                 next.finish();
             }
-        }
+        activityListLock.writeLock().unlock();
     }
 
-    /**
-     * 关闭所有 {@link Activity},排除指定的 {@link Activity}。
-     *
-     * @param excludeActivityName {@link Activity} 的完整全路径
-     */
-    public void killAll(String... excludeActivityName) {
-        List<String> excludeList = Arrays.asList(excludeActivityName);
-        synchronized (AppManager.class) {
-            Iterator<Activity> iterator = getActivityList().iterator();
-            while (iterator.hasNext()) {
-                Activity next = iterator.next();
-
-                if (excludeList.contains(next.getClass().getName())) {
-                    continue;
-                }
-                iterator.remove();
-                next.finish();
-            }
-        }
-    }
 }
