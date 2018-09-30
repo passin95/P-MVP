@@ -20,7 +20,6 @@ public final class Preconditions {
         }
     }
 
-
     public static <T> T checkNotNull(T reference) {
         if (reference == null) {
             throw new NullPointerException();
@@ -54,7 +53,6 @@ public final class Preconditions {
         return reference;
     }
 
-
     public static void checkState(boolean expression, @Nullable Object errorMessage) {
         if(!expression) {
             throw new IllegalStateException(String.valueOf(errorMessage));
@@ -66,7 +64,6 @@ public final class Preconditions {
             throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
         }
     }
-
 
     static String format(String template, @Nullable Object... args) {
         template = String.valueOf(template);

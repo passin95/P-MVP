@@ -28,13 +28,17 @@ import timber.log.Timber;
 public class AppManager {
     private final String TAG = this.getClass().getSimpleName();
     public static final String APPMANAGER_MESSAGE = "appmanager_message";
-    //true 为不需要加入到 Activity 容器进行统一管理,默认为 false
+    /**
+     * true 为不需要加入到 Activity 容器进行统一管理,默认为 false
+     */
     public static final String IS_NOT_ADD_ACTIVITY_LIST = "is_not_add_activity_list";
     public static final int SHOW_SNACKBAR = 5001;
     public static final int APP_EXIT = 5002;
     @Inject
     public Application mApplication;
-    //管理所有存活的 Activity, 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致
+    /**
+     * 管理所有存活的 Activity, 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致。
+     */
     private List<Activity> mActivityList;
 
 
@@ -80,7 +84,7 @@ public class AppManager {
     public void startActivity(Intent intent) {
         if (getTopActivity() == null) {
             Timber.tag(TAG).w("mCurrentActivity == null when startActivity(Intent)");
-            //如果没有前台的activity就使用new_task模式启动activity
+            // 如果没有前台的 activity 就使用 new_task 模式启动 activity。
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mApplication.startActivity(intent);
             return;
@@ -108,12 +112,12 @@ public class AppManager {
     }
 
     /**
-     * 获取最近启动的一个 {@link Activity}, 此方法不保证获取到的 {@link Activity} 正处于前台可见状态
-     * 即使 App 进入后台或在这个 {@link Activity} 中打开一个之前已经存在的 {@link Activity}, 这时调用此方法
-     * 还是会返回这个最近启动的 {@link Activity}, 因此基本不会出现 {@code null} 的情况
-     * 比较适合大部分的使用场景, 如 startActivity
+     * 获取最近启动的一个 {@link Activity}, 此方法不保证获取到的 {@link Activity} 正处于前台可见状态，
+     * 即使 App 进入后台或在这个 {@link Activity} 中打开一个之前已经存在的 {@link Activity},
+     * 这时调用此方法还是会返回这个最近启动的 {@link Activity}, 因此基本不会出现 {@code null} 的情况。
+     * 比较适合大部分的使用场景, 如 startActivity。
      * <p>
-     * Tips: mActivityList 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致
+     * Tips: mActivityList 容器中的顺序仅仅是 Activity 的创建顺序, 并不能保证和 Activity 任务栈顺序一致。
      */
     public Activity getTopActivity() {
         if (mActivityList == null) {
@@ -124,7 +128,7 @@ public class AppManager {
     }
 
     /**
-     * 关闭所有 {@link Activity}
+     * 关闭所有管理列表的 {@link Activity}。
      */
     public void killAll() {
         synchronized (AppManager.class) {
@@ -138,7 +142,7 @@ public class AppManager {
     }
 
     /**
-     * 返回一个存储所有未销毁的 {@link Activity} 的集合
+     * 返回一个存储所有未销毁的 {@link Activity} 的集合。
      */
     public List<Activity> getActivityList() {
         if (mActivityList == null) {
@@ -148,7 +152,7 @@ public class AppManager {
     }
 
     /**
-     * 添加 {@link Activity} 到集合
+     * 添加 {@link Activity} 到集合。
      */
     public void addActivity(Activity activity) {
         synchronized (AppManager.class) {
@@ -160,7 +164,7 @@ public class AppManager {
     }
 
     /**
-     * 删除集合里的指定的 {@link Activity} 实例
+     * 删除集合里的指定的 {@link Activity} 实例。
      *
      * @param {@link Activity}
      */
@@ -177,7 +181,7 @@ public class AppManager {
     }
 
     /**
-     * 删除集合里的指定位置的 {@link Activity}
+     * 删除集合里的指定位置的 {@link Activity}。
      */
     public Activity removeActivity(int location) {
         if (mActivityList == null) {
@@ -193,7 +197,7 @@ public class AppManager {
     }
 
     /**
-     * 关闭指定的 {@link Activity} class 的所有的实例
+     * 关闭指定的 {@link Activity} class 的所有的实例。
      */
     public void killActivity(Class<?> activityClass) {
         if (mActivityList == null) {
@@ -214,7 +218,7 @@ public class AppManager {
     }
 
     /**
-     * 指定的 {@link Activity} 实例是否存活
+     * 指定的 {@link Activity} 实例是否存活。
      *
      * @param {@link Activity}
      */
@@ -227,7 +231,7 @@ public class AppManager {
     }
 
     /**
-     * 指定的 {@link Activity} class 是否存活(同一个 {@link Activity} class 可能有多个实例)
+     * 指定的 {@link Activity} class 是否存活 (同一个 {@link Activity} class 可能有多个实例)。
      */
     public boolean activityClassIsLive(Class<?> activityClass) {
         if (mActivityList == null) {
@@ -243,7 +247,7 @@ public class AppManager {
     }
 
     /**
-     * 获取指定 {@link Activity} class 的实例,没有则返回 null(同一个 {@link Activity} class 有多个实例,则返回最早创建的实例)
+     * 获取指定 {@link Activity} class 的实例,没有则返回 null(同一个 {@link Activity} class 有多个实例,则返回最早创建的实例)。
      */
     public Activity findActivity(Class<?> activityClass) {
         if (mActivityList == null) {
@@ -259,7 +263,7 @@ public class AppManager {
     }
 
     /**
-     * 关闭所有 {@link Activity},排除指定的 {@link Activity}
+     * 关闭所有 {@link Activity},排除指定的 {@link Activity}。
      *
      * @param excludeActivityClasses activity class
      */
@@ -281,7 +285,7 @@ public class AppManager {
     }
 
     /**
-     * 关闭所有 {@link Activity},排除指定的 {@link Activity}
+     * 关闭所有 {@link Activity},排除指定的 {@link Activity}。
      *
      * @param excludeActivityName {@link Activity} 的完整全路径
      */

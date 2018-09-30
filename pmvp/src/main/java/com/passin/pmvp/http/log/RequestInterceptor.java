@@ -40,7 +40,7 @@ public class RequestInterceptor implements Interceptor {
     Level printLevel;
 
     public enum Level {
-        // 不打印log
+        // 不打印 log
         NONE,
         // 只打印请求信息
         REQUEST,
@@ -83,7 +83,7 @@ public class RequestInterceptor implements Interceptor {
 
         ResponseBody responseBody = originalResponse.body();
 
-        // 打印响应结果
+        // 打印响应结果。
         String bodyString = null;
         if (responseBody != null && isParseable(responseBody.contentType())) {
             bodyString = ResponseResult(originalResponse);
@@ -107,7 +107,7 @@ public class RequestInterceptor implements Interceptor {
 
         }
 
-        // 这里可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如token超时,重新获取
+        // 这里可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如 token 超时,重新获取。
         if (mHandler != null)
             return mHandler.onHttpResultResponse(bodyString, chain, originalResponse);
 
@@ -123,20 +123,20 @@ public class RequestInterceptor implements Interceptor {
     @Nullable
     private String ResponseResult(Response response) {
         try {
-            // 读取服务器返回的结果
+            // 读取服务器返回的结果。
             ResponseBody responseBody = response.newBuilder().build().body();
             BufferedSource source = responseBody.source();
             source.request(Long.MAX_VALUE);
             Buffer buffer = source.buffer();
 
-            // 获取content的压缩类型
+            // 获取 content 的压缩类型。
             String encoding = response
                     .headers()
                     .get("Content-Encoding");
 
             Buffer clone = buffer.clone();
 
-            // 解析response content
+            // 解析 response content。
             return parseContent(responseBody, encoding, clone);
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,18 +159,20 @@ public class RequestInterceptor implements Interceptor {
         if (contentType != null) {
             charset = contentType.charset(charset);
         }
-        // content使用gzip压缩
         if (encoding != null && encoding.equalsIgnoreCase("gzip")) {
+            // content 使用 gzip 压缩。
             return ZipUtils.decompressForGzip(clone.readByteArray(), convertCharset(charset));
-        } else if (encoding != null && encoding.equalsIgnoreCase("zlib")) {//content使用zlib压缩
+        } else if (encoding != null && encoding.equalsIgnoreCase("zlib")) {
+            // content 使用 zlib 压缩
             return ZipUtils.decompressToStringForZlib(clone.readByteArray(), convertCharset(charset));
-        } else {//content没有被压缩
+        } else {
+            // content 没有被压缩或使用了其他压缩方式。
             return clone.readString(charset);
         }
     }
 
     /**
-     * 解析请求服务器的请求参数
+     * 解析请求服务器的请求参数。
      *
      * @param request
      * @return
@@ -198,7 +200,7 @@ public class RequestInterceptor implements Interceptor {
     }
 
     /**
-     * 是否可以解析
+     * 是否可以解析。
      *
      * @param mediaType
      * @return

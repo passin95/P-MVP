@@ -34,7 +34,7 @@ public class RetryWithDelayOfFlowable implements Function<Flowable<Throwable>, P
                 .flatMap(new Function<Throwable, Publisher<?>>() {
                     @Override
                     public Publisher<?> apply(@NonNull Throwable throwable) throws Exception {
-                        //当异常为网络连接超时并未超过重试次数才进行重试
+                        // 当异常为网络连接超时并未超过重试次数才进行重试。
                         if (throwable instanceof SocketTimeoutException && ++retryCount <= maxRetries) {
                             return Flowable.timer(retryDelaySecond,
                                     TimeUnit.SECONDS);

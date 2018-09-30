@@ -25,6 +25,9 @@ import me.passin.pmvp.feature.user.UserView;
  */
 public class MultiplexPresenterActivity extends BaseActivity implements UserView{
 
+    /**
+     * 只要实现 P 所对应的 V，便可随意注入 P。
+     */
     @Inject
     UserPresenter mPresenter;
 
@@ -35,8 +38,6 @@ public class MultiplexPresenterActivity extends BaseActivity implements UserView
 
     @Inject
     UserAdapter mAdapter;
-
-
 
 
     @Override

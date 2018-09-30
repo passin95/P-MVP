@@ -55,16 +55,16 @@ public class RepositoryManager implements IRepositoryManager {
                     public Object invoke(Object proxy, Method method, @Nullable Object[] args)
                             throws Throwable {
                         if (method.getReturnType() == Observable.class) {
-                            // 如果方法返回值是 Observable 的话，则包一层再返回
+                            // 如果方法返回值是 Observable 的话，则包一层再返回。
                             return Observable.defer(() -> {
                                 final T service = getRetrofitService(serviceClass);
-                                // 执行真正的 Retrofit 动态代理的方法
+                                // 执行真正的 Retrofit 动态代理的方法。
                                 return ((Observable) getRetrofitMethod(service, method)
                                         .invoke(service, args))
                                         .subscribeOn(Schedulers.io());})
                                     .subscribeOn(Schedulers.single());
                         }
-                        // 返回值不是 Observable 的话不处理
+                        // 返回值不是 Observable 的话不处理。
                         final T service = getRetrofitService(serviceClass);
                         return getRetrofitMethod(service, method).invoke(service, args);
                     }

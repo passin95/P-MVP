@@ -51,16 +51,14 @@ public abstract class HttpClientModule {
         }
 
         /**
-         *   加在configuration之后的原因是Retrofit将会按照添加不同解析方式的顺序按先添加先“尝试”解析的方式进行解析
-         *   即按照
-         *   builder.addConverterFactory(FastJsonConverterFactory.create());//比如使用fastjson替代gson
-         *     .addConverterFactory(GsonConverterFactory.create(gson));
-         *   的顺序添加时，优先采取fastjson解析，当fastjson解析失败后再去尝试gson解析
+         *   加在 configuration 之后的原因是：
+         *   Retrofit 将会按照添加不同解析方式的顺序按先添加先“尝试”解析的方式进行选择。
+         *   例如按照 builder.addConverterFactory(FastJsonConverterFactory.create());
+         *                   .addConverterFactory(GsonConverterFactory.create(gson));
+         *   的顺序添加时，优先采取 fastjson 解析，当 fastjson 无法获取想要的解析结果时再去尝试 Gson 解析。
          */
         builder
-                ////使用 Rxjava
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                //使用 Gson
                 .addConverterFactory(GsonConverterFactory.create(gson));
         return builder.build();
     }
@@ -85,7 +83,7 @@ public abstract class HttpClientModule {
         }
 
 
-        //如果外部提供了interceptor的集合则遍历添加
+        // 如果外部提供了 interceptor 的集合则遍历添加。
         if (interceptors != null) {
             for (Interceptor interceptor : interceptors) {
                 builder.addInterceptor(interceptor);
@@ -98,7 +96,6 @@ public abstract class HttpClientModule {
         return builder.build();
     }
 
-
     @Singleton
     @Provides
     static Gson provideGson(Application application, @Nullable GsonConfiguration configuration) {
@@ -109,14 +106,9 @@ public abstract class HttpClientModule {
         return builder.create();
     }
 
-
-
     @Binds
     @Named("requestInterceptor")
     abstract Interceptor bindInterceptor(RequestInterceptor interceptor);
-
-
-
 
     @Singleton
     @Provides
@@ -127,7 +119,6 @@ public abstract class HttpClientModule {
                 .responseErrorListener(listener)
                 .build();
     }
-
 
     @Singleton
     @Provides
@@ -141,12 +132,9 @@ public abstract class HttpClientModule {
         return new OkHttpClient.Builder();
     }
 
-
-
-
     public interface RetrofitConfiguration {
         /**
-         * 提供接口，可在GlobalConfiguration全局自定义配置 Retrofit
+         * 提供接口，可在 GlobalConfiguration 全局自定义配置 Retrofit。
          *
          * @param context Context
          * @param builder Retrofit.Builder
@@ -156,7 +144,7 @@ public abstract class HttpClientModule {
 
     public interface OkhttpConfiguration {
         /**
-         * 提供接口，可在GlobalConfiguration全局自定义配置 OkHttpClient
+         * 提供接口，可在 GlobalConfiguration 全局自定义配置 OkHttpClient。
          *
          * @param context Context
          * @param builder OkHttpClient.Builder
@@ -166,13 +154,12 @@ public abstract class HttpClientModule {
 
     public interface GsonConfiguration {
         /**
-         * 提供接口，可在GlobalConfiguration全局自定义配置 Gson
+         * 提供接口，可在 GlobalConfiguration 全局自定义配置 Gson。
          *
          * @param context Context
          * @param builder GsonBuilder
          */
         void configGson(Context context, GsonBuilder builder);
     }
-
 
 }

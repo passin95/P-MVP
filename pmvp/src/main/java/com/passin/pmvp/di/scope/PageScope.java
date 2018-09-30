@@ -15,17 +15,16 @@
  */
 package com.passin.pmvp.di.scope;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-
-import javax.inject.Scope;
-
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import javax.inject.Scope;
+
 /**
- * A scoping annotation to permit objects whose lifetime should
- * conform to the life of the activity to be memorized in the
- * correct component.
+ * 框架建议将 Activity、Fragment、View 等页面当做一个个 Page 看待，
+ * 使它们所持有的所有对象生命周期一致，
+ * 这样能够拥有较大的代码自由度，方便对 M 层和 P 层进行复用。
  */
 @Scope
 @Documented

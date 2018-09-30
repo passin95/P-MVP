@@ -47,7 +47,7 @@ public class FragmentLifecycle extends FragmentManager.FragmentLifecycleCallback
     @Override
     public void onFragmentDestroyed(FragmentManager fm, Fragment f) {
         if (f instanceof IFragment && ((IFragment) f).useEventBus()) {
-            EventBus.getDefault().unregister(f);//注册到事件主线
+            EventBus.getDefault().unregister(f);
         }
     }
 

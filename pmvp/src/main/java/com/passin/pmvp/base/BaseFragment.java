@@ -41,8 +41,8 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     private Unbinder mUnbinder;
 
     /**
-     * 是否使用{@link EventBus},默认为不使用(false)，
-     * 如果true，必须真的接收某个事件
+     * 是否使用 {@link EventBus},默认为不使用 (false)，
+     * 如果 true，必须真的接收某个事件。
      */
     @Override
     public boolean useEventBus() {
@@ -50,7 +50,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 是否使用Dagger注入,默认为使用(true)，
+     * 是否使用 Dagger 注入,默认为使用 (true)。
      */
     @Override
     public boolean useInject() {
@@ -62,14 +62,15 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 将 {@link Disposable} 添加到 {@link CompositeDisposable} 中统一管理
-     * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏
+     * 将 {@link Disposable} 添加到 {@link CompositeDisposable} 中统一管理，
+     * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏。
      */
     public void addDispose(Disposable disposable) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
+        // 将所有 Disposable 放入 CompositeDisposable 集中处理。
+        mCompositeDisposable.add(disposable);
     }
 
     @Override
@@ -79,7 +80,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
 
     /**
      * Perform some extra transactions.
-     * 额外的事务：自定义Tag，添加SharedElement动画，操作非回退栈Fragment
+     * 额外的事务：自定义 Tag，添加 SharedElement 动画，操作非回退栈 Fragment。
      */
     @Override
     public ExtraTransaction extraTransaction() {
@@ -91,7 +92,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
      * <p>
      * The runnable will be run after all the previous action has been run.
      * <p>
-     * 前面的事务全部执行后 执行该Action
+     * 前面的事务全部执行后执行该 Action。
      *
      * @deprecated Use {@link #post(Runnable)} instead.
      */
@@ -106,7 +107,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
      * <p>
      * The runnable will be run after all the previous action has been run.
      * <p>
-     * 前面的事务全部执行后 执行该Action
+     * 前面的事务全部执行后执行该 Action。
      */
     @Override
     public void post(Runnable runnable) {
@@ -115,7 +116,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
 
     /**
      * Called when the enter-animation end.
-     * 入栈动画 结束时,回调
+     * 入栈动画结束时,回调。
      */
     @Override
     public void onEnterAnimationEnd(Bundle savedInstanceState) {
@@ -125,7 +126,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     /**
      * Lazy initial，Called when fragment is first called.
      * <p>
-     * 同级下的 懒加载 ＋ ViewPager下的懒加载  的结合回调方法
+     * 同级下的 懒加载 ＋ ViewPager 下的懒加载 的结合回调方法。
      */
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
@@ -134,7 +135,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
 
     /**
      * Called when the fragment is visible.
-     * 当Fragment对用户可见时回调
+     * 当 Fragment 对用户可见时回调。
      * <p>
      * Is the combination of  [onHiddenChanged() + onResume()/onPause() + setUserVisibleHint()]
      */
@@ -163,7 +164,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
 
     /**
      * Set fragment animation with a higher priority than the ISupportActivity
-     * 设定当前Fragmemt动画,优先级比在SupportActivity里高
+     * 设定当前 Fragmemt 动画,优先级比在 SupportActivity 里高。
      */
     @Override
     public FragmentAnimator onCreateFragmentAnimator() {
@@ -171,7 +172,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 获取设置的全局动画 copy
+     * 获取设置的全局动画 copy。
      *
      * @return FragmentAnimator
      */
@@ -181,7 +182,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 设置Fragment内的全局动画
+     * 设置 Fragment 内的全局动画。
      */
     @Override
     public void setFragmentAnimator(FragmentAnimator fragmentAnimator) {
@@ -213,7 +214,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 在start(TargetFragment,LaunchMode)时,启动模式为SingleTask/SingleTop, 回调TargetFragment的该方法
+     * 在 start(TargetFragment,LaunchMode) 时,启动模式为 SingleTask/SingleTop, 回调 TargetFragment 的该方法
      * 类似 {@link Activity#onNewIntent(Intent)}
      * <p>
      * Similar to {@link Activity#onNewIntent(Intent)}
@@ -227,7 +228,7 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 添加NewBundle,用于启动模式为SingleTask/SingleTop时
+     * 添加 NewBundle,用于启动模式为 SingleTask/SingleTop 时。
      *
      * @see #start(ISupportFragment, int)
      */
@@ -237,9 +238,9 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 按返回键触发,前提是SupportActivity的onBackPressed()方法能被调用
+     * 按返回键触发,前提是 SupportActivity 的 onBackPressed() 方法能被调用。
      *
-     * @return false则继续向上传递, true则消费掉该事件
+     * @return false 则继续向上传递, true 则消费掉该事件。
      */
     @Override
     public boolean onBackPressedSupport() {
@@ -334,19 +335,12 @@ public abstract class BaseFragment extends Fragment implements IFragment,
         super.onDestroy();
     }
 
-    /**
-     * 加载多个同级根Fragment,类似Wechat, QQ主页的场景
-     */
-    public void loadMultipleRootFragment(int containerId, int showPosition,
-            ISupportFragment... toFragments) {
-        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
-    }
 
-    /****************************************以下为可选方法(Optional methods)******************************************************/
-    // 自定制Support时，可移除不必要的方法
+    /****************************************以下为可选方法 (Optional methods)******************************************************/
+    // 自定制 Support 时，可移除不必要的方法
 
     /**
-     * show一个Fragment,hide一个Fragment ; 主要用于类似微信主页那种 切换tab的情况
+     * show 一个 Fragment,hide 一个 Fragment ; 主要用于类似微信主页那种 切换 tab 的情况
      */
     public void showHideFragment(ISupportFragment showFragment, ISupportFragment hideFragment) {
         mDelegate.showHideFragment(showFragment, hideFragment);
@@ -360,17 +354,25 @@ public abstract class BaseFragment extends Fragment implements IFragment,
     }
 
     /**
-     * 显示软键盘,调用该方法后,会在onPause时自动隐藏软键盘
+     * 显示软键盘,调用该方法后,会在 onPause 时自动隐藏软键盘
      */
     protected void showSoftInput(final View view) {
         mDelegate.showSoftInput(view);
     }
 
     /**
-     * 加载根Fragment, 即Activity内的第一个Fragment 或 Fragment内的第一个子Fragment
+     * 加载多个同级根 Fragment,类似 Wechat, QQ 主页的场景
+     */
+    public void loadMultipleRootFragment(int containerId, int showPosition,
+            ISupportFragment... toFragments) {
+        mDelegate.loadMultipleRootFragment(containerId, showPosition, toFragments);
+    }
+
+    /**
+     * 加载根 Fragment, 即 Activity 内的第一个 Fragment 或 Fragment 内的第一个子 Fragment
      *
-     * @param containerId 容器id
-     * @param toFragment 目标Fragment
+     * @param containerId 容器 id
+     * @param toFragment 目标 Fragment
      */
     public void loadRootFragment(int containerId, ISupportFragment toFragment) {
         mDelegate.loadRootFragment(containerId, toFragment);
@@ -427,17 +429,17 @@ public abstract class BaseFragment extends Fragment implements IFragment,
      * Pop the last fragment transition from the manager's fragment
      * back stack.
      * <p>
-     * 出栈到目标fragment
+     * 出栈到目标 fragment
      *
-     * @param targetFragmentClass 目标fragment
-     * @param includeTargetFragment 是否包含该fragment
+     * @param targetFragmentClass 目标 fragment
+     * @param includeTargetFragment 是否包含该 fragment
      */
     public void popTo(Class<?> targetFragmentClass, boolean includeTargetFragment) {
         mDelegate.popTo(targetFragmentClass, includeTargetFragment);
     }
 
     /**
-     * 获取栈内的fragment对象
+     * 获取栈内的 fragment 对象。
      */
     public <T extends ISupportFragment> T findChildFragment(Class<T> fragmentClass) {
         return SupportHelper.findFragment(getChildFragmentManager(), fragmentClass);

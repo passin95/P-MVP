@@ -19,7 +19,7 @@ public interface CacheType {
     int LUR_EXTRAS_TYPE_ID = 1;
 
     /**
-     * {@link RepositoryManager}中存储 Retrofit Service 的容器
+     * {@link RepositoryManager}中存储 Retrofit Service 的容器。
      */
     CacheType RETROFIT_SERVICE_CACHE = new CacheType() {
         private static final int MAX_SIZE = 70;
@@ -47,7 +47,7 @@ public interface CacheType {
 
 
     /**
-     * {@link ArmsComponent} 中的 lruExtras
+     * {@link ArmsComponent} 中的 lruExtras。
      */
     CacheType LRU_EXTRAS = new CacheType() {
         private static final int MAX_SIZE = 100;
@@ -75,14 +75,14 @@ public interface CacheType {
 
 
     /**
-     * 返回框架内需要缓存的模块对应的 {@code id}
+     * 返回框架内需要缓存的模块对应的 {@code id}。
      *
      * @return
      */
     int getCacheTypeId();
 
     /**
-     * 计算对应模块需要的缓存大小
+     * 计算对应模块需要的缓存大小。
      *
      * @return
      */

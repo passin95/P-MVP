@@ -29,7 +29,6 @@ public class UserModel extends BaseModel{
     }
 
 
-
     public Observable<List<User>> getUsers(int lastIdQueried,boolean isEvictCache) {
         //使用rxcache缓存,上拉刷新则不读取缓存,加载更多读取缓存
         return mRepositoryManager
@@ -40,6 +39,5 @@ public class UserModel extends BaseModel{
     public void test() {
         PmvpUtils.snackbarText("随意注入Model啦");
     }
-
 
 }

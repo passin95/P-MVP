@@ -50,7 +50,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
     }
 
     /**
-     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 可以解析的情况
+     * 打印网络请求信息, 当网络请求时可对 {{@link okhttp3.RequestBody}} 解析的情况。
      *
      * @param request
      * @param bodyString
@@ -65,11 +65,11 @@ public class DefaultFormatPrinter implements FormatPrinter {
         logLines(tag, getRequest(request), true);
         logLines(tag, requestBody.split(LINE_SEPARATOR), true);
         Timber.tag(tag).i(END_LINE);
-        Timber.tag(tag).i("body(用于copy)："+bodyString);
+        Timber.tag(tag).i("Body(用于copy)："+bodyString);
     }
 
     /**
-     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 为 {@code null} 或不可解析的情况
+     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 为 {@code null} 或不可解析的情况。
      *
      * @param request
      */
@@ -85,7 +85,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
     }
 
     /**
-     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 可以解析的情况
+     * 打印网络响应信息, 当网络响应可对 {{@link okhttp3.ResponseBody}} 解析的情况。
      *
      * @param chainMs      服务器响应耗时(单位毫秒)
      * @param isSuccessful 请求是否成功
@@ -122,7 +122,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
     }
 
     /**
-     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 为 {@code null} 或不可解析的情况
+     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 为 {@code null} 或不可解析的情况。
      *
      * @param chainMs      服务器响应耗时(单位毫秒)
      * @param isSuccessful 请求是否成功
@@ -145,13 +145,12 @@ public class DefaultFormatPrinter implements FormatPrinter {
         Timber.tag(tag).i(END_LINE);
     }
 
-
     /**
-     * 对 {@code lines} 中的信息进行逐行打印
+     * 对 {@code lines} 中的信息进行逐行打印。
      *
      * @param tag
      * @param lines
-     * @param withLineSize 为 {@code true} 时, 每行的信息长度不会超过110, 超过则自动换行
+     * @param withLineSize 为 {@code true} 时, 每行的信息长度不会超过 120, 超过则自动换行。
      */
     private static void logLines(String tag, String[] lines, boolean withLineSize) {
         for (String line : lines) {
@@ -187,10 +186,10 @@ public class DefaultFormatPrinter implements FormatPrinter {
     /**
      * 此方法是为了解决在 AndroidStudio v3.1 以上 Logcat 输出的日志无法对齐的问题
      * <p>
-     * 此问题引起的原因, 据 JessYan 猜测, 可能是因为 AndroidStudio v3.1 以上将极短时间内以相同 tag 输出多次的 log 自动合并为一次输出
-     * 导致本来对称的输出日志, 出现不对称的问题
-     * AndroidStudio v3.1 此次对输出日志的优化, 不小心使市面上所有具有日志格式化输出功能的日志框架无法正常工作
-     * 现在暂时能想到的解决方案有两个: 1. 改变每行的 tag (每行 tag 都加一个可变化的 token) 2. 延迟每行日志打印的间隔时间
+     * 此问题引起的原因, 据 JessYan 猜测, 可能是因为 AndroidStudio v3.1 以上将极短时间内以相同 tag 输出多次的 log 自动合并为一次输出，
+     * 导致本来对称的输出日志, 出现不对称的问题。
+     * AndroidStudio v3.1 此次对输出日志的优化, 不小心使市面上所有具有日志格式化输出功能的日志框架无法正常工作。
+     * 现在暂时能想到的解决方案有两个: 1. 改变每行的 tag (每行 tag 都加一个可变化的 token) 2. 延迟每行日志打印的间隔时间。
      * <p>
      * {@link #resolveTag(String)} 使用第一种解决方案
      *
@@ -199,7 +198,6 @@ public class DefaultFormatPrinter implements FormatPrinter {
     private static String resolveTag(String tag) {
         return computeKey() + tag;
     }
-
 
     private static String[] getRequest(Request request) {
         String log;
@@ -229,7 +227,7 @@ public class DefaultFormatPrinter implements FormatPrinter {
     }
 
     /**
-     * 对 {@code header} 按规定的格式进行处理
+     * 对 {@code header} 按规定的格式进行处理。
      *
      * @param header
      * @return
@@ -256,7 +254,6 @@ public class DefaultFormatPrinter implements FormatPrinter {
         }
         return builder.toString();
     }
-
 
     private static String getTag(boolean isRequest) {
         if (isRequest) {

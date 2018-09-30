@@ -24,8 +24,9 @@ import me.passin.pmvp.data.model.UserModel;
 @PageScope
 public class UserPresenter extends BasePresenter<UserView> {
 
-
-    //可直接注入任意Model，如果该Model不是必使用，可用Lazy，使用时再初始化进行优化
+    /**
+     * 可直接注入任意 Model，如果该 Model 不是必使用，可用 Lazy，使用时再初始化进行优化。
+     */
     @Inject
     Lazy<UserModel> mModel;
     @Inject
@@ -48,24 +49,28 @@ public class UserPresenter extends BasePresenter<UserView> {
 
     public void requestUsers(boolean pullToRefresh) {
         if (pullToRefresh) {
-            lastUserId = 1;//下拉刷新默认只请求第一页
+            // 下拉刷新默认只请求第一页。
+            lastUserId = 1;
         }
 
-        boolean isEvictCache = pullToRefresh;//是否驱逐缓存,为ture即不使用缓存,每次下拉刷新即需要最新数据,则不使用缓存
+        // 是否驱逐缓存,为 true 即不使用缓存,每次下拉刷新即需要最新数据,则不使用缓存。
+        boolean isEvictCache = pullToRefresh;
 
-        if (pullToRefresh && isFirst) {//默认在第一次下拉刷新时使用缓存
+        // 默认在第一次下拉刷新时使用缓存。
+        if (pullToRefresh && isFirst) {
             isFirst = false;
             isEvictCache = false;
         }
 
         addDispose(mModel.get().getUsers(lastUserId,isEvictCache)
-                .retryWhen(new RetryWithDelay(3, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                // 遇到连接超时时重试,第一个参数为重试几次,第二个参数为重试的间隔。
+                .retryWhen(new RetryWithDelay(3, 2))
                 .doOnSubscribe(disposable -> {
                     if (pullToRefresh) {
                         isLoadMoreEnd = false;
-                        //这里的作用是防止下拉刷新的时候还可以上拉加载
+                        // 这里的作用是防止下拉刷新的时候还可以上拉加载。
                         mAdapter.setEnableLoadMore(false);
-                        //显示下拉刷新的进度条
+                        // 显示下拉刷新的进度条。
                         mRootView.startRefresh();
                     }
                 }).subscribeOn(AndroidSchedulers.mainThread())
@@ -73,7 +78,8 @@ public class UserPresenter extends BasePresenter<UserView> {
                 .doFinally(() -> {
                     if (pullToRefresh) {
                         mAdapter.setEnableLoadMore(true);
-                        mRootView.endRefresh();//隐藏下拉刷新的进度条
+                        // 隐藏下拉刷新的进度条。
+                        mRootView.endRefresh();
                     }
                 })
                 .subscribeWith(new BaseErrorHandleSubscriber<List<User>>(mErrorHandler) {

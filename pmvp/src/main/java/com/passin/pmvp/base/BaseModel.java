@@ -13,11 +13,13 @@ import com.passin.pmvp.http.repository.IRepositoryManager;
  * Contact me : https://github.com/passin95
  * Date: 2018/3/14 10:01
  * </pre>
+ * ------------------------------------------
+ * Model 层用于管理网络请求、数据获取、数据缓存等一切数据来源。
  */
 public class BaseModel implements LifecycleObserver {
 
     /**
-     *  用于管理网络请求层, 以及数据缓存层
+     * 用于管理网络请求。
      */
     protected IRepositoryManager mRepositoryManager;
 
@@ -27,7 +29,10 @@ public class BaseModel implements LifecycleObserver {
         owner.getLifecycle().addObserver(this);
     }
 
-
+    /**
+     * 绑定 Activity onDestroy() 生命周期。
+     * @param owner
+     */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void onDestroy(LifecycleOwner owner) {
         mRepositoryManager = null;

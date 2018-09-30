@@ -29,5 +29,4 @@ public class UserAdapter extends BaseQuickAdapter<User, BaseViewHolder> {
         GlideApp.with(mContext).load(item.getAvatarUrl()).centerCrop().into((ImageView) helper.getView(R.id.iv_avatar));
     }
 
-
 }

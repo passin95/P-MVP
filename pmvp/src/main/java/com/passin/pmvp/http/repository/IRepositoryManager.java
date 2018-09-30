@@ -10,7 +10,7 @@ package com.passin.pmvp.http.repository;
 public interface IRepositoryManager {
 
     /**
-     * 根据传入的 Class 获取对应的 Retrofit service
+     * 根据传入的 Class 获取对应的 Retrofit Service。
      *
      * @param service
      * @param <T>

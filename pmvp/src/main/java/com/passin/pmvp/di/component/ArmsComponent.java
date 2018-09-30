@@ -41,7 +41,10 @@ public interface ArmsComponent extends AndroidInjector<AppDelegateImpl>{
 
     RxErrorHandler rxErrorHandler();
 
-    //存在LruExtras的数据可能被移除，若该数据一定不能为空，请使用extras
+    /**
+     * 存放在 LruExtras() 的数据可能被移除，若该数据一定不能为空，请使用 extras()。
+     * @return
+     */
     Cache<String, Object> lruExtras();
 
     Map<String, Object> extras();

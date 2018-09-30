@@ -12,6 +12,7 @@ import com.passin.pmvp.http.log.RequestInterceptor;
 import com.passin.pmvp.integration.cache.Cache;
 import com.passin.pmvp.integration.cache.CacheType;
 import com.passin.pmvp.integration.cache.LruCache;
+import com.passin.pmvp.rx.rxerrorhandler.BaseErrorHandleSubscriber;
 import com.passin.pmvp.rx.rxerrorhandler.ResponseErrorListener;
 import com.passin.pmvp.util.FileUtils;
 import com.passin.pmvp.util.Preconditions;
@@ -78,9 +79,8 @@ public class GlobalConfigModule {
         return mInterceptors;
     }
 
-
     /**
-     * 提供 BaseUrl,默认使用 <"https://api.github.com/">
+     * 提供 BaseUrl,默认使用 <"https://api.github.com/">。
      *
      * @return
      */
@@ -96,9 +96,8 @@ public class GlobalConfigModule {
         return mApiUrl == null ? HttpUrl.parse("https://api.github.com/") : mApiUrl;
     }
 
-
     /**
-     * 提供处理 Http 请求和响应结果的处理类
+     * 提供处理 Http 请求和响应结果的处理类。
      *
      * @return
      */
@@ -109,16 +108,14 @@ public class GlobalConfigModule {
         return mHandler;
     }
 
-
     /**
-     * 提供缓存文件
+     * 提供缓存文件夹。
      */
     @Singleton
     @Provides
     File provideCacheFile(Application application) {
         return mCacheFile == null ? FileUtils.getCacheFile(application) : mCacheFile;
     }
-
 
     /**
      * 提供处理 RxJava 错误的管理器的回调
@@ -131,14 +128,12 @@ public class GlobalConfigModule {
         return mErrorListener == null ? ResponseErrorListener.EMPTY : mErrorListener;
     }
 
-
     @Singleton
     @Provides
     @Nullable
     HttpClientModule.RetrofitConfiguration provideRetrofitConfiguration() {
         return mRetrofitConfiguration;
     }
-
 
     @Singleton
     @Provides
@@ -147,14 +142,12 @@ public class GlobalConfigModule {
         return mOkhttpConfiguration;
     }
 
-
     @Singleton
     @Provides
     @Nullable
     HttpClientModule.GsonConfiguration provideGsonConfiguration() {
         return mGsonConfiguration;
     }
-
 
     @Singleton
     @Provides
@@ -163,6 +156,12 @@ public class GlobalConfigModule {
     }
 
 
+    /**
+     * 提供日志输出方式。可添加 dataJsonKey，当 data 格式为 {@link com.google.gson.JsonArray}时，只输出一组数据。
+     * 当网络请求 Json 格式为 Demo 中 BaseJson 样式，并且 data 的键值为 dataJsonKey 生效。
+     *
+     * @return
+     */
     @Singleton
     @Provides
     FormatPrinter provideFormatPrinter(){
@@ -177,8 +176,8 @@ public class GlobalConfigModule {
             @NonNull
             @Override
             public Cache build(CacheType type) {
-                //若想自定义 LruCache 的 size, 或者不想使用 LruCache, 想使用自己自定义的策略
-                //并使用 GlobalConfigModule.Builder#cacheFactory() 扩展
+                // 若想自定义 LruCache 的 size, 或者不想使用 LruCache, 想使用自己自定义的策略，
+                // 结合 GlobalConfigModule.Builder#cacheFactory() 使用和扩展。
                 return new LruCache(type.calculateCacheSize(application));
             }
         } : mCacheFactory;
@@ -204,7 +203,7 @@ public class GlobalConfigModule {
         private Builder() {
         }
 
-        public Builder baseurl(String baseUrl) {//基础url
+        public Builder baseurl(String baseUrl) {
             if (TextUtils.isEmpty(baseUrl)) {
                 throw new NullPointerException("BaseUrl can not be empty");
             }
@@ -222,12 +221,22 @@ public class GlobalConfigModule {
             return this;
         }
 
-        public Builder globalHttpHandler(GlobalHttpHandler handler) {//用来处理http响应结果
+        /**
+         * 用来处理 Http 全局响应结果。
+         * @param handler
+         * @return
+         */
+        public Builder globalHttpHandler(GlobalHttpHandler handler) {
             this.handler = handler;
             return this;
         }
 
-        public Builder addInterceptor(Interceptor interceptor) {//动态添加任意个interceptor
+        /**
+         * 为 OkHttp 添加 Interceptor，该拦截器在请求构建会后于框架提供的 {@link GlobalHttpHandler}执行。
+         * @param interceptor
+         * @return
+         */
+        public Builder addInterceptor(Interceptor interceptor) {
             if (interceptors == null) {
                 interceptors = new ArrayList<>();
             }
@@ -235,7 +244,12 @@ public class GlobalConfigModule {
             return this;
         }
 
-        public Builder responseErrorListener(ResponseErrorListener listener) {//处理所有RxJava的onError逻辑
+        /**
+         * 共同处理所有使用 {@link BaseErrorHandleSubscriber} 的 RxJava的onError()逻辑。
+         * @param listener
+         * @return
+         */
+        public Builder responseErrorListener(ResponseErrorListener listener) {
             this.responseErrorListener = listener;
             return this;
         }
@@ -260,7 +274,12 @@ public class GlobalConfigModule {
             return this;
         }
 
-        public Builder printHttpLogLevel(RequestInterceptor.Level printHttpLogLevel) {//是否让框架打印 Http 的请求和响应信息
+        /**
+         * 控制框架默认 Http 请求输出的日志级别。
+         * @param printHttpLogLevel 日志级别。
+         * @return
+         */
+        public Builder printHttpLogLevel(RequestInterceptor.Level printHttpLogLevel) {
             this.printHttpLogLevel = Preconditions.checkNotNull(printHttpLogLevel, "The printHttpLogLevel can not be null, use RequestInterceptor.Level.NONE instead.");
             return this;
         }
@@ -280,6 +299,5 @@ public class GlobalConfigModule {
         }
 
     }
-
 
 }

@@ -12,7 +12,6 @@ public class UrlEncoderUtils {
      * 判断str是否urlEncoder.encode过，
      * 经常遇到这样的情况，拿到一个URL,但是搞不清楚到底要不要encode，
      * 不做encode吧，担心出错，做encode吧，又怕重复了。
-     *
      */
     public static boolean hasUrlEncoded(String str) {
 

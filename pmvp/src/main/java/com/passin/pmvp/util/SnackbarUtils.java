@@ -316,5 +316,4 @@ public final class SnackbarUtils {
         }
     }
 
-
 }

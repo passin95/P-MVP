@@ -23,7 +23,7 @@ public class LruCache <K, V> implements Cache<K, V> {
     /**
      * Constructor for LruCache.
      *
-     * @param size 这个缓存的最大 size,这个 size 所使用的单位必须和 {@link #getItemSize(Object)} 所使用的单位一致.
+     * @param size 这个缓存的最大 size,这个 size 所使用的单位必须和 {@link #getItemSize(Object)} 所使用的单位一致。
      */
     public LruCache(int size) {
         this.initialMaxSize = size;
@@ -45,7 +45,7 @@ public class LruCache <K, V> implements Cache<K, V> {
     }
 
     /**
-     * 返回每个 {@code item} 所占用的 size,默认为1,这个 size 的单位必须和构造函数所传入的 size 一致
+     * 返回每个 {@code item} 所占用的 size,默认为 1,这个 size 的单位必须和构造函数所传入的 size 一致
      * 子类可以重写这个方法以适应不同的单位,比如说 bytes
      *
      * @param item 每个 {@code item} 所占用的 size
@@ -143,8 +143,8 @@ public class LruCache <K, V> implements Cache<K, V> {
     }
 
     /**
-     * 移除缓存中这个 {@code key} 所对应的条目,并返回所移除条目的 {@code value}
-     * 如果返回为 {@code null} 则有可能时因为这个 {@code key} 对应的 {@code value} 为 {@code null} 或条目不存在
+     * 移除缓存中这个 {@code key} 所对应的条目,并返回所移除条目的 {@code value}，
+     * 如果返回为 {@code null} 则有可能时因为这个 {@code key} 对应的 {@code value} 为 {@code null} 或条目不存在。
      *
      * @param key 使用这个 {@code key} 移除对应的条目
      */
@@ -167,7 +167,7 @@ public class LruCache <K, V> implements Cache<K, V> {
     }
 
     /**
-     * 当指定的 size 小于当前缓存已占用的总 size 时,会开始清除缓存中最近最少使用的条目
+     * 当指定的 size 小于当前缓存已占用的总 size 时,会开始清除缓存中最近最少使用的条目。
      *
      * @param size
      */
@@ -184,7 +184,7 @@ public class LruCache <K, V> implements Cache<K, V> {
     }
 
     /**
-     * 当缓存中已占用的总 size 大于所能允许的最大 size ,会使用  {@link #trimToSize(int)} 开始清除满足条件的条目
+     * 当缓存中已占用的总 size 大于所能允许的最大 size ,会使用  {@link #trimToSize(int)} 开始清除满足条件的条目。
      */
     private void evict() {
         trimToSize(maxSize);

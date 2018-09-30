@@ -32,7 +32,7 @@ public class RetryWithDelay implements Function<Observable<Throwable>, Observabl
                 .flatMap(new Function<Throwable, ObservableSource<?>>() {
                     @Override
                     public ObservableSource<?> apply(@NonNull Throwable throwable) throws Exception {
-                        //当异常为网络连接超时并未超过重试次数才进行重试
+                        // 当异常为网络连接超时并未超过重试次数才进行重试。
                         if (throwable instanceof SocketTimeoutException && ++retryCount <= maxRetries) {
                             return Observable.timer(retryDelaySecond,
                                     TimeUnit.SECONDS);

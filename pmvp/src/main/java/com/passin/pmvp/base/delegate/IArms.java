@@ -16,6 +16,8 @@ import com.passin.pmvp.di.component.ArmsComponent;
  */
 
 public interface IArms {
+
     @NonNull
     ArmsComponent getArmsComponent();
+
 }

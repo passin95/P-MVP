@@ -24,11 +24,9 @@ public interface  MainActivitiesModule {
     @ContributesAndroidInjector(modules = {UserModule.class})
     UserActivity contributeUserActivity();
 
-
     @PageScope
     @ContributesAndroidInjector(modules = {MultiplexPresenterModule.class})
     MultiplexPresenterActivity contributeMultiplexPresenterActivity();
-
 
     @PageScope
     @ContributesAndroidInjector(modules = {NullPresenterModule.class})

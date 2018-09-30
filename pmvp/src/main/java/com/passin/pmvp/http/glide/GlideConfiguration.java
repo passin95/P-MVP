@@ -25,7 +25,8 @@ import java.io.InputStream;
  */
 @GlideModule(glideName = "GlideApp")
 public class GlideConfiguration extends AppGlideModule {
-    public static final int IMAGE_DISK_CACHE_MAX_SIZE = 100 * 1024 * 1024;//图片缓存文件最大值为100Mb
+    // Glide图片缓存文件最大值为100Mb
+    public static final int IMAGE_DISK_CACHE_MAX_SIZE = 100 * 1024 * 1024;
 
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
@@ -52,7 +53,7 @@ public class GlideConfiguration extends AppGlideModule {
 
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
-        //Glide 默认使用 HttpURLConnection 做网络请求,在这切换成 Okhttp 请求
+        // 框架使用的 Glide 默认使用 HttpURLConnection 做网络请求,在这切换成 OkHttp 请求。
         ArmsComponent armsComponent = PmvpUtils.obtainArmsComponentFromContext(context);
         registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(armsComponent.okHttpClient()));
     }

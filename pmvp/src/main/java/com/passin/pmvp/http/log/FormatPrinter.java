@@ -14,7 +14,7 @@ import okhttp3.Request;
  */
 public interface FormatPrinter {
     /**
-     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 可以解析的情况
+     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 可以解析的情况。
      *
      * @param request
      * @param bodyString 发送给服务器的请求体中的数据(已解析)
@@ -22,14 +22,14 @@ public interface FormatPrinter {
     void printJsonRequest(Request request, String bodyString);
 
     /**
-     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 为 {@code null} 或不可解析的情况
+     * 打印网络请求信息, 当网络请求时 {{@link okhttp3.RequestBody}} 为 {@code null} 或不可解析的情况。
      *
      * @param request
      */
     void printFileRequest(Request request);
 
     /**
-     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 可以解析的情况
+     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 可以解析的情况。
      *
      * @param chainMs 服务器响应耗时(单位毫秒)
      * @param isSuccessful 请求是否成功
@@ -45,7 +45,7 @@ public interface FormatPrinter {
                            String bodyString, List<String> segments, String message, String responseUrl);
 
     /**
-     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 为 {@code null} 或不可解析的情况
+     * 打印网络响应信息, 当网络响应时 {{@link okhttp3.ResponseBody}} 为 {@code null} 或不可解析的情况。
      *
      * @param chainMs 服务器响应耗时(单位毫秒)
      * @param isSuccessful 请求是否成功

@@ -32,6 +32,7 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
 
     public BasePresenter(V rootView) {
         this.mRootView = Preconditions.checkNotNull(rootView,"%s cannot be null", IView.class.getName());
+        // 提供 Context。
         if (rootView instanceof Activity) {
             mContext = (Activity) rootView;
         } else if (rootView instanceof Fragment) {
@@ -47,7 +48,7 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
         if (mRootView != null && mRootView instanceof LifecycleOwner) {
             ((LifecycleOwner) mRootView).getLifecycle().addObserver(this);
         }
-        //如果要使用 Eventbus 请将此方法返回 true
+        // 如果要使用 Eventbus 请将此方法返回 true。
         if (useEventBus()) {
             EventBus.getDefault().register(this);
         }
@@ -55,7 +56,7 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
 
 
     /**
-     * 绑定生命周期组件此处绑定了activity(fragment)onDestroy()的时候
+     * 绑定生命周期组件此处绑定了 activity(fragment) onDestroy()。
      * 如果在某个界面有对其它生命周期的需求，请自行根据需求绑定。
      * @param owner
      */
@@ -72,8 +73,8 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
     }
 
     /**
-     * 将 {@link Disposable} 添加到 {@link CompositeDisposable} 中统一管理
-     * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏
+     * 将 {@link Disposable} 添加到 {@link CompositeDisposable} 中统一管理，
+     * 根据自己的需求在适当时期停止正在执行的 RxJava 任务,避免内存泄漏。
      *
      * @param disposable
      */
@@ -81,12 +82,12 @@ public class BasePresenter<V extends IView> implements LifecycleObserver {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeDisposable.add(disposable);//将所有 Disposable 放入集中处理
+        mCompositeDisposable.add(disposable);
     }
 
     /**
-     * 是否使用{@link EventBus},默认为不使用(false)，
-     * 如果true，必须真的接收某个事件
+     * 是否使用 {@link EventBus},默认为不使用 (false)，
+     * 如果 true，必须真的接收某个事件。
      *
      * @return
      */

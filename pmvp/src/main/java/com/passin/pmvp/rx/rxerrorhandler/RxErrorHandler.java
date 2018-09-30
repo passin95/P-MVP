@@ -47,10 +47,8 @@ public class RxErrorHandler {
             return this;
         }
 
-
         public RxErrorHandler build() {
             Preconditions.checkArgument(context == null ? false : true, "Context is required");
-
             Preconditions.checkArgument(responseErrorListener == null ? false : true, "ResponseErrorListener is required");
 
             return new RxErrorHandler(this);

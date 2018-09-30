@@ -19,7 +19,7 @@ import java.util.List;
 
 public interface ModuleConfig {
     /**
-     * 使用{@link GlobalConfigModule.Builder}给框架配置一些配置参数
+     * 使用 {@link GlobalConfigModule.Builder} 给框架配置一些配置参数。
      *
      * @param context
      * @param builder
@@ -27,7 +27,7 @@ public interface ModuleConfig {
     void applyOptions(Context context, GlobalConfigModule.Builder builder);
 
     /**
-     * 使用{@link AppDelegate}在Application的生命周期中注入一些操作
+     * 使用 {@link AppDelegate} 在 Application 的生命周期中注入一些操作。
      *
      * @param context
      * @param lifecycles
@@ -35,7 +35,7 @@ public interface ModuleConfig {
     void injectAppLifecycle(Context context, List<AppDelegate> lifecycles);
 
     /**
-     * 使用{@link Application.ActivityLifecycleCallbacks}在Activity的生命周期中注入一些操作
+     * 使用 {@link Application.ActivityLifecycleCallbacks} 在 Activity 的生命周期中注入一些操作。
      *
      * @param context
      * @param lifecycles
@@ -44,7 +44,7 @@ public interface ModuleConfig {
 
 
     /**
-     * 使用{@link FragmentManager.FragmentLifecycleCallbacks}在Fragment的生命周期中注入一些操作
+     * 使用 {@link FragmentManager.FragmentLifecycleCallbacks} 在 Fragment 的生命周期中注入一些操作。
      *
      * @param context
      * @param lifecycles

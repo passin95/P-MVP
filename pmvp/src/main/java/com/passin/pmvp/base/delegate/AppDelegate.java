@@ -12,9 +12,11 @@ import android.content.Context;
  */
 
 public interface AppDelegate {
+
     void attachBaseContext(Context base);
 
     void onCreate(Application application);
 
     void onTerminate(Application application);
+
 }

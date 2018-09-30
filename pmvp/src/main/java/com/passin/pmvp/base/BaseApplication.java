@@ -37,8 +37,8 @@ public class BaseApplication extends Application implements IArms, HasActivityIn
     private AppDelegate mAppDelegate;
 
     /**
-     * 这里会在 {@link BaseApplication#onCreate} 之前被调用,可以做一些较早的初始化
-     * 常用于 MultiDex 以及插件化框架的初始化
+     * 这里会在 {@link BaseApplication#onCreate} 之前被调用，可以做一些较早的初始化。
+     * 常用于 MultiDex 以及插件化框架的初始化。
      *
      * @param base
      */
@@ -56,7 +56,7 @@ public class BaseApplication extends Application implements IArms, HasActivityIn
     }
 
     /**
-     * 在模拟环境中程序终止时会被调用
+     * 在模拟环境中程序终止时会被调用。
      */
     @Override
     public void onTerminate() {
@@ -67,7 +67,8 @@ public class BaseApplication extends Application implements IArms, HasActivityIn
     }
 
     /**
-     * 将 {@link ArmsComponent} 返回出去, 供其它地方使用, {@link ArmsComponent} 接口中声明的方法所返回的实例, 在 {@link #getArmsComponent()} ()} 拿到对象后都可以直接使用
+     * 将 {@link ArmsComponent} 返回出去, 供其它地方使用, {@link ArmsComponent} 接口中声明的方法所返回的实例,
+     * 在 {@link #getArmsComponent()} ()} 拿到对象后都可以直接使用。
      *
      * @return AppComponent
      * @see PmvpUtils#obtainArmsComponentFromContext(Context) 可直接获取 {@link ArmsComponent}
@@ -80,13 +81,10 @@ public class BaseApplication extends Application implements IArms, HasActivityIn
         return ((IArms) mAppDelegate).getArmsComponent();
     }
 
-
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return activityInjector;
     }
-
-
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {

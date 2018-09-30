@@ -18,7 +18,7 @@ public interface Cache<K, V> {
 interface Factory {
 
     /**
-     * Returns a new cache
+     * 根据 {@link CacheType} 返回一种缓存方式。
      *
      * @param type 框架中需要缓存的模块类型
      * @return

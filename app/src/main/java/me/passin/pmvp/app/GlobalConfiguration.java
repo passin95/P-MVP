@@ -27,7 +27,7 @@ import okhttp3.Cache;
  * Date: 2018/3/15 15:18
  * </pre>
  */
-public class GlobalConfiguration implements ModuleConfig{
+public class GlobalConfiguration implements ModuleConfig {
 
     @Override
     public void applyOptions(Context context, GlobalConfigModule.Builder builder) {
@@ -37,9 +37,9 @@ public class GlobalConfiguration implements ModuleConfig{
 
         builder.baseurl(Api.APP_DOMAIN)
                 /**
-                 * 专门用于以下格式的数据，并且data的数据是Array形式，目的是为了减少log打印。
+                 * 专门用于以下格式的数据，并且 data 的数据是 JsonArray 形式，目的是为了减少 log 打印。
                  * dataJsonKey 为服务器提供的 json key 值，例如 data。
-                 * 使用该功能则只打印一个data中一个数据实体。
+                 * 使用该功能则只打印一个 JsonArray 中的一个数据。
                  * public class BaseJson <T>{
                  *     private String code;
                  *     private T data;
@@ -47,9 +47,11 @@ public class GlobalConfiguration implements ModuleConfig{
                  * @return
                  */
 //                .dataJsonKey("data")
-                //以下方式是 Arms 框架自带的切换 BaseUrl 的方式, 在整个 App 生命周期内只能切换一次, 若需要无限次的切换 BaseUrl, 以及各种复杂的应用场景还是需要使用 RetrofitUrlManager 框架
-                //以下代码只是配置, 还要使用 Okhttp (AppComponent中提供) 请求服务器获取到正确的 BaseUrl 后赋值给 GlobalConfiguration.sDomain
-                //切记整个过程必须在第一次调用 Retrofit 接口之前完成, 如果已经调用过 Retrofit 接口, 此种方式将不能切换 BaseUrl
+                // 以下方式是 Arms 框架自带的切换 BaseUrl 的方式, 在整个 App 生命周期内只能切换一次,
+                // 若需要无限次的切换 BaseUrl,以及各种复杂的应用场景建议使用 RetrofitUrlManager 框架
+                // 以下代码只是配置, 可以使用 OkHttp (AppComponent 中提供) 请求服务器获取到正确的 BaseUrl 后赋值给 GlobalConfiguration
+                // .sDomain
+                // 切记整个过程必须在第一次调用 Retrofit 接口之前完成, 如果已经调用过 Retrofit 接口, 此种方式将不能切换 BaseUrl
 //                .baseurl(new BaseUrl() {
 //                    @Override
 //                    public HttpUrl url() {
@@ -57,7 +59,7 @@ public class GlobalConfiguration implements ModuleConfig{
 //                    }
 //                })
 
-                //可根据当前项目的情况以及环境为框架某些部件提供自定义的缓存策略, 具有强大的扩展性
+                // 可根据当前项目的情况以及环境为框架某些部件提供自定义的缓存策略, 具有强大的扩展性。
 //                .cacheFactory(new Cache.Factory() {
 //                    @NonNull
 //                    @Override
@@ -73,69 +75,51 @@ public class GlobalConfiguration implements ModuleConfig{
 //                    }
 //                })
 
-                //若觉得框架默认的打印格式并不能满足自己的需求, 可自行扩展自己理想的打印格式 (以下只是简单实现)
-//                .formatPrinter(new FormatPrinter() {
-//                    @Override
-//                    public void printJsonRequest(Request request, String bodyString) {
-//                        Timber.i("printJsonRequest:" + bodyString);
-//                    }
-//
-//                    @Override
-//                    public void printFileRequest(Request request) {
-//                        Timber.i("printFileRequest:" + request.url().toString());
-//                    }
-//
-//                    @Override
-//                    public void printJsonResponse(long chainMs, boolean isSuccessful, int code,
-//                                                  String headers, MediaType contentType, String bodyString,
-//                                                  List<String> segments, String message, String responseUrl) {
-//                        Timber.i("printJsonResponse:" + bodyString);
-//                    }
-//
-//                    @Override
-//                    public void printFileResponse(long chainMs, boolean isSuccessful, int code, String headers,
-//                                                  List<String> segments, String message, String responseUrl) {
-//                        Timber.i("printFileResponse:" + responseUrl);
-//                    }
-//                })
+                // 若觉得框架默认的打印格式并不能满足自己的需求, 可自行扩展自己理想的打印格式 (以下只是简单实现)。
+//                .formatPrinter(new FormatPrinter())
 
-                // 这里提供一个全局处理 Http 请求和响应结果的处理类,可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如token超时,重新获取
+                // 这里提供一个全局处理 Http 请求和响应结果的处理类,可以比客户端提前一步拿到服务器返回的结果。
+                // 可以做一些操作,比如 token 超时,重新获取
                 .globalHttpHandler(new GlobalHttpHandlerImpl(context))
-                // 用来处理 rxjava 中发生的所有错误,rxjava 中发生的每个错误都会回调此接口
-                // rxjava必要要使用ErrorHandleSubscriber(默认实现Subscriber的onError方法),此监听才生效
+                // rxjava 必要要使用 BaseErrorHandleSubscriber,此监听才生效。
                 .responseErrorListener(new ResponseErrorListenerImpl())
-                .gsonConfiguration((context1, gsonBuilder) -> {//这里可以自己自定义配置Gson的参数
+                .gsonConfiguration((context1, gsonBuilder) -> {
+                    // 这里可以自己自定义配置 Gson 的参数。
                     gsonBuilder
-                            .serializeNulls()//支持序列化null的参数
-                            .enableComplexMapKeySerialization();//支持将序列化key为object的map,默认只能序列化key为string的map
+                            // 支持序列化 null 的参数。
+                            .serializeNulls()
+                            // 支持将序列化 key 为 object 的 map,默认只能序列化 key 为 string 的 map。
+                            .enableComplexMapKeySerialization();
                 })
-                .retrofitConfiguration(
-                        (context1, retrofitBuilder) -> {//这里可以自己自定义配置Retrofit的参数,甚至你可以替换系统配置好的okhttp对象
-//                    retrofitBuilder.addConverterFactory(FastJsonConverterFactory.create());//比如使用fastjson替代gson
-                        })
-                .okhttpConfiguration((context1, okhttpBuilder) -> {//这里可以自己自定义配置Okhttp的参数
-//                    okhttpBuilder.sslSocketFactory(); //支持 Https,详情请百度
+                .retrofitConfiguration((context1, retrofitBuilder) -> {
+                    // 这里可以自己自定义配置 Retrofit 的参数,甚至你可以替换框架默认配置的 okhttp 对象。
+//                    retrofitBuilder.addConverterFactory(FastJsonConverterFactory.create());
+                })
+                .okhttpConfiguration((context1, okhttpBuilder) -> {
+                    // 这里可以自己自定义配置 Okhttp 的参数。
                     okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
-                    okhttpBuilder.cache(new Cache(FileUtils.getCacheFile(context), 1024*1024 * 30));
+                    okhttpBuilder.cache(new Cache(FileUtils.getCacheFile(context), 1024 * 1024 * 30));
                 });
     }
 
     @Override
     public void injectAppLifecycle(Context context, List<AppDelegate> appDelegates) {
-        // AppLifecycles 的所有方法都会在基类 Application 的对应的生命周期中被调用,所以在对应的方法中可以扩展一些自己需要的逻辑
-        // 可以根据不同的逻辑添加多个实现类
+        // AppLifecycles 的所有方法都会在基类 Application 的对应的生命周期中被调用,
+        // 所以在对应的方法中可以扩展一些自己需要的逻辑，可以根据不同的逻辑添加多个实现类
         appDelegates.add(new AppLifecyclesImpl());
     }
 
     @Override
-    public void injectActivityLifecycle(Context context, List<Application.ActivityLifecycleCallbacks> lifecycles) {
-        // ActivityLifecycleCallbacks 的所有方法都会在 Activity (包括三方库) 的对应的生命周期中被调用,所以在对应的方法中可以扩展一些自己需要的逻辑
-        // 可以根据不同的逻辑添加多个实现类
+    public void injectActivityLifecycle(Context context,
+            List<Application.ActivityLifecycleCallbacks> lifecycles) {
+        // ActivityLifecycleCallbacks 的所有方法都会在 Activity (包括三方库) 的对应的生命周期中被调用,
+        // 所以在对应的方法中可以扩展一些自己需要的逻辑，可以根据不同的逻辑添加多个实现类。
         lifecycles.add(new ActivityLifecycleCallbacksImpl());
     }
 
     @Override
-    public void injectFragmentLifecycle(Context context, List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
+    public void injectFragmentLifecycle(Context context,
+            List<FragmentManager.FragmentLifecycleCallbacks> lifecycles) {
         lifecycles.add(new FragmentLifecycleCallbacksImpl());
     }
 }

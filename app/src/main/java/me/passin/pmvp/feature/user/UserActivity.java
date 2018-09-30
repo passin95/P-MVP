@@ -27,7 +27,6 @@ public class UserActivity extends BaseActivity implements UserView {
     UserAdapter mAdapter;
 
 
-
     @Override
     public int initView(Bundle savedInstanceState) {
         return R.layout.activity_user;
@@ -57,11 +56,11 @@ public class UserActivity extends BaseActivity implements UserView {
                     executor.execute();
                         })
                 .onGranted(data -> PmvpUtils.snackbarText("权限申请通过"))
-                //这里加this的原因是，权限申请使用的是一个透明的activity，此时topActivity为该透明的activity，故传this（UserActivity），在this中显示Snackbar
+                // 这里加this的原因是，权限申请使用的是一个透明的 activity，此时 topActivity 为该透明的 activity，
+                // 故传 this（UserActivity），在 this 中显示 Snackbar。
                 .onDenied(data -> PmvpUtils.snackbarText(this,"申请权限被拒绝"))
                 .start();
     }
-
 
 
     @Override
