@@ -61,7 +61,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    implementation 'me.passin:pmvp:0.1.1'
+//    implementation 'me.passin:pmvp:0.1.2'
     implementation project(':pmvp')
     annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'
