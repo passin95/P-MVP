@@ -2,6 +2,7 @@ package com.passin.pmvp.di.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,9 +15,11 @@ import dagger.Module;
 import dagger.Provides;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import okhttp3.Dispatcher;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -67,10 +70,12 @@ public abstract class HttpClientModule {
     @Singleton
     @Provides
     static OkHttpClient provideClient(Application application, @Nullable OkhttpConfiguration configuration, OkHttpClient.Builder builder, @Named("requestInterceptor") Interceptor intercept
-            , @Nullable List<Interceptor> interceptors, @Nullable final GlobalHttpHandler handler) {
+            , @Nullable List<Interceptor> interceptors, @Nullable final GlobalHttpHandler handler,@NonNull
+            ExecutorService executorService) {
         builder
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                .dispatcher(new Dispatcher(executorService))
                 .addNetworkInterceptor(intercept);
 
         if (handler != null) {
