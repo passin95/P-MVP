@@ -15,6 +15,7 @@ import dagger.Component;
 import dagger.android.AndroidInjector;
 import java.io.File;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import javax.inject.Singleton;
 import okhttp3.OkHttpClient;
 
@@ -56,6 +57,14 @@ public interface ArmsComponent extends AndroidInjector<AppDelegateImpl>{
     Cache.Factory cacheFactory();
 
     Gson gson();
+
+    /**
+     * 返回一个全局公用的线程池,适用于大多数异步需求。
+     * 避免多个线程池创建带来的资源消耗。
+     *
+     * @return {@link ExecutorService}
+     */
+    ExecutorService executorService();
 
 
     @Component.Builder
