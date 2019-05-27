@@ -1,5 +1,10 @@
 <h1 >P-MVP：基于 dagger.android 的 MVP 框架 </h1>
 
+## Explain
+
+由于 Dagger 所带来的一些架构上的限制，不再选择使用 Dagger，若要使用 Dagger，则不推荐使用拓展库 Dagger Android。因为他带来的限制更大。
+
+
 <p>
    <a href="https://bintray.com/passin95/maven/P-MVP/0.1.2">
     <img src="https://img.shields.io/badge/Jcenter-v0.1.2-brightgreen.svg?style=flat-square" alt="Latest Stable Version" />
@@ -19,7 +24,7 @@
 
 ## Explain
 - 不在 BaseActivity 中通过泛型生成 P 层的原因是，我某些时候希望我在不使用 P 层的时候依旧使用 dagger 注入的功能。
-- 在对比了实用性以及目前的维护情况等多方面因素后，最终选择了严振杰老哥的 AndPermission，碰到有关权限问题也推荐大家直接向严振杰老哥提 PR，为国产手机权限问题做贡献。
+- 在对比了实用性以及目前的维护情况等多方面因素后，最终选择了 AndPermission，碰到有关权限问题也推荐大家直接向严振杰老哥提 PR，为国产手机权限问题做贡献。
 - 给大家安利两种不错的屏幕适配方法，[**第一种方式（sw）**](https://blog.csdn.net/fesdgasdgasdg/article/details/78108169)相对完美，但会使 apk 大小增加几百 k,并且无法适配第三方activity；[**第二种方式**](https://www.jianshu.com/p/d09a8961d6ec) 为今日头条适配方式的衍生版，已在 ScreenUtils 中提供，大家可根据实际情况选择使用。
 - 为了方便开发，根目录也提供了本人在组件化项目中使用的页面 tempelate，需要的可以参考一下根据自身需求修改。
 
